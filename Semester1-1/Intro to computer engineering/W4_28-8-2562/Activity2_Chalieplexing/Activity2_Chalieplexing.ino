@@ -3,9 +3,6 @@
 #define port3 10
 
 void setup() {
-  pinMode(port1,OUTPUT);
-  pinMode(port2,OUTPUT);
-  pinMode(port3,INPUT);
 }
 
 void loop() {
