@@ -5,10 +5,9 @@
 #define yellow  4
 #define red     5
 
-bool light[3]={false,false,false}; //0->green 1->yellow 2->red
-#define greenstatus   light[0]
-#define yellowstatus  light[1]
-#define redstatus     light[2]
+bool greenstatus   = false;
+bool yellowstatus  = false;
+bool redstatus     = false;
 
 long greentimer;
 long yellowtimer; bool yellowbegin = false;
@@ -64,7 +63,7 @@ void loop (){
     }
   }
 //--------------------------yellow-------------------------//pulldown
-  if(di gitalRead(Byellow)==HIGH){
+  if(digitalRead(Byellow)==HIGH){
     if(yellowstatus==false&&redstatus==false&&greenstatus==false){
       yellowbegin = true;
       yellowtimer = millis();
