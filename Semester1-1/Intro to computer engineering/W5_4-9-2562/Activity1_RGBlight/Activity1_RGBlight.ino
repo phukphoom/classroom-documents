@@ -10,9 +10,9 @@ bool light[3]={false,false,false}; //0->green 1->yellow 2->red
 #define yellowstatus  light[1]
 #define redstatus     light[2]
 
-long greentimer = 0;
-long yellowtimer = 0;
-long redtimer = 0;
+long greentimer;
+long yellowtimer; bool yellowbegin = false;
+long redtimer;
 
 
 void setup (){
@@ -32,18 +32,19 @@ void setup (){
 
 void loop (){
 //---------------------Monitor Debug---------------------
-  Serial.print("Red 1 : ");
-  Serial.print(digitalRead(12));
+  Serial.print(millis()-yellowtimer);
+  Serial.print(" | Red 1 : ");
+  Serial.print(digitalRead(Bred));
   Serial.print("-");
-  Serial.print(light[0]);
+  Serial.print(redstatus);
   Serial.print(" | Yellow 2 : ");
-  Serial.print(digitalRead(11));
+  Serial.print(digitalRead(Byellow));
   Serial.print("-");
-  Serial.print(light[1]);
+  Serial.print(yellowstatus);
   Serial.print(" | Green 3 : ");
-  Serial.print(digitalRead(10));
+  Serial.print(digitalRead(Bgreen));
   Serial.print("-");
-  Serial.println(light[2]);
+  Serial.println(greenstatus);
 //------------------------green---------------------------//internal pullup
   if(digitalRead(Bgreen)==LOW){
     if(greenstatus==false&&redstatus==false){
@@ -63,10 +64,9 @@ void loop (){
     }
   }
 //--------------------------yellow-------------------------//pulldown
-  if(digitalRead(Byellow)==HIGH){
+  if(di gitalRead(Byellow)==HIGH){
     if(yellowstatus==false&&redstatus==false&&greenstatus==false){
-      digitalWrite(yellow,HIGH);
-      yellowstatus = true;
+      yellowbegin = true;
       yellowtimer = millis();
     }
     /*else{
@@ -74,16 +74,20 @@ void loop (){
       yellowstatus = false;
     }*/
   }
-  else{
-    if(millis()-yellowtimer>=500){
-      digitalWrite(yellow,LOW);
-      yellowstatus = false;
-    }
-    else if(millis()-yellowtimer>=1000){
+  else if(digitalRead(Byellow)==LOW && millis()-yellowtimer<=2000 && yellowbegin==true){
+    if(millis()-yellowtimer<=500){
       digitalWrite(yellow,HIGH);
       yellowstatus = true;
     }
-    else if(millis()-yellowtimer>=1500){
+    else if(millis()-yellowtimer<=1000){
+      digitalWrite(yellow,LOW);
+      yellowstatus = false;
+    }
+    else if(millis()-yellowtimer<=1500){
+      digitalWrite(yellow,HIGH);
+      yellowstatus = true;
+    }
+    else{
       digitalWrite(yellow,LOW);
       yellowstatus = false;
     }
@@ -106,6 +110,6 @@ void loop (){
       redstatus = false;
     }
   }
-
-  delay(10); //bounce debug
+//-----------------------De-bouncing------------------------  
+  delay(150);
 }
