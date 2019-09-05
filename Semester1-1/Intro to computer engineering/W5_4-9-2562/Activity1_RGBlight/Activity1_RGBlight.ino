@@ -1,7 +1,7 @@
-#define Bgreen  10    //<-right
+#define Bgreen  10    //<-right Button
 #define Byellow 11
 #define Bred    12
-#define green   3     //<-right
+#define green   3     //<-right LED
 #define yellow  4
 #define red     5
 
@@ -31,7 +31,7 @@ void setup (){
 
 void loop (){
 //---------------------Monitor Debug---------------------
-  Serial.print(millis()-yellowtimer);
+  Serial.print(millis()-yellowtimer); // Display millis()-yellowtimer to Debuging
   Serial.print(" | Red 1 : ");
   Serial.print(digitalRead(Bred));
   Serial.print("-");

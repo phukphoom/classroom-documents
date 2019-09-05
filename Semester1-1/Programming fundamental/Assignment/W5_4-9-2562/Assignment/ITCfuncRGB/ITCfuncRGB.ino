@@ -95,10 +95,10 @@ void controlyellow (int delaytime){
     }
    }
    else if(redstatuslight==false&&greenstatuslight==false){
-    if(millis()-yellowtimer<=delaytime/4){
+    if(millis()-yellowtimer<=delaytime*1/4){
       yellowstatuslight = true;
     }
-    else if(millis()-yellowtimer<=delaytime/2){
+    else if(millis()-yellowtimer<=delaytime*2/4){
       yellowstatuslight = false;
     }
     else if(millis()-yellowtimer<=delaytime*3/4){
