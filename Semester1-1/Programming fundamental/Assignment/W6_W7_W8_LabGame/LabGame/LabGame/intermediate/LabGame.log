@@ -1,3 +1,3 @@
 ﻿  main.cpp
-c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\assignment\w6_w7_w8_labgame\labgame\labgame\src\main.cpp(132): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
+c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\assignment\w6_w7_w8_labgame\labgame\labgame\src\main.cpp(142): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
   LabGame.vcxproj -> C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester1-1\Programming fundamental\Assignment\W6_W7_W8_LabGame\LabGame\LabGame\x64\Debug\LabGame.exe
