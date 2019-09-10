@@ -68,7 +68,7 @@ int main() {
 			}
 			if (key == ' ') {
 				bullet_shoot[numbullet] = true;
-				bullet_x[numbullet] = ship_x;
+				bullet_x[numbullet] = ship_x+2;
 				bullet_y[numbullet] = ship_y-1;
 				
 				numbullet++;
@@ -114,7 +114,7 @@ void erase_ship(int x, int y) {
 bool draw_bullet(bool bullet_shoot, int x, int y) {
 	if (!over_frame(x, y)) {
 		if (bullet_shoot) {
-			gotoxy(x + 2, y);
+			gotoxy(x, y);
 			setcolor(7, 0);
 			cout << "i";
 		}
@@ -125,7 +125,7 @@ bool draw_bullet(bool bullet_shoot, int x, int y) {
 	}
 }
 void erase_bullet(int x,int y) {
-	gotoxy(x+2, y);
+	gotoxy(x, y);
 	setcolor(0, 0);
 	cout << " ";
 }
