@@ -11,12 +11,13 @@
 #define LEDgreen 12
 #define LEDred 13
 
-int code_seven_segment[6]={207,146,134,204,164,160}; //1,2,3,4,5,6
-int codeminus = 254;
-
-int setting_num = 0;
-int random_num = 999999;
+int code_seven_segment[6]={207,146,134,204,164,160};                      // code for print : '1','2','3','4','5','6'
+int code_print_minus = 254;                                               // code for print : '-'
+int code_print_nothing = 255;
 int segment_index = 0;
+
+int setup_num = 0;
+int random_num = 999999;
 bool endgame_status = false;
 
 //------------------------------------------------------------------------------------------
@@ -37,78 +38,86 @@ void setup() {
   pinMode(LEDred,OUTPUT);
   
   Serial.begin(9600);
-  
+ 
   randomSeed(analogRead(A0));
-  print_num(codeminus); //print segment '-'
+  gamestart_setting();
 }
 
 void loop() { 
-   
+  
   debugging();
   
-  /*if(endgame_status!=true){
-    
-  }*/
-  if(digitalRead(ButtonA)==LOW){  //Internal Pullup
-      endgame_status=true;
-      Ctrl_A();
-    }
+  if(digitalRead(ButtonA)==LOW){                                               //internal Pullup
+    Ctrl_ButtonA();
+    endgame_status=true;
+  }
 
-    if(digitalRead(ButtonB)==LOW){  //Internal Pullup
-      if(endgame_status==true){
-        Ctrl_B();
-      }
-      endgame_status=false;
+  if(digitalRead(ButtonB)==LOW){                                               //internal Pullup
+    if(endgame_status==true){
+      Ctrl_ButtonB();
     }
-
-    delay(100);
-  
+    gamestart_setting();
+    endgame_status=false;
+  }
+  delay(100);
 }
 
-//------------------------------------------------------------------------------------------
+//---------------------------- common function --------------------------------------------
+void gamestart_setting(){
+  print_num(code_print_minus);
+  digitalWrite(LEDgreen,LOW);
+  digitalWrite(LEDred,LOW);
+}
+void debugging(){
+  Serial.print("player_num = ");
+  Serial.print(setup_num);
+  Serial.print("| com_num = ");
+  Serial.println(random_num);
+}
 void print_num(int num){
   int i,j=7;
   for(i=PIN_DP;i<=PIN_G;i++){
     digitalWrite(i,bitRead(num,9-i));
   }
 }
-
-void Ctrl_A(){
-  setting_num = segment_index+1;
-  print_num(code_seven_segment[segment_index]);
+//----------------------------- control function--------------------------------------------
+void Ctrl_ButtonA(){
+  setup_num = segment_index+1;
+  
+  print_num(code_seven_segment[segment_index]);                                 //print set up number
     
   segment_index++;
   if(segment_index==6){
     segment_index = 0;
   }
 }
-void Ctrl_B(){
+void Ctrl_ButtonB(){
   random_num = random(1,7);
-  print_num(255);
-  for(int i=0;i<3;i++){                                                          //loading
+  print_num(code_print_nothing);                                                 //light off 7-Segment
+  for(int i=0;i<3;i++){                                                          //loading effect
     for(int j=0;j<6;j++){
-      digitalWrite(3+j,HIGH);
+      digitalWrite(PIN_A+j,HIGH);
       delay(100);
-      digitalWrite(3+j,LOW);
+      digitalWrite(PIN_A+j,LOW);
     }
   }
-  for(int i=0;i<3;i++){ 
+  for(int i=0;i<3;i++){                                                           //print random number
     print_num(code_seven_segment[random_num-1]);
     delay(100);
-    print_num(255);
+    print_num(code_print_nothing);
     delay(100);
   }
   print_num(code_seven_segment[random_num-1]);
 
-  if(random_num==setting_num){
+  if(random_num==setup_num){                                                      //display win signal
     ledwin();
   }
-  else{
+  else{                                                                           //display lose signal
     ledlose();
   }
   endgame_status = true;
 }
-
+//----------------------------- win/lose function LEDlight ----------------------------------
 void ledwin(){
   for(int i=0;i<6;i++){
     digitalWrite(LEDgreen,i%2);
@@ -120,11 +129,4 @@ void ledlose(){
     digitalWrite(LEDred,i%2);
     delay(200);
   }
-}
-
-void debugging(){
-  Serial.print("player_num = ");
-  Serial.print(setting_num);
-  Serial.print("| com_num = ");
-  Serial.println(random_num);
 }
