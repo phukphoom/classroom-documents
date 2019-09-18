@@ -138,7 +138,7 @@ void erase_ship(int x, int y) {
 	cout << "     ";
 }
 bool draw_bullet(bool bullet_shoot, int x, int y,int *numstar) {
-	if (!over_frame(x, y)) {
+	if (!over_frame(window_width/2, y)) {  // <<--- Set x in range 0 to window_width-5 [Because func(draw_bullet) use func(over_frame) to check only y position]
 		if (cursor(x, y) != '*') {
 			if (bullet_shoot) {
 				gotoxy(x, y);
