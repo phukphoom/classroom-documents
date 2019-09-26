@@ -1,4 +1,5 @@
 #include"pitches.h"
+
 #define PIN_C   7
 #define PIN_D   6
 #define PIN_E   5
@@ -6,12 +7,14 @@
 #define PIN_G   3
 #define PIN_MODE  10
 #define SPEAKER 8
+
 //------------------------------
-typedef struct Piano_record{
+typedef struct varpiano{
   int note;
   int timer;
 }varpiano;
 //------------------------------
+
 void setup() {
   pinMode(PIN_C,INPUT_PULLUP);
   pinMode(PIN_D,INPUT_PULLUP);
@@ -24,58 +27,60 @@ void setup() {
 
   Serial.begin(9600);
 }
-//------------------------------
-bool Mode_Replay = false;
-varpiano piano[300];
-int numnote = 0;
 
-int memnote = 10000;
 //------------------------------
+bool mode_replay = false;
+varpiano piano[300];
+
+int num_note = 0;
+int mem_note = 10000;
+//------------------------------
+
 void loop() {
-  if(!Mode_Replay){
-    digitalWrite(LED_BUILTIN,HIGH);
-    int Push_Note;
+//-----------------------------------------------------------------------Play Mode------------------------------------------
+  if(!mode_replay){
+    digitalWrite(LED_BUILTIN,HIGH); // Show status play mode and recording
+    int pushing_note;
     int starttime = millis();
     if(digitalRead(PIN_C)==HIGH && digitalRead(PIN_D)==HIGH && digitalRead(PIN_E)==HIGH && digitalRead(PIN_F)==HIGH && digitalRead(PIN_G)==HIGH){
       while(digitalRead(PIN_C)==HIGH && digitalRead(PIN_D)==HIGH && digitalRead(PIN_E)==HIGH && digitalRead(PIN_F)==HIGH && digitalRead(PIN_G)==HIGH && digitalRead(PIN_MODE)==HIGH){
-        Push_Note = 0;
+        pushing_note = 0;
         noTone(SPEAKER);
       }
       if(digitalRead(PIN_MODE)==LOW){
-        Mode_Replay = true;
+        mode_replay = true;
         Serial.println("-------------------------------->GO TO REPLAY");
         delay(100);
       }
-      piano[numnote].note = Push_Note;
-      piano[numnote].timer = millis()-starttime;
-      numnote++;
-      Serial.print(piano[numnote-1].note);
-      Serial.print("\t< note -- time >\t");
-      Serial.println(piano[numnote-1].timer);
-      memnote = Push_Note;
+      //-------------------------------------
+      record_note(pushing_note,starttime);
+      //--------------------------------------
+      debug_log_shownote(num_note-1);
+      //--------------------------------------
+      mem_note = pushing_note;
     }
     else if(!(digitalRead(PIN_C)==HIGH && digitalRead(PIN_D)==HIGH && digitalRead(PIN_E)==HIGH && digitalRead(PIN_F)==HIGH && digitalRead(PIN_G)==HIGH)){
-      Push_Note = 0;
+      pushing_note = 0;
       int count;
       count = !digitalRead(PIN_C)+!digitalRead(PIN_D)+!digitalRead(PIN_E)+!digitalRead(PIN_F)+!digitalRead(PIN_G);
       if(digitalRead(PIN_C)==LOW){
-        Push_Note = Push_Note + NOTE_C4;
+        pushing_note = pushing_note + NOTE_C4;
       }
       if(digitalRead(PIN_D)==LOW){
-        Push_Note = Push_Note + NOTE_D4;
+        pushing_note = pushing_note + NOTE_D4;
       }
       if(digitalRead(PIN_E)==LOW){
-        Push_Note = Push_Note + NOTE_E4;
+        pushing_note = pushing_note + NOTE_E4;
       }
       if(digitalRead(PIN_F)==LOW){
-        Push_Note = Push_Note + NOTE_F4;
+        pushing_note = pushing_note + NOTE_F4;
       }
       if(digitalRead(PIN_G)==LOW){
-        Push_Note = Push_Note + NOTE_G4;
+        pushing_note = pushing_note + NOTE_G4;
       }
-      Push_Note = Push_Note/count;
+      pushing_note = pushing_note/count;
         
-      tone(SPEAKER,Push_Note);
+      tone(SPEAKER,pushing_note);
       
       int memcount = count;
       int checkcount = count;
@@ -83,22 +88,20 @@ void loop() {
         checkcount = !digitalRead(PIN_C)+!digitalRead(PIN_D)+!digitalRead(PIN_E)+!digitalRead(PIN_F)+!digitalRead(PIN_G);
       }
       
-      if(memnote!=Push_Note){
-        piano[numnote].note = Push_Note/count;
-        piano[numnote].timer = millis()-starttime;
-        numnote++;
-        
-        Serial.print(piano[numnote-1].note);
-        Serial.print("\t< note -- time >\t");
-        Serial.println(piano[numnote-1].timer);
+      if(mem_note!=pushing_note){
+        //-------------------------------------
+        record_note(pushing_note,starttime);
+        //--------------------------------------
+        debug_log_shownote(num_note-1);
+        //--------------------------------------
       }
-      memnote = Push_Note;  
+      mem_note = pushing_note;  
     }
   }
-
+//-----------------------------------------------------------------------Replay Mode----------------------------------------
   else{
-    digitalWrite(LED_BUILTIN,LOW);
-    for(int i=1;i<numnote;i++){
+    digitalWrite(LED_BUILTIN,LOW); // Show status replay mode
+    for(int i=1;i<num_note;i++){
       if(piano[i].note!=0){
         tone(SPEAKER,piano[i].note);
         delay(piano[i].timer);
@@ -108,11 +111,11 @@ void loop() {
         delay(piano[i].timer);
       }
       noTone(SPEAKER);
-      Serial.print(piano[i].note);
-      Serial.print("\t< note -- time >\t");
-      Serial.println(piano[i].timer);
+      //--------------------------------------
+      debug_log_shownote(i);
+      //--------------------------------------
     }
-    Serial.println("----------------------------------------->END REPLAY");
+    Serial.println("-------------------------------->END REPLAY");
     while(digitalRead(PIN_MODE)==HIGH){
       // waiting Mode Push
     }
@@ -122,7 +125,7 @@ void loop() {
         //timer push mode button
       }
       if(millis()-starttime>=3000){
-        Mode_Replay = false;
+        mode_replay = false;
         clear_record();
         Serial.println("-------------------------------->GO TO PLAY");
       }
@@ -134,10 +137,21 @@ void loop() {
   }
 }
 
+//-----------------------------------------------------------------------function-------------------------------------------
+void debug_log_shownote(int indexnote){
+  Serial.print(piano[indexnote].note);
+  Serial.print("\t< note -- time >\t");
+  Serial.println(piano[indexnote].timer);
+}
+void record_note(int pushing_note,int starttime){
+  piano[num_note].note = pushing_note;
+  piano[num_note].timer = millis()-starttime;
+  num_note++;
+}
 void clear_record(){
-  for(int i=0;i<numnote;i++){
+  for(int i=0;i<num_note;i++){
     piano[i].note = 0;
     piano[i].timer = 0;
   }
-  numnote = 0;
+  num_note = 0;
 }
