@@ -1,4 +1,0 @@
-﻿  Main.cpp
-c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\gameproject\sfml_game\sfml_game\src\main.cpp(9): error C2664: 'void sf::Shape::setFillColor(const sf::Color &)': cannot convert argument 1 from 'int' to 'const sf::Color &'
-  c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\gameproject\sfml_game\sfml_game\src\main.cpp(9): note: Reason: cannot convert from 'int' to 'const sf::Color'
-  c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\gameproject\sfml_game\sfml_game\src\main.cpp(9): note: Constructor for class 'sf::Color' is declared 'explicit'
