@@ -91,12 +91,14 @@ int main() {
 				}
 			}*/
 			if (key == ' ') {
-				bullet_shoot[numbullet] = true;
-				bullet_x[numbullet] = ship_x+2;
-				bullet_y[numbullet] = ship_y-1;
+				if (bullet_shoot[numbullet]==false) {
+					bullet_shoot[numbullet] = true;
+					bullet_x[numbullet] = ship_x + 2;
+					bullet_y[numbullet] = ship_y - 1;
+					numbullet++;
+				}
 				
-				numbullet++;
-				if (numbullet >= maxbullet && bullet_shoot[0]==false) {
+				if (numbullet == maxbullet) {
 					numbullet = 0;
 				}
 			}
@@ -108,7 +110,6 @@ int main() {
 		for (int i = 0; i < maxbullet; i++) {
 			if (bullet_shoot[i] == true) {
 				bullet_shoot[i] = draw_bullet(bullet_shoot[i], bullet_x[i], bullet_y[i], &numstar);
-				bullet_y[i]--;
 			}
 		}
 		//----------------------------------------------- drawing block -----------------------------------
@@ -116,7 +117,8 @@ int main() {
 		//----------------------------------------------- erasing block -----------------------------------
 		erase_ship(ship_x, ship_y);
 		for (int i = 0; i < maxbullet; i++) {
-			erase_bullet(bullet_x[i], bullet_y[i] + 1);
+			erase_bullet(bullet_x[i], bullet_y[i]);
+			bullet_y[i]--;
 		}
 		//----------------------------------------------- erasing block -----------------------------------
 	}
