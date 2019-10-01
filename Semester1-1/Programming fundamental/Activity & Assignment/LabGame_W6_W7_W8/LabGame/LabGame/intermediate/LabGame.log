@@ -1,7 +1,1 @@
-﻿  main.cpp
-c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\activity & assignment\labgame_w6_w7_w8\labgame\labgame\src\main.cpp(34): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\activity & assignment\labgame_w6_w7_w8\labgame\labgame\src\main.cpp(217): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\activity & assignment\labgame_w6_w7_w8\labgame\labgame\src\main.cpp(234): warning C4838: conversion from 'int' to 'SHORT' requires a narrowing conversion
-c:\users\admin\desktop\codehub\classdocs\semester1-1\programming fundamental\activity & assignment\labgame_w6_w7_w8\labgame\labgame\src\main.cpp(161): warning C4715: 'draw_bullet': not all control paths return a value
-  LINK : C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester1-1\Programming fundamental\Activity & Assignment\LabGame_W6_W7_W8\LabGame\LabGame\x64\Debug\LabGame.exe not found or not built by the last incremental link; performing full link
-  LabGame.vcxproj -> C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester1-1\Programming fundamental\Activity & Assignment\LabGame_W6_W7_W8\LabGame\LabGame\x64\Debug\LabGame.exe
+﻿  LabGame.vcxproj -> C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester1-1\Programming fundamental\Activity & Assignment\LabGame_W6_W7_W8\LabGame\LabGame\bin\x64\Debug\LabGame.exe

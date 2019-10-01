@@ -71,11 +71,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IntDir>intermediate\</IntDir>
-    <OutDir>$(SolutionDir)LabGame\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)LabGame\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IntDir>intermediate\</IntDir>
-    <OutDir>$(SolutionDir)LabGame\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)LabGame\bin\$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
