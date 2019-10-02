@@ -9,9 +9,10 @@ using namespace std;
 //----------------------------------------------- Function prototype -------------------------------------
 void draw_ship(int, int);
 void erase_ship(int,int);
-bool draw_bullet(bool, int, int, int*);
+bool draw_bullet(bool, int, int);
 void erase_bullet(int, int);	
 bool over_frame(int, int);
+int checkstar(void);
 void make_star(int, int, int*);
 
 void setframe(void);
@@ -64,6 +65,10 @@ int main() {
 			cout << bullet_shoot[i] << " ";
 		}
 		//----------------------------------------------- debug bullet console ----------------------------
+		//----------------------------------------------- Star Gen ----------------------------------------
+
+		numstar = checkstar();
+
 		while (numstar < maxstar) {
 			make_star(rand() % 61 + 10, rand() % 4 + 2, &numstar);
 		}
@@ -80,16 +85,6 @@ int main() {
 					ship_x++;
 				}
 			}
-			/*if (key == 'w') {	
-				if (!over_frame(ship_x, ship_y - 1)) {
-					ship_y--;
-				}
-			}
-			if (key == 's') {	
-				if (!over_frame(ship_x, ship_y+1)) {
-					ship_y++;
-				}
-			}*/
 			if (key == ' ') {
 				if (bullet_shoot[numbullet]==false) {
 					bullet_shoot[numbullet] = true;
@@ -109,7 +104,7 @@ int main() {
 		draw_ship(ship_x, ship_y);
 		for (int i = 0; i < maxbullet; i++) {
 			if (bullet_shoot[i] == true) {
-				bullet_shoot[i] = draw_bullet(bullet_shoot[i], bullet_x[i], bullet_y[i], &numstar);
+				bullet_shoot[i] = draw_bullet(bullet_shoot[i], bullet_x[i], bullet_y[i]);
 			}
 		}
 		//----------------------------------------------- drawing block -----------------------------------
@@ -117,8 +112,10 @@ int main() {
 		//----------------------------------------------- erasing block -----------------------------------
 		erase_ship(ship_x, ship_y);
 		for (int i = 0; i < maxbullet; i++) {
-			erase_bullet(bullet_x[i], bullet_y[i]);
-			bullet_y[i]--;
+			if (bullet_shoot[i]==true) {
+				erase_bullet(bullet_x[i], bullet_y[i]);
+				bullet_y[i]--;
+			}
 		}
 		//----------------------------------------------- erasing block -----------------------------------
 	}
@@ -137,9 +134,9 @@ void draw_ship(int x, int y) {
 void erase_ship(int x, int y) {
 	gotoxy(x, y);
 	setcolor(0, 0);
-	cout << "     ";
+	printf("     ");
 }
-bool draw_bullet(bool bullet_shoot, int x, int y,int *numstar) {
+bool draw_bullet(bool bullet_shoot, int x, int y) {
 	if (!over_frame(window_width/2, y)) {  // <<--- Set x in range 0 to window_width-5 [Because func(draw_bullet) use func(over_frame) to check only y position]
 		if (cursor(x, y) != '*') {
 			if (bullet_shoot) {
@@ -152,7 +149,10 @@ bool draw_bullet(bool bullet_shoot, int x, int y,int *numstar) {
 		else {								// star crash by shooting
 			score = score + 100;			// updating score
 			
-			*numstar = *numstar - 1;
+			gotoxy(x, y);
+			setcolor(7, 0);
+			cout << " ";
+			
 			Beep(rand()%4000+500,50);
 			return false;
 		}
@@ -175,6 +175,17 @@ bool over_frame(int x, int y) {
 	else {
 		return true;
 	}
+}
+int checkstar() {
+	int count = 0;
+	for (int x = 10; x <= 70; x++) {
+		for (int y = 2; y <= 5; y++) {
+			if (cursor(x, y) == '*') {
+				count++;
+			}
+		}
+	}
+	return count;
 }
 void make_star(int x ,int y, int *numstar) {
 	gotoxy(x, y);
