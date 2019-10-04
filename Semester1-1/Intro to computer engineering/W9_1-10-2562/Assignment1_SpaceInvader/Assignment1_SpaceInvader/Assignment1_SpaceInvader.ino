@@ -1,21 +1,23 @@
 #include"LedControl.h"
+#include"FontLEDClock.h"
+
 #define CS_PIN     10
 #define CLK_PIN    13
 #define DIN_PIN    11
 #define LED_MODULE 4
 
-#define JoyA       2
-#define JoyB       3 
-#define JoyC       4 
-#define JoyD       5
+#define JoyA       2 //A
+#define JoyB       3 //B
+#define JoyC       4 //C
+#define JoyD       5 //D
 #define JoyBack    6 //E
 #define JoyStart   7 //F
 #define AnalogPush 8     
 //-------------------------------------------------------------------------- Variable Define -------
 typedef struct Ship{
-  int x = 3;
+  int x = 4;
   int y = 31;
-  int HP = 10;
+  int HP = 8;
   int score = 0;
 }Ship;
 typedef struct Bullet{
@@ -32,7 +34,7 @@ typedef struct Bomb{
 LedControl lc = LedControl(DIN_PIN ,CLK_PIN ,CS_PIN ,LED_MODULE);
 unsigned long delaytime = 100;        // time to update display
 
-const int maxbullet = 50                                          ;
+const int maxbullet = 10;
 int numbullet = 0;
 int orderbullet = 0;
 
@@ -46,7 +48,6 @@ Bomb bomb[maxbomb];
 //-------------------------------------------------------------------------- Variable Define -------
 //-------------------------------------------------------------------------- Main ------------------
 void setup (){
-  led_init();
   pinMode(JoyA,INPUT);
   pinMode(JoyB,INPUT);
   pinMode(JoyC,INPUT);
@@ -55,12 +56,14 @@ void setup (){
   pinMode(JoyStart,INPUT);
   pinMode(AnalogPush,INPUT);
   Serial.begin(9600);
-
   randomSeed(analogRead(4));
+  
+  led_init();
+  game_init();
 }
 void loop(){
   //-------------------------------- debug zone ---------------------------
-  //showdebuglog();
+  //showdebuglog(); 
   //-------------------------------- Check order --------------------------
   orderbullet = check_order(1); // checkorder of bullet
   orderbomb = check_order(2);   // checkorder of bomb
@@ -69,27 +72,27 @@ void loop(){
     if(random(0,75)>random(0,100)){
       bomb[orderbomb].status = true;
       bomb[orderbomb].x = random(0,8);
-      bomb[orderbomb].y = 0;
+      bomb[orderbomb].y = 8;
       numbomb++;
     }
   }
   //-------------------------------- Control ------------------------------
-  if(analogRead(0)<100){ // this joy range 0-690
+  if(analogRead(0)<300){ // this joy range 0-1023
     if(!overframe(ship.x-1,ship.y)){
       ship.x--;
     }
   }
-  else if(analogRead(0)>500){
+  else if(analogRead(0)>700){
     if(!overframe(ship.x+1,ship.y)){
       ship.x++;
     }
   }
-  if(analogRead(1)>500){
+  if(analogRead(1)>700){
     if(!overframe(ship.x,ship.y-1)){
       ship.y--;
     }
   }
-  else if(analogRead(1)<100){
+  else if(analogRead(1)<300){
     if(!overframe(ship.x,ship.y+1)){
       ship.y++;
     }
@@ -103,8 +106,9 @@ void loop(){
     }
   }
   //-------------------------------- Check smash ----------------------------
-  checksmash();
-  //-------------------------------- Drawing ------------------------------
+  check_bullethit();
+  check_shiphit();
+  //-------------------------------- Drawing --------------------------------
   draw_ship(ship.x,ship.y);
   for(int i=0;i<maxbullet;i++){
     if(bullet[i].status==true){
@@ -116,8 +120,11 @@ void loop(){
       draw_bomb(bomb[i].x,bomb[i].y);
     }
   }
+  
+  //-------------------------------- Delay ----------------------------------
   delay(delaytime);
-  //-------------------------------- Erasing ------------------------------
+  
+  //-------------------------------- Erasing --------------------------------
   erase_ship(ship.x,ship.y);
   for(int i=0;i<maxbullet;i++){
     if(bullet[i].status==true){
@@ -126,6 +133,8 @@ void loop(){
       if(overframe(bullet[i].x,bullet[i].y)){
         bullet[i].status = false;
         numbullet--;
+        bullet[i].x = 99999;
+        bullet[i].y = 99999;
       }
     }
   }
@@ -135,24 +144,38 @@ void loop(){
       bomb[i].y++;
       if(overframe(bomb[i].x,bomb[i].y)){
         bomb[i].status = false;
-          numbomb--;
-          ship.HP--;
+        numbomb--;
+        bomb[i].x = 88888;
+        bomb[i].y = 88888;
       }
     }
   }
-
-  if(ship.HP==0){
-    losescreen();
+  
+  //-------------------------------- Game Ending -----------------------------
+  if(ship.HP<=0){
+    endscreen();
+    for(int i=0;i<3;i++){
+      clear_display();
+      delay(100);
+      losescreen();
+      delay(500);   
+    }
     delay(100000);
   }
-  else if(ship.score==10){
-    winscreen;
+  else if(ship.score>=8){
+    endscreen();
+    for(int i=0;i<3;i++){
+      clear_display();
+      delay(100);
+      winscreen();
+      delay(500);
+    }
     delay(100000);
   }
 }
 //-------------------------------------------------------------------------- Main ------------------
 //-------------------------------------------------------------------------- Function --------------
-//---------------------------------- Initialize ---------------------------
+//---------------------------------- Initialize ------------------------------
 void led_init(){
   int devices = lc.getDeviceCount(); //find number of devices
   for(int address=0;address<devices;address++){
@@ -161,7 +184,22 @@ void led_init(){
     lc.clearDisplay(address);
   }
 }
-//---------------------------------- Graphics -----------------------------
+void game_init(){
+  for(int y=0;y<32;y++){
+    for(int x=0;x<8;x++){
+      plot(x,y);
+      delay(10);
+    }
+  }
+  clear_display();
+  for(int x=0;x<8;x++){
+    plot(x,0);
+  }
+  for(int x=0;x<8;x++){
+    plot(x,7);
+  }
+}
+//---------------------------------- Graphics --------------------------------
 void plot(int x,int y){
   int address;
   int col = y%8;
@@ -204,7 +242,7 @@ void clear_display(){
     lc.clearDisplay(address);
   }
 }
-//---------------------------------- Game system --------------------------
+//---------------------------------- Game system ------------------------------
 void draw_ship(int x,int y){  
   plot(x-1,y); 
   plot(x,y);   
@@ -232,7 +270,7 @@ void erase_bomb(int x ,int y){
 }
 
 bool overframe(int x ,int y){
-  if(x>=0 && x<8 && y>=0 && y<32){
+  if(x>=0 && x<8 && y>=8 && y<32){
     return false;
   }
   else{
@@ -258,13 +296,13 @@ int check_order(int option){ // 1 is bullet ,2 is bomb
     return -1;
   }
 }
-void checksmash(){
+void check_bullethit(){
   for(int i=0;i<maxbullet;i++){
     for(int j=0;j<maxbomb;j++){
       if(bullet[i].x==bomb[j].x && bullet[i].y<=bomb[j].y){
         ship.score++;
-      
-        Serial.println("---------------------------------------------------------------------------------------------------------------------------- HIT ");
+        increase_score();
+        Serial.println("!!HIT!!");
         
         delete_plot(bullet[i].x,bullet[i].y);
         delete_plot(bomb[j].x,bomb[j].y);
@@ -282,23 +320,102 @@ void checksmash(){
     }
   }
 }
-void winscreen(){
+void check_shiphit(){
+  for(int i=0;i<maxbomb;i++){
+    if(bomb[i].x==ship.x && bomb[i].y==ship.y || bomb[i].x==ship.x-1 && bomb[i].y==ship.y || bomb[i].x==ship.x+1 && bomb[i].y==ship.y || bomb[i].x==ship.x && bomb[i].y==ship.y-1){
+      ship.HP--;
+      decrease_HP();
+      delete_plot(bomb[i].x,bomb[i].y);
+      numbomb--;
+    
+      bomb[i].y = 99999;
+      bomb[i].y = 99999;
+      bomb[i].status = false;
+    } 
+  }
+}
+
+void increase_score(){
+  plot(ship.score-1,2);
+}
+void decrease_HP(){
+  delete_plot(ship.HP,0);
+}
+
+
+void endscreen(){
   clear_display();
   for(int x=0;x<8;x++){
     for(int y=0;y<32;y++){
       plot(x,y);
+      delay(1);
     }
+  }
+  for(int x=7;x>=0;x--){
+    for(int y=31;y>=0;y--){
+      delete_plot(x,y);
+      delay(1);
+    }
+  }
+}
+void winscreen(){
+  int address;
+  int col;
+  
+  address = 3;
+  col=1;
+  for(int i=0;i<5;i++){  // L
+    lc.setColumn(address,col,myfont[23][i]); 
+    col++;
+  }
+
+  address = 2;
+  col=1;
+  for(int i=0;i<5;i++){  // O
+    lc.setColumn(address,col,myfont[9][i]); 
+    col++;
+  }
+
+  address = 1;
+  col=1;
+  for(int i=0;i<5;i++){  // S
+    lc.setColumn(address,col,myfont[14][i]); 
+    col++;
   }
 }
 void losescreen(){
-  clear_display();
-  for(int x=0;x<8;x++){
-    for(int y=0;y<32;y++){
-      plot(x,y);
-    }
+  int address;
+  int col;
+  
+  address = 3;
+  col=1;
+  for(int i=0;i<5;i++){  // L
+    lc.setColumn(address,col,myfont[12][i]); 
+    col++;
+  }
+
+  address = 2;
+  col=1;
+  for(int i=0;i<5;i++){  // O
+    lc.setColumn(address,col,myfont[15][i]); 
+    col++;
+  }
+
+  address = 1;
+  col=1;
+  for(int i=0;i<5;i++){  // S
+    lc.setColumn(address,col,myfont[19][i]); 
+    col++;
+  }
+
+  address = 0;
+  col=1;
+  for(int i=0;i<5;i++){  // E
+    lc.setColumn(address,col,myfont[5][i]); 
+    col++;
   }
 }
-//---------------------------------- showdebuglog -------------------------
+//---------------------------------- showdebuglog -----------------------------
 void showdebuglog(){
   Serial.print("analog_x :");
   Serial.print(analogRead(0)); 
@@ -329,6 +446,11 @@ void showdebuglog(){
   Serial.print(orderbomb);
   Serial.print("\tnum :");
   Serial.print(numbomb);
+  
+  Serial.print("\tHP :");
+  Serial.print(ship.HP);
+  Serial.print("\tscore :");
+  Serial.print(ship.score);
   
   Serial.println();
 }
