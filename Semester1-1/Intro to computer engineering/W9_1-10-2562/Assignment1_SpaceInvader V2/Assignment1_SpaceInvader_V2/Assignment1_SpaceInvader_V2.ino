@@ -93,7 +93,7 @@ void loop(){
       player_ship.x++;
     }
   }
-  if(analogRead(1)>700){                // ควบคุมยานไปด้านล่างผ่านเเกน analog
+  /*if(analogRead(1)>700){                // ควบคุมยานไปด้านล่างผ่านเเกน analog
     if(!overframe(player_ship.x,player_ship.y-1)){
       player_ship.y--;
     }
@@ -102,7 +102,7 @@ void loop(){
     if(!overframe(player_ship.x,player_ship.y+1)){
       player_ship.y++;
     }
-  }
+  }*/
   if(digitalRead(JoyC)==LOW){           // ควบคุมการยิงกระสุนผ่านปุ่ม C บนจอยสติ๊ก
     if(player_orderbullet!=-1 && player_bullet[player_orderbullet].status==false){  // เช็คสถานะของกระสุนที่ index : player_orderbullet ว่ามีสถานะเป็น false(ยังไม่ถูกยิง) หรือไม่ 
       player_bullet[player_orderbullet].status = true;
