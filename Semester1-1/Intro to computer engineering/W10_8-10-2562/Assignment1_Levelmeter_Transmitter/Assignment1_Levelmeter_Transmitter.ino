@@ -3,6 +3,7 @@
 #define GND   A4
 #define Z     A3
 #define CALIBRATE_PIN 4
+#define BUZZER_PIN    12
 #define Rx_PIN 7
 #define Tx_PIN 8
 
@@ -17,6 +18,7 @@ void setup(){
   Serial.begin(9600);
   
   pinMode(CALIBRATE_PIN,INPUT_PULLUP);
+  pinMode(BUZZER_PIN,OUTPUT);
   
   analogWrite(GND,0);
   analogWrite(VCC,1024);
@@ -28,8 +30,11 @@ void loop(){
   
   //--------------------------------------------------------- Caribration
   if(digitalRead(CALIBRATE_PIN)==LOW){
+    tone(BUZZER_PIN,500,50);
     calibrate_zaxis(z_value);
+    delay(10);
   }
+  noTone(BUZZER_PIN);
  
   //--------------------------------------------------------- Calculating degree
   double radius;
@@ -70,7 +75,6 @@ void loop(){
   Serial.print("\tvalue# ");
   Serial.println(z_value);
 }
-
 
 //------------------------------------------------------------------------------ function accel
 int read_axis(int axis){
