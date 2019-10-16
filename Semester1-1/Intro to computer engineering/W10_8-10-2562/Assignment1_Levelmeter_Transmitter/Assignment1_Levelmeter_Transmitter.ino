@@ -8,10 +8,10 @@
 #define Tx_PIN 8
 
 SoftwareSerial mySerial(Rx_PIN,Tx_PIN);
-int z_max = -999;
-int z_min = 999;
-int z_avg;
-int z_g;
+double z_max = -999;
+double z_min = 999;
+double z_avg;
+double z_g;
 
 void setup(){
   mySerial.begin(9600);
@@ -37,20 +37,15 @@ void loop(){
   noTone(BUZZER_PIN);
  
   //--------------------------------------------------------- Calculating degree
-  double radius;
+  double radian;
   double degree;
-  if(z_value>=z_min && z_value<=z_max){
-    if(z_value>=z_avg){            //theta is on costant 1
-      radius = acos((double)(z_value-z_avg)/(double)z_g);
-    }
-    else{                          // theta is on costant 2
-      radius = PI - acos((double)(z_value-z_avg)/(double)z_g);
-    }
-    degree = radius*180/PI;
+  if(z_value>=z_min && z_value<=z_max){  
+    radian = acos((z_value-z_avg)/z_g);       //theta is on costant 1,2
+    degree = radian*180/PI;
   }
   
-  //--------------------------------------------------------- Sending data
-  if(degree<=90 && degree>=0){
+  //--------------------------------------------------------- Sending data to Uno board
+  if(degree<=180 && degree>=0){
     int msg = (int)degree;
     while(msg>0){
       char senddata = msg%10 + '0';
@@ -64,7 +59,7 @@ void loop(){
   Serial.print(degree);
   Serial.print(" deg");
  
-  Serial.print("\tz -> ");
+  Serial.print("\tz -> "); 
   Serial.print(z_min);
   Serial.print(" : ");
   Serial.print(z_avg);
@@ -76,7 +71,7 @@ void loop(){
   Serial.println(z_value);
 }
 
-//------------------------------------------------------------------------------ function accel
+//------------------------------------------------------------------------------ function 
 int read_axis(int axis){
   long value = 0;
   const int buffering = 500;

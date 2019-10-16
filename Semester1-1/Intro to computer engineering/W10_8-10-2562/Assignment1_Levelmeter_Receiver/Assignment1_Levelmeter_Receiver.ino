@@ -27,7 +27,7 @@ void loop(){
   int multiply = 1;
   while(mySerial.available()) {
     int input = mySerial.read();
-    if(input!='\n'){                                       //reverse data from nano board
+    if(input!='\n'){                                          //reverse data from nano board
       getdegree = getdegree + (input - '0') * multiply;    
       multiply = multiply * 10;
     }
@@ -37,14 +37,21 @@ void loop(){
       multiply = 1;
     }
   }
-  //--------------------------------------------------------- Show data in Led dot matrix
+  
+  //--------------------------------------------------------- Show data in Led dot matrix 
+  if(realdegree/100!=0){
+    led_print(3,realdegree/100%10);       //Print หลักร้อย on LED_dotmatrix on address 3
+  }
+  else{
+    lc.clearDisplay(3);
+  }
   if(realdegree/10!=0){
-    led_print(2,realdegree/10); //Print first digit on LED_dotmatrix
+    led_print(2,(realdegree/10)%10);      //Print หลักสิบ on LED_dotmatrix on address 2
   }
   else{
     lc.clearDisplay(2);
   }
-  led_print(1,realdegree%10);   //Print first digit on LED_dotmatrix
+  led_print(1,realdegree%10);             //Print หลักหน่วย on LED_dotmatrix on address 1
   
   //--------------------------------------------------------- Show data in Serial monitor
   Serial.print(realdegree);
