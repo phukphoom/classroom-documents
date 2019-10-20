@@ -52,6 +52,8 @@ void loop(){
     lc.clearDisplay(2);
   }
   led_print(1,realdegree%10);             //Print หลักหน่วย on LED_dotmatrix on address 1
+
+  led_printunit(0);                       //Print unit Deg
   
   //--------------------------------------------------------- Show data in Serial monitor
   Serial.print(realdegree);
@@ -74,4 +76,10 @@ void led_print(int address,int num){
   for(int i=0;i<5;i++){
     lc.setColumn(address,i+2,myfont[31+num][i]);
   }
+}
+
+void led_printunit(int address){
+  lc.setColumn(address,1,byte(0xE0));
+  lc.setColumn(address,2,byte(0xA0));
+  lc.setColumn(address,3,byte(0xE0));
 }

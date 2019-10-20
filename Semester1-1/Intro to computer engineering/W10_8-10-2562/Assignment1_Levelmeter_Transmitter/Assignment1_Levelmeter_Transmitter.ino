@@ -28,7 +28,7 @@ void loop(){
   //--------------------------------------------------------- Reading value z_axis
   int z_value = read_axis(Z);
   
-  //--------------------------------------------------------- Caribration
+  //--------------------------------------------------------- Caribrate
   if(digitalRead(CALIBRATE_PIN)==LOW){
     tone(BUZZER_PIN,500,50);
     calibrate_zaxis(z_value);
@@ -90,5 +90,6 @@ void calibrate_zaxis(int z_value){
   }
 
   z_avg = (z_max + z_min)/2;
-  z_g = z_max-z_avg;
+  z_g = (z_max-z_min)/2;
+  
 }
