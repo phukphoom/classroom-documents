@@ -21,8 +21,6 @@
 #define crossgo           4
 #define crosswaitgreenS   5
 #define crosswaitgreenW   6
-#define crossblink        7
-#define ROAD_S2N   2
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////// Variable //////////////////////////////////////////////////////////////////////////
@@ -32,7 +30,7 @@ typedef struct State{
   unsigned long nextState[8];
 }state;
 
-state traffic[8]={
+state traffic[7]={
   {B00110010  ,1000 ,{scango  ,crosswaitgreenS  ,wwaitgreen ,crosswaitgreenS  ,scango       ,crosswaitgreenS  ,wwaitgreen ,wwaitgreen}},
   {B10001010  ,500  ,{scango  ,scango           ,scango     ,scango           ,scango       ,scango           ,scango     ,scango}},
   {B10000110  ,1000 ,{wcango  ,crosswaitgreenW  ,wcango     ,crosswaitgreenW  ,swaitgreen   ,crosswaitgreenW  ,swaitgreen ,crosswaitgreenW}},
