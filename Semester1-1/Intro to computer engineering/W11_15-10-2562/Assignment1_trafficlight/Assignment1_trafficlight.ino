@@ -23,7 +23,7 @@
 #define crosswaitgreenW   6
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////// Variable //////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////// Variable ///////////////////////////////////////////////////////////////////////////
 typedef struct State{
   unsigned long output;
   unsigned long wait;
@@ -43,10 +43,11 @@ state traffic[7]={
 unsigned currentState = 0;
 unsigned previousState;
 
-unsigned input;                           // input 
-unsigned road_s2n ,road_w2e ,crosswalk;   // input       
+unsigned input;                           // input to state
+unsigned road_s2n ,road_w2e ,crosswalk;   // input from user       
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////// Main programe //////////////////////////////////////////////////////////////////////
 void setup(){
   pinMode(ROAD_S2N,INPUT_PULLUP);
   pinMode(ROAD_W2E,INPUT_PULLUP);
@@ -67,6 +68,7 @@ void setup(){
 }
 
 void loop(){
+  //------------- check for cosswalk light brink --------------
   if(previousState == crossgo && currentState != crossgo){
     long timer;
     for(int i=0;i<4;i++){
@@ -82,7 +84,9 @@ void loop(){
       }
     }
   }
+  //------------- ---------------------------------------------
   
+  //-------------- output curr state --------------------------
   digitalWrite(LED_S_RED, !(traffic[currentState].output & B10000000));
   digitalWrite(LED_S_YELLOW, !(traffic[currentState].output & B01000000));
   digitalWrite(LED_S_GREEN, !(traffic[currentState].output & B00100000));
@@ -95,13 +99,20 @@ void loop(){
   digitalWrite(LED_CROSSWALK_GREEN, !(traffic[currentState].output & B00000001));
     
   delay(traffic[currentState].wait);
+  //-----------------------------------------------------------
 
+  //-------------- input to go next state ---------------------
   road_s2n = digitalRead(ROAD_S2N);
   road_w2e = digitalRead(ROAD_W2E);
   crosswalk = digitalRead(CROSSWALK);
 
   input = 7-(road_s2n*4 + road_w2e*2 + crosswalk);
-  
+  //-----------------------------------------------------------
+
+  //---- remember state curr state & go next state ------------
   previousState = currentState;
   currentState = traffic[currentState].nextState[input];
+  //-----------------------------------------------------------
+  
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
