@@ -1,7 +1,8 @@
 #include "LedControl.h"
 #include "FontLEDClock.h"
+#include "StackArray.h"
 
-#define BUTTON_MODE   3
+#define BUTTON_BACK   3
 #define BUTTON_UP     7
 #define BUTTON_DOWN   8
 #define BUTTON_ENTER  9
@@ -10,24 +11,35 @@
 #define CLK_PIN       13
 #define DIN_PIN       11
 
-//----------------------------------------------------------------------------------------- Variable Set -------------------------
+//---------------------------------------------------------------------- Variable Setup -----------------------
 LedControl lc = LedControl(11,13,10,4);
-short intensity = 8;
+short ledIntensity = 8;
 
 enum{
-  MODE_SETCLOCK = 0,
-  MODE_SHOWCLOCK,
-  CountMODE
+  STATE_HOME = 0,
+  
+  STATE_MENU,
+  STATE_SETTIME,
+  STATE_SETALARM,
+  
+  CountSTATE
 };
-unsigned mode = MODE_SETCLOCK;
+StackArray<int> state;
+unsigned selectState = STATE_HOME;
 
 struct Clock{
   unsigned hour = 0;
   unsigned minute = 0;
   unsigned second = 0;
 }clock;
-//--------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------- Interrupt Service Routine -------------
+struct Alarmclock{
+  unsigned hour = 0;
+  unsigned minute = 0;
+  unsigned second = 0;
+  bool enable = false;
+}alarmclock;
+//--------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------- Interrupt Service Routine -------------
 float timer1_start = 3036;                    // second : 65535-62500 (+1) = 3035 (+1)
 ISR(TIMER1_OVF_vect)                          // <-- Main Clock timer              
 {
@@ -41,32 +53,94 @@ ISR(TIMER1_OVF_vect)                          // <-- Main Clock timer
     clock.minute = 0;
     clock.hour++;
   }
+  if(clock.hour==24){
+    clock.hour = 0;
+  }
 }
-//--------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------- Setup Program ------------------------
+//-------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------- Setup Program ------------------------
 void setup(){ 
   initPin();
   initTimer();
   initLed();
+  initState();
+  
   Serial.begin(9600);
 }
-//--------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------- Main Program -------------------------
+//-------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------- Main Program -------------------------
 void loop(){
-  select_mode();
-  if(mode == MODE_SETCLOCK){
-    set_clock();
-  }
-  else if(mode == MODE_SHOWCLOCK){
+  unsigned currentState = state.peek(); Serial.println(state.count());
+//------------  
+  if(currentState == STATE_HOME){           /*input : BUTTON_UP, BUTTON_DOWN, BUTTON_BACK*/
     show_clock();
+    show_alarm_enable_bar();
+    
     set_intensity();
+    if(digitalRead(BUTTON_BACK)==LOW){
+      delay(120);                           //debouncing 120ms
+      state.push(STATE_MENU);
+      clear_display();
+    }
+
+    if(alarmclock.enable){
+      if(clock.hour == alarmclock.hour && clock.minute == alarmclock.minute){
+        alert_alarm();
+        if(clock.second==59){
+          alarmclock.enable = false;
+        }
+      }
+      if(digitalRead(BUTTON_ENTER)==LOW){
+        delay(120);                         //debouncing 120ms
+        alarmclock.enable = false;
+      }
+    }
+  } 
+//------------  
+  else if(currentState == STATE_MENU){       /*input : BUTTON_UP, BUTTON_DOWN, BUTTON_ENTER, BUTTON_BACK*/
+    show_selectstate();
+    
+    if(digitalRead(BUTTON_UP)==LOW){
+      delay(120);       //debouncing 120ms
+      selectState--;
+    }
+    else if(digitalRead(BUTTON_DOWN)==LOW){
+      delay(120);       //debouncing 120ms
+      selectState++;
+    }
+    else if(digitalRead(BUTTON_ENTER)==LOW){
+      delay(120);       //debouncing 120ms
+      state.push(selectState);
+      clear_display();
+    }
+    else if(digitalRead(BUTTON_BACK)==LOW){
+      delay(100);
+      state.pop();
+      clear_display();
+    }
+
+    if(selectState<=STATE_MENU){
+      selectState = STATE_MENU+1;
+    }
+    else if(selectState>=CountSTATE){
+      selectState = CountSTATE-1;
+    }
+  }
+//------------ 
+  if(currentState == STATE_SETTIME){        /*input : BUTTON_UP, BUTTON_DOWN, BUTTON_ENTER, BUTTON_BACK*/
+    loop_set_clock();
+  }
+//------------ 
+  else if(currentState == STATE_SETALARM){  /*input : BUTTON_UP, BUTTON_DOWN, BUTTON_ENTER, BUTTON_BACK*/
+    loop_set_alarm();
   }
 }
+
 //--------------------------------------------------------------------------------------------------------------------------------
-//----------------------------------------------------------------------------------------- User Define Func ---------------------
+//---------------------------------------------------------------------- User Define Func ---------------------
 /************** Initialization **********************/
 void initPin(){
-  pinMode(BUTTON_MODE,INPUT_PULLUP);
+  pinMode(BUTTON_BACK,INPUT_PULLUP);
   pinMode(BUTTON_UP,INPUT_PULLUP);
   pinMode(BUTTON_DOWN,INPUT_PULLUP);
   pinMode(BUTTON_ENTER,INPUT_PULLUP);
@@ -88,98 +162,35 @@ void initLed(){
     lc.clearDisplay(address);
   }
 }
-
-/************** Clock working ***********************/
-void select_mode(){
-  if(digitalRead(BUTTON_MODE)==LOW){
-    mode++;
-    if(mode > CountMODE-1){
-      mode = 0;
-    }
-    show_curr_mode();             //This func has delay 500ms
-  }  
-}
-void show_curr_mode(){
-  clear_display();
-  if(mode == MODE_SETCLOCK){
-    print_char(1,1,'C');
-    print_char(5,1,'L');
-    print_char(9,1,'K');
-    print_char(14,1,'.');
-    print_char(17,1,'S');
-    print_char(21,1,'E');
-    print_char(25,1,'T');
-  }
-  else if(mode == MODE_SHOWCLOCK){
-    print_char(1,1,'C');
-    print_char(5,1,'L');
-    print_char(9,1,'K');
-    print_char(14,1,'.');
-    print_char(17,1,'R');
-    print_char(21,1,'U');
-    print_char(25,1,'N');
-  }
-  delay(500);
-  clear_display();
+void initState(){
+  state.push(STATE_HOME);
 }
 
-void set_clock(){
-  short setclock[3];
-  setclock[0] = clock.hour;     
-  setclock[1] = clock.minute;   
-  setclock[2] = clock.second; 
-
-  short index = 0;
-  while(mode == MODE_SETCLOCK){   
-    select_mode();
-    if(digitalRead(BUTTON_UP)==LOW){
-      setclock[index]++;
-      if(setclock[0]>23){
-        setclock[0] = 0;
-      }
-      if(setclock[1]>59){
-        setclock[1] = 0;
-      }
-      if(setclock[2]>59){
-        setclock[2] = 0;
-      }
-    }
-    if(digitalRead(BUTTON_DOWN)==LOW){
-      setclock[index]--;
-      if(setclock[0]<0){
-        setclock[0] = 23;
-      }
-      if(setclock[1]<0){
-        setclock[1] = 59;
-      }
-      if(setclock[2]<0){
-        setclock[2] = 59;
-      }
-    }
-    
-    if(digitalRead(BUTTON_ENTER)==LOW){
-      index++;
-      if(index>2){
-        index = 0;
-      } 
-    }
-   
-    print_char( 2, 1, setclock[0] / 10 + '0');          //Show setclock
-    print_char( 6, 1, setclock[0] % 10 + '0');
-    print_char( 9, 1, ':');
-    print_char(12, 1, setclock[1] / 10 + '0'); 
-    print_char(17, 1, setclock[1] % 10 + '0');
-    print_char( 20, 1, ':'); 
-    print_char(23, 1, setclock[2] / 10 + '0'); 
-    print_char(27, 1, setclock[2] % 10 + '0');
-    
-    delay(50);                                          //Debouncing 100 ms
+/************** Main Menu State *************************/
+void show_selectstate(){
+  if(selectState==STATE_SETTIME){
+    print_char(1,1,'S');
+    print_char(5,1,'E');
+    print_char(9,1,'T');
+    print_char(13,1,':');
+    print_char(17,1,'T');
+    print_char(21,1,'I');
+    print_char(25,1,'M');
+    print_char(29,1,'E');
   }
-
-  clock.hour = setclock[0];
-  clock.minute = setclock[1];
-  clock.second = setclock[2];
+  else if(selectState==STATE_SETALARM){
+    print_char(1,1,'S');
+    print_char(5,1,'E');
+    print_char(9,1,'T');
+    print_char(13,1,':');
+    print_char(17,1,'A');
+    print_char(21,1,'L');
+    print_char(25,1,'R');
+    print_char(29,1,'M');
+  }
 }
+
+/************** Home State ******************************/
 void show_clock(){
   print_char( 2, 1, clock.hour / 10 + '0');             //print hour
   print_char( 6, 1, clock.hour % 10 + '0');
@@ -190,7 +201,7 @@ void show_clock(){
   print_char(23, 1, clock.second / 10 + '0');           //print second
   print_char(27, 1, clock.second % 10 + '0');
 
-  if(mode == MODE_SHOWCLOCK && clock.second % 2 != 0){  //print ':' with brink
+  if(clock.second % 2 != 0){                            //print ':' with brink
     print_char( 9, 1, ' ');
     print_char( 20, 1, ' ');  
   }
@@ -200,7 +211,197 @@ void show_clock(){
   }
 }
 
-/************** Dispaly Led Dotmatrix ***************/
+/************** Set time State **************************/
+void loop_set_clock(){
+  bool setting = true;
+  int settingClock[3];
+  settingClock[0] = clock.hour;     
+  settingClock[1] = clock.minute;   
+  settingClock[2] = clock.second; 
+
+  int index = 0;
+  while(setting){
+    //Display Set Clock
+    print_char( 2, 1, settingClock[0] / 10 + '0');          
+    print_char( 6, 1, settingClock[0] % 10 + '0');
+    print_char( 9, 1, ':');
+    print_char(12, 1, settingClock[1] / 10 + '0'); 
+    print_char(17, 1, settingClock[1] % 10 + '0');
+    print_char( 20, 1, ':'); 
+    print_char(23, 1, settingClock[2] / 10 + '0'); 
+    print_char(27, 1, settingClock[2] % 10 + '0');
+    delay(120);                                                //Delay display and Debouncing 120 ms
+    if(index == 0){
+      print_char(2,1,' ');
+      print_char(6,1,' ');
+    }
+    else if(index == 1){
+      print_char(12,1,' ');
+      print_char(17,1,' ');
+    }
+    else if(index == 2){
+      print_char(23,1,' ');
+      print_char(27,1,' ');
+    }
+    
+    if(digitalRead(BUTTON_UP)==LOW){
+      settingClock[index]++;
+      if(settingClock[0]>23){
+        settingClock[0] = 0;
+      }
+      if(settingClock[1]>59){
+        settingClock[1] = 0;
+      }
+      if(settingClock[2]>59){
+        settingClock[2] = 0;
+      }
+    }
+    if(digitalRead(BUTTON_DOWN)==LOW){
+      settingClock[index]--;
+      if(settingClock[0]<0){
+        settingClock[0] = 23;
+      }
+      if(settingClock[1]<0){
+        settingClock[1] = 59;
+      }
+      if(settingClock[2]<0){
+        settingClock[2] = 59;
+      }
+    }
+    if(digitalRead(BUTTON_ENTER)==LOW){
+      index++;
+      if(index>2){
+        index = 0;
+      } 
+    }
+    if(digitalRead(BUTTON_BACK)==LOW){
+      clock.hour = settingClock[0];
+      clock.minute = settingClock[1];
+      clock.second = settingClock[2];
+      setting = false;
+      
+      state.pop();
+      clear_display();
+    }
+  }
+}
+
+/************** Set Alarm State *************************/
+void loop_set_alarm(){
+  show_alarm_enable_bar();
+  
+  bool setting = true;
+  short settingClock[3];
+  settingClock[0] = alarmclock.hour;     
+  settingClock[1] = alarmclock.minute;   
+  settingClock[2] = alarmclock.second; 
+
+  short index = 0;
+  while(setting){
+    //Display Set Alarm   
+    print_char( 2, 1, settingClock[0] / 10 + '0');          
+    print_char( 6, 1, settingClock[0] % 10 + '0');
+    print_char( 9, 1, ':');
+    print_char(12, 1, settingClock[1] / 10 + '0'); 
+    print_char(17, 1, settingClock[1] % 10 + '0');
+    print_char( 20, 1, ':'); 
+    print_char(23, 1, settingClock[2] / 10 + '0'); 
+    print_char(27, 1, settingClock[2] % 10 + '0');
+    delay(120);                                                //Delay display and Debouncing 120 ms
+    if(index == 0){
+      print_char(2,1,' ');
+      print_char(6,1,' ');
+    }
+    else if(index == 1){
+      print_char(12,1,' ');
+      print_char(17,1,' ');
+    }
+    else if(index == 2){
+      print_char(23,1,' ');
+      print_char(27,1,' ');
+    }
+
+    if(digitalRead(BUTTON_UP)==LOW){
+      settingClock[index]++;
+      if(settingClock[0]>23){
+        settingClock[0] = 0;
+      }
+      if(settingClock[1]>59){
+        settingClock[1] = 0;
+      }
+      if(settingClock[2]>59){
+        settingClock[2] = 0;
+      }
+    }
+    if(digitalRead(BUTTON_DOWN)==LOW){
+      settingClock[index]--;
+      if(settingClock[0]<0){
+        settingClock[0] = 23;
+      }
+      if(settingClock[1]<0){
+        settingClock[1] = 59;
+      }
+      if(settingClock[2]<0){
+        settingClock[2] = 59;
+      }
+    }
+    if(digitalRead(BUTTON_ENTER)==LOW){
+      long long pressed = millis();
+      while(digitalRead(BUTTON_ENTER)==LOW && millis()-pressed < 1000){
+        // wait pressed Enter
+        print_char( 2, 1, settingClock[0] / 10 + '0');          
+        print_char( 6, 1, settingClock[0] % 10 + '0');
+        print_char( 9, 1, ':');
+        print_char(12, 1, settingClock[1] / 10 + '0'); 
+        print_char(17, 1, settingClock[1] % 10 + '0');
+        print_char( 20, 1, ':'); 
+        print_char(23, 1, settingClock[2] / 10 + '0'); 
+        print_char(27, 1, settingClock[2] % 10 + '0');
+      }
+      if(millis()-pressed < 1000){
+        index++;
+        if(index>2){
+          index = 0;
+        }
+      }
+      else{
+        alarmclock.hour = settingClock[0];
+        alarmclock.minute = settingClock[1];
+        alarmclock.second = settingClock[2];
+        
+        alarmclock.enable = !alarmclock.enable;
+        show_alarm_enable_bar();
+      }
+    }
+    if(digitalRead(BUTTON_BACK)==LOW){
+      setting = false;
+      
+      state.pop();
+      clear_display();
+    }
+  }
+}
+
+void show_alarm_enable_bar(){
+  for(int x=2;x<30;x++){
+    plot(x,7,alarmclock.enable);
+  }
+}
+
+void alert_alarm(){
+  for(int x=2;x<30;x++){
+    plot(x,7,true);
+  }
+  
+  delay(100);
+  
+  for(int x=2;x<30;x++){
+    plot(x,7,false);
+  }
+  
+}
+
+/************** Display *********************************/
 void plot(unsigned x ,unsigned y ,bool value){
   unsigned address;
   if(x >= 0 && x <= 7){
@@ -221,30 +422,6 @@ void plot(unsigned x ,unsigned y ,bool value){
 
   lc.setLed(address,y,x,value);
 }
-void clear_display(){
-  for(unsigned address=0; address<4; address++){
-    lc.clearDisplay(address);
-  }
-}
-void set_intensity(){
-  if(digitalRead(BUTTON_UP)==LOW){
-    intensity++;
-  }
-  else if(digitalRead(BUTTON_DOWN)==LOW){
-    intensity--;
-  }
-
-  if(intensity<0){
-    intensity = 0;
-  }
-  else if(intensity>15){
-    intensity = 15;
-  }
-  
-  for(unsigned address=0; address<4; address++){
-    lc.setIntensity(address,intensity);
-  }
-}
 void print_char(unsigned x ,unsigned y ,char c){
   unsigned dots;
   if (c >= 'A' && c <= 'Z' || (c >= 'a' && c <= 'z') ) { c &= 0x1F; }   // A-Z maps to 1-26 
@@ -264,5 +441,29 @@ void print_char(unsigned x ,unsigned y ,char c){
       else
         plot(x + col, y + row, false);
     }
+  }
+}
+void set_intensity(){
+  if(digitalRead(BUTTON_UP)==LOW){
+    ledIntensity++;
+  }
+  else if(digitalRead(BUTTON_DOWN)==LOW){
+    ledIntensity--;
+  }
+
+  if(ledIntensity<0){
+    ledIntensity = 0;
+  }
+  else if(ledIntensity>15){
+    ledIntensity = 15;
+  }
+  
+  for(unsigned address=0; address<4; address++){
+    lc.setIntensity(address,ledIntensity);
+  }
+}
+void clear_display(){
+  for(unsigned address=0; address<4; address++){
+    lc.clearDisplay(address);
   }
 }
