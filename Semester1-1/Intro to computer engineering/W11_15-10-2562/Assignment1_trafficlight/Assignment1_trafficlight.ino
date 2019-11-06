@@ -40,11 +40,11 @@ state traffic[7]={
   {B10001010  ,500  ,{crossgo ,crossgo          ,crossgo    ,crossgo          ,crossgo      ,crossgo          ,crossgo    ,crossgo}},
 };
 
-unsigned currentState = 0;
-unsigned previousState;
+unsigned currentState = 0;                // ตัวเเปรจดจำ State ปัจจุบัน
+unsigned previousState;                   // ตัวเเปรจดจำ State ก่อนหน้า
 
-unsigned input;                           // input to state
-unsigned road_s2n ,road_w2e ,crosswalk;   // input from user       
+unsigned input;                           // ตัวเเปรรวมค่า Input จาก User เพื่อส่งเข้า State
+unsigned road_s2n ,road_w2e ,crosswalk;   // ตัวเเปรรับค่าจาก User       
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////// Main programe //////////////////////////////////////////////////////////////////////
@@ -68,8 +68,8 @@ void setup(){
 }
 
 void loop(){
-  //------------- check for cosswalk light brink --------------
-  if(previousState == crossgo && currentState != crossgo){
+  //------------- check for cosswalk light brink --------------   //การทำงานส่วนเเสดงการกระพริบไฟเขียวของทางข้าม ก่อนจะเข้าสู่ไฟเเดง
+  if(previousState == crossgo && currentState != crossgo){          
     long timer;
     for(int i=0;i<4;i++){
       timer = millis();
@@ -84,10 +84,10 @@ void loop(){
       }
     }
   }
-  //------------- ---------------------------------------------
+  //------------- --------------------------------------------- 
   
-  //-------------- output curr state --------------------------
-  digitalWrite(LED_S_RED, !(traffic[currentState].output & B10000000));
+  //-------------- output curr state --------------------------   
+  digitalWrite(LED_S_RED, !(traffic[currentState].output & B10000000));              
   digitalWrite(LED_S_YELLOW, !(traffic[currentState].output & B01000000));
   digitalWrite(LED_S_GREEN, !(traffic[currentState].output & B00100000));
   
@@ -98,7 +98,7 @@ void loop(){
   digitalWrite(LED_CROSSWALK_RED, !(traffic[currentState].output & B00000010));
   digitalWrite(LED_CROSSWALK_GREEN, !(traffic[currentState].output & B00000001));
     
-  delay(traffic[currentState].wait);
+  delay(traffic[currentState].wait);                            
   //-----------------------------------------------------------
 
   //-------------- input to go next state ---------------------

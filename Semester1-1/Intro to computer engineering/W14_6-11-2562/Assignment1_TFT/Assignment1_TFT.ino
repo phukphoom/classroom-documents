@@ -1,20 +1,13 @@
-#include "LedControl.h"
-#include "FontLEDClock.h"
+#include "ST7735_TEE.h"
 #include "StackArray.h"
 
-#define BUTTON_BACK   3
-#define BUTTON_UP     7
-#define BUTTON_DOWN   8
-#define BUTTON_ENTER  9
+#define BUTTON_BACK   5
+#define BUTTON_UP     2
+#define BUTTON_DOWN   4
+#define BUTTON_ENTER  3
 
-#define CS_PIN        10
-#define CLK_PIN       13
-#define DIN_PIN       11
-
-#define BUZZER_PIN    5
 //////////////////////////////////////////////////////////////////////// Variable Setup ////////////////////////////////////////////////////////////////////////
-LedControl lc = LedControl(11,13,10,4);
-short ledIntensity = 8;
+TEE_ST7735 lcd(9, 10, 11, 12, 13);          // pin  CSK,SDA,A0,RST,CS
 
 enum{                                       // create enum list for map state with number
   STATE_HOME = 0,
@@ -28,7 +21,6 @@ enum{                                       // create enum list for map state wi
   
   START_SUB_STATE_SET,
       STATE_SETTIME,
-      STATE_SETALARM,
   END_SUB_STATE_SET,
 };
 StackArray<byte> state;                       // create <stack>state to keep state
@@ -39,12 +31,6 @@ struct Clock{                                 // create clock
   byte minute = 0;
   byte second = 0;
 }clock;
-struct Alarmclock{                            // create alarmclock
-  byte hour = 0;
-  byte minute = 0;
-  byte second = 0;
-  bool enable = false;
-}alarmclock;
 struct Stopwatch{                             // create stopwatch
   byte minute = 0;
   byte second = 0;
@@ -81,7 +67,7 @@ ISR(TIMER1_OVF_vect)                          // Main Clock timer
 void setup(){ 
   initPin();
   initTimer();
-  initLed();
+  initLcd();
   initState();
   Serial.begin(9600);
 }
@@ -94,22 +80,10 @@ void loop(){
   //---------------------- STATE_HOME -------------------------------
   if(currentState == STATE_HOME){           
     show_clock();                                           // show main clock counting
-    show_alarm_enable_bar();                                // show enable bar when alarmclock is enable
-    
-    set_intensity();
     if(digitalRead(BUTTON_BACK)==LOW){
       delay(120);                                           // debouncing 120ms
       state.push(STATE_MENUMAIN);                           // push STATE_MENUMAIN to <stack>state
       clear_display();
-    }
-
-    if(alarmclock.enable){
-      if(clock.hour == alarmclock.hour && clock.minute == alarmclock.minute){
-        alert_alarm();
-        if(clock.second==59 || digitalRead(BUTTON_ENTER)==LOW){
-          alarmclock.enable = false;
-        }
-      }
     }
   } 
   
@@ -126,13 +100,7 @@ void loop(){
   //---------------------- STATE_SETTIME -----------------------------
   else if(currentState == STATE_SETTIME){  
     loop_set_clock();                                       // set clock use loop in func
-  }
-  
-  //---------------------- STATE_SETALARM ----------------------------
-  else if(currentState == STATE_SETALARM){  
-    loop_set_alarm();                                       // set alarmclock use loop in func
-  }
-  
+  }  
   //---------------------- STATE_STOPWATCH ---------------------------
   else if(currentState == STATE_STOPWATCH){
     loop_stopwatch();                                       // run stopwatch with loop in func
@@ -143,6 +111,7 @@ void loop(){
     loop_countdown();                                       // run countdown with loop in func
   }
 }
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// User Define Func //////////////////////////////////////////////////////////////////////
 /********************* Initialization **************************/
@@ -151,7 +120,6 @@ void initPin(){                                      // func to set initPin
   pinMode(BUTTON_UP,INPUT_PULLUP);
   pinMode(BUTTON_DOWN,INPUT_PULLUP);
   pinMode(BUTTON_ENTER,INPUT_PULLUP);
-  pinMode(BUZZER_PIN,OUTPUT);
 }
 void initTimer(){                                    // func to set initTimer1
   noInterrupts();
@@ -162,36 +130,32 @@ void initTimer(){                                    // func to set initTimer1
   TIMSK1 = TIMSK1|(1 << TOIE1); 
   interrupts();
 }
-void initLed(){                                      // func to set initLed
-  byte devices = lc.getDeviceCount();
-  for(byte address=0; address<devices; address++){
-    lc.shutdown(address,false);
-    lc.setIntensity(address,8);
-    lc.clearDisplay(address);
-  }
+void initLcd(){                                      // func to set initLcd
+  lcd.init(lcd.VERTICAL);
+  lcd.fillScreen(BLACK);
 }
 void initState(){                                    // func to set initState
   state.push(STATE_HOME);                                     // push STATE_HOME to <stack>state for initial
 }
 
 /********************* Function in STATE_HOME ******************/
-void show_clock(){                                   // func to show mainclock count on Led Dotmatrix 8x32
-  print_char( 2, 1, clock.hour / 10 + '0');                   // print hour 
-  print_char( 6, 1, clock.hour % 10 + '0');
+void show_clock(){                                   // func to show mainclock count on TFT
+  print_char( 20, 72, clock.hour / 10 + '0');                   // print hour 
+  print_char( 31, 72, clock.hour % 10 + '0');
   
-  print_char(12, 1, clock.minute / 10 + '0');                 // print minute
-  print_char(17, 1, clock.minute % 10 + '0');
+  print_char(53, 72, clock.minute / 10 + '0');                 // print minute
+  print_char(64, 72, clock.minute % 10 + '0');
   
-  print_char(23, 1, clock.second / 10 + '0');                 // print second
-  print_char(27, 1, clock.second % 10 + '0');
+  print_char(86, 72, clock.second / 10 + '0');                 // print second
+  print_char(97, 72, clock.second % 10 + '0');
 
   if(clock.second % 2 != 0){                                  // print ':' with brink
-    print_char( 9, 1, ' ');
-    print_char( 20, 1, ' ');  
+    print_char( 42, 72, ' ');
+    print_char( 75, 72, ' ');  
   }
   else{
-    print_char( 9, 1, ':');
-    print_char( 20, 1, ':');
+    print_char( 42, 72, ':');
+    print_char( 75, 72, ':');
   }
 }
 
@@ -205,7 +169,7 @@ void selector_state(byte startstate, byte endstate){  // func to create & manage
     selectState = endstate-1;
   }
   
-  //------------ display seletState on Led Dotmatix 8x32 --------------
+  //------------ display seletState on TFT ----------------------------
   show_selectstate();  
 
   //---------------------- get input ----------------------------------
@@ -229,60 +193,49 @@ void selector_state(byte startstate, byte endstate){  // func to create & manage
     clear_display();
   }
 }
-void show_selectstate(){                              // func to show selectState on Led Dotmatix 8x32
+void show_selectstate(){                              // func to show selectState on TFT
   //---------------------- main menu list ---------------------------
   if(selectState==STATE_MENUSET){
-    print_char(2,1,'S');
-    print_char(6,1,'E');
-    print_char(10,1,'T');
-    print_char(14,1,' ');
-    print_char(18,1,' ');
+    print_char(20,72,'S');
+    print_char(31,72,'E');
+    print_char(42,72,'T');
+    print_char(53,72,' ');
+    print_char(64,72,' ');
+    print_char(75,72,' ');
+    print_char(86,72,' ');
+    print_char(97,72,' ');
   }
   else if(selectState==STATE_STOPWATCH){
-    print_char(2,1,'S');
-    print_char(6,1,'T');
-    print_char(10,1,'O');
-    print_char(14,1,'P');
-    print_char(18,1,' ');
+    print_char(20,72,'S');
+    print_char(31,72,'T');
+    print_char(42,72,'O');
+    print_char(53,72,'P');
+    print_char(64,72,' ');
+    print_char(75,72,' ');
+    print_char(86,72,' ');
+    print_char(97,72,' ');
   }
   else if(selectState==STATE_COUNTDOWN){
-    print_char(2,1,'C');
-    print_char(6,1,'O');
-    print_char(10,1,'U');
-    print_char(14,1,'N');
-    print_char(18,1,'T');
+    print_char(20,72,'C');
+    print_char(31,72,'O');
+    print_char(42,72,'U');
+    print_char(53,72,'N');
+    print_char(64,72,'T');
+    print_char(75,72,' ');
+    print_char(86,72,' ');
+    print_char(97,72,' ');
   }
 
   //---------------------- set menu list ----------------------------
   else if(selectState==STATE_SETTIME){
-    print_char(2,1,'S');
-    print_char(6,1,'E');
-    print_char(10,1,'T');
-    
-    plot(14,2,true);
-    plot(14,3,true);
-    plot(14,4,true);
-    plot(15,3,true);
-
-    print_char(17,1,'T');
-    print_char(21,1,'I');
-    print_char(25,1,'M');
-    print_char(29,1,'E');
-  }
-  else if(selectState==STATE_SETALARM){
-    print_char(2,1,'S');
-    print_char(6,1,'E');
-    print_char(10,1,'T');
-    
-    plot(14,2,true);
-    plot(14,3,true);
-    plot(14,4,true);
-    plot(15,3,true);
-    
-    print_char(17,1,'A');
-    print_char(21,1,'L');
-    print_char(25,1,'R');
-    print_char(29,1,'M');
+    print_char(20,72,'S');
+    print_char(31,72,'E');
+    print_char(42,72,'T');
+    print_char(53,72,'>');
+    print_char(64,72,'T');
+    print_char(75,72,'I');
+    print_char(86,72,'M');
+    print_char(97,72,'E');
   }
 }
 
@@ -297,26 +250,26 @@ void loop_set_clock(){                                // func to set clock with 
   byte index = 0;
   while(setting){
     //---------------------- display set clock ----------------------------
-    print_char( 2, 1, settingClock[0] / 10 + '0');          
-    print_char( 6, 1, settingClock[0] % 10 + '0');
-    print_char( 9, 1, ':');
-    print_char(12, 1, settingClock[1] / 10 + '0'); 
-    print_char(17, 1, settingClock[1] % 10 + '0');
-    print_char( 20, 1, ':'); 
-    print_char(23, 1, settingClock[2] / 10 + '0'); 
-    print_char(27, 1, settingClock[2] % 10 + '0');
+    print_char(20, 72, settingClock[0] / 10 + '0');          
+    print_char(31, 72, settingClock[0] % 10 + '0');
+    print_char(42, 72, ':');
+    print_char(53, 72, settingClock[1] / 10 + '0'); 
+    print_char(64, 72, settingClock[1] % 10 + '0');
+    print_char(75, 72, ':'); 
+    print_char(86, 72, settingClock[2] / 10 + '0'); 
+    print_char(97, 72, settingClock[2] % 10 + '0');
     delay(80);                                                  //delay display and debouncing 80 ms
     if(index == 0){
-      print_char(2,1,' ');
-      print_char(6,1,' ');
+      print_char(20,72,' ');
+      print_char(31,72,' ');
     }
     else if(index == 1){
-      print_char(12,1,' ');
-      print_char(17,1,' ');
+      print_char(53,72,' ');
+      print_char(64,72,' ');
     }
     else if(index == 2){
-      print_char(23,1,' ');
-      print_char(27,1,' ');
+      print_char(86,72,' ');
+      print_char(97,72,' ');
     }
     delay(40);                                                  //delay display and debouncing 40 ms
 
@@ -362,112 +315,6 @@ void loop_set_clock(){                                // func to set clock with 
     }
   }
 }
-
-/********************* Function in STATE_SETALARM **************/
-void loop_set_alarm(){                                // func to set alarmclock with loop
-  //------------- display alarm enable status  ------------------------
-  show_alarm_enable_bar();                                     // show alarm enable status   
-  
-  bool setting = true;
-  short settingClock[3];
-  settingClock[0] = alarmclock.hour;     
-  settingClock[1] = alarmclock.minute;   
-  settingClock[2] = alarmclock.second; 
-
-  byte index = 0;
-  while(setting){
-    //---------------------- display set alarmclock -----------------------
-    print_char( 2, 1, settingClock[0] / 10 + '0');          
-    print_char( 6, 1, settingClock[0] % 10 + '0');
-    print_char( 9, 1, ':');
-    print_char(12, 1, settingClock[1] / 10 + '0'); 
-    print_char(17, 1, settingClock[1] % 10 + '0');
-    print_char( 20, 1, ':'); 
-    print_char(23, 1, settingClock[2] / 10 + '0'); 
-    print_char(27, 1, settingClock[2] % 10 + '0');
-    delay(80);                                                  //delay display and debouncing 80 ms
-    if(index == 0){
-      print_char(2,1,' ');
-      print_char(6,1,' ');
-    }
-    else if(index == 1){
-      print_char(12,1,' ');
-      print_char(17,1,' ');
-    }
-    else if(index == 2){
-      print_char(23,1,' ');
-      print_char(27,1,' ');
-    }
-    delay(40);                                                  // delay display and debouncing 40 ms
-
-    //---------------------- get input ----------------------------------
-    if(digitalRead(BUTTON_UP)==LOW){
-      settingClock[index]++;
-      if(settingClock[0]>23){
-        settingClock[0] = 0;
-      }
-      if(settingClock[1]>59){
-        settingClock[1] = 0;
-      }
-      if(settingClock[2]>59){
-        settingClock[2] = 0;
-      }
-    }
-    if(digitalRead(BUTTON_DOWN)==LOW){
-      settingClock[index]--;
-      if(settingClock[0]<0){
-        settingClock[0] = 23;
-      }
-      if(settingClock[1]<0){
-        settingClock[1] = 59;
-      }
-      if(settingClock[2]<0){
-        settingClock[2] = 59;
-      }
-    }
-    if(digitalRead(BUTTON_ENTER)==LOW){
-      unsigned long pressed = millis();
-      while(digitalRead(BUTTON_ENTER)==LOW && millis()-pressed < 1000){   // wait pressed Enter
-      }
-      
-      if(millis()-pressed < 1000){                                // if pressed < 1s
-        index++;                                                  // increase index for set alarm 
-        if(index>2){
-          index = 0;
-        }
-      } 
-      else{                                                       // if pressed >= 1s
-        alarmclock.hour = settingClock[0];                        // assign setalarm hour to alarmclock
-        alarmclock.minute = settingClock[1];                      // assign setalarm hour to alarmclock
-        alarmclock.second = settingClock[2];                      // assign setalarm hour to alarmclock
-        
-        alarmclock.enable = !alarmclock.enable;                   // set enable status of alarmclock [on->off , off->on]
-        show_alarm_enable_bar();                                  // show alarm enable status again because status changed
-      }
-    }
-    if(digitalRead(BUTTON_BACK)==LOW){
-      setting = false;                                            // set setting false to [exit] loop
-      
-      state.pop();                                                // pop top of <stack>state when go back state
-      clear_display();
-    }
-  }
-}
-void show_alarm_enable_bar(){                          // func to show alarm enable status 
-  for(byte x=2;x<30;x++){
-    plot(x,7,alarmclock.enable);
-  }
-}
-void alert_alarm(){                                    // func to action alert alarm 
-  fade_down();
-  tone(BUZZER_PIN,200);
-  
-  delay(200);
-  
-  fade_up();
-  noTone(BUZZER_PIN);
-}
-
 /********************* Function in STATE_STOPWATCH *************/
 void loop_stopwatch(){                                 // func to run stopwatch with loop
   //------------- display stopwatch  ----------------------------------
@@ -514,23 +361,23 @@ void loop_stopwatch(){                                 // func to run stopwatch 
     clear_display();
   }
 }
-void show_stopwatch(){                                 // func to show stopwatch count on Led Dotmatrix 8x32   
-  print_char( 2, 1, stopwatch.minute / 10 + '0');               //print minute
-  print_char( 6, 1, stopwatch.minute % 10 + '0');
+void show_stopwatch(){                                 // func to show stopwatch count on TFT   
+  print_char(20, 72, stopwatch.minute / 10 + '0');               //print minute
+  print_char(31, 72, stopwatch.minute % 10 + '0');
   
-  print_char(12, 1, stopwatch.second / 10 + '0');               //print second
-  print_char(17, 1, stopwatch.second % 10 + '0');
+  print_char(53, 72, stopwatch.second / 10 + '0');               //print second
+  print_char(64, 72, stopwatch.second % 10 + '0');
   
-  print_char(23, 1, stopwatch.millisec / 100 + '0');            //print millisec
-  print_char(27, 1, (stopwatch.millisec % 100)/10 + '0');
+  print_char(86, 72, stopwatch.millisec / 100 + '0');            //print millisec
+  print_char(97, 72, (stopwatch.millisec % 100)/10 + '0');
 
   if(stopwatch.second % 2 != 0){                                //print ':' with brink
-    print_char( 9, 1, ' ');
-    print_char( 20, 1, ' ');  
+    print_char(42, 72, ' ');
+    print_char(75, 72, ' ');  
   }
   else{
-    print_char( 9, 1, ':');
-    print_char( 20, 1, ':');
+    print_char(42, 72, ':');
+    print_char(75, 72, ':');
   }
 }
 void reset_stopwatch(){                                 // func to reset stopwatch      
@@ -611,26 +458,26 @@ void loop_set_countdown(){                             // func to set countdown 
   byte index = 0;
   while(setting){
     //---------------------- display set countdown -----------------------
-    print_char( 2, 1, settingClock[0] / 10 + '0');
-    print_char( 6, 1, settingClock[0] % 10 + '0');
-    print_char( 9, 1, ':');
-    print_char(12, 1, settingClock[1] / 10 + '0');
-    print_char(17, 1, settingClock[1] % 10 + '0');
-    print_char( 20, 1, ':');
-    print_char(23, 1, settingClock[2] / 10 + '0');
-    print_char(27, 1, settingClock[2] % 10 + '0');
+    print_char(20, 72, settingClock[0] / 10 + '0');
+    print_char(31, 72, settingClock[0] % 10 + '0');
+    print_char(42, 72, ':');
+    print_char(53, 72, settingClock[1] / 10 + '0');
+    print_char(64, 72, settingClock[1] % 10 + '0');
+    print_char(75, 72, ':');
+    print_char(86, 72, settingClock[2] / 10 + '0');
+    print_char(96, 72, settingClock[2] % 10 + '0');
     delay(80);                                                  // delay display and debouncing 80 ms
     if(index == 0){
-      print_char(2, 1, ' ');
-      print_char(6, 1, ' ');
+      print_char(20, 72, ' ');
+      print_char(31, 72, ' ');
     }
     else if(index == 1){
-      print_char(12, 1, ' ');
-      print_char(17, 1, ' ');
+      print_char(53, 72, ' ');
+      print_char(64, 72, ' ');
     }
     else if(index == 2){
-      print_char(23, 1, ' ');
-      print_char(27, 1, ' ');
+      print_char(86, 72, ' ');
+      print_char(97, 72, ' ');
     }
     delay(40);                                                  // delay display and debouncing 40 ms
 
@@ -676,35 +523,33 @@ void loop_set_countdown(){                             // func to set countdown 
 }
 
 void show_countdown(){
-  print_char( 2, 1, countdown.hour / 10 + '0');                 // print hour
-  print_char( 6, 1, countdown.hour % 10 + '0');
+  print_char(20, 72, countdown.hour / 10 + '0');                 // print hour
+  print_char(31, 72, countdown.hour % 10 + '0');
 
-  print_char(12, 1, countdown.minute / 10 + '0');               // print minute
-  print_char(17, 1, countdown.minute % 10 + '0');
+  print_char(53, 72, countdown.minute / 10 + '0');               // print minute
+  print_char(64, 72, countdown.minute % 10 + '0');
 
-  print_char(23, 1, countdown.second / 10 + '0');               // print second
-  print_char(27, 1, countdown.second % 10 + '0');
+  print_char(86, 72, countdown.second / 10 + '0');               // print second
+  print_char(97, 72, countdown.second % 10 + '0');
 
   if(countdown.second % 2 != 0){                                // print ':' with brink
-    print_char( 9, 1, ' ');
-    print_char( 20, 1, ' ');
+    print_char(42, 72, ' ');
+    print_char(75, 72, ' ');
   }
   else{
-    print_char( 9, 1, ':');
-    print_char( 20, 1, ':');
+    print_char(42, 72, ':');
+    print_char(75, 72, ':');
   }
 }
 
 void alert_countdown(){                                 // func to action alert countdown end   
-  while(digitalRead(BUTTON_ENTER)!=LOW){
-    fade_down();
-    tone(BUZZER_PIN, millis() % 2001 + 500);                      //tone in frequency range [500 to 2500]
-
-    delay(200);
-
-    fade_up();
-    noTone(BUZZER_PIN);
-  }
+  lcd.fillScreen(RED);
+  delay(100);
+  lcd.fillScreen(GREEN);
+  delay(100);
+  lcd.fillScreen(BLUE);
+  delay(100);
+  lcd.fillScreen(BLACK);
 }
 
 void reset_countdown(){                                 // func to reset coundown
@@ -714,87 +559,12 @@ void reset_countdown(){                                 // func to reset coundow
 }
 
 /********************* Display *********************************/
-/*credit by Thana Hongsuwan MEDIUM */
-void plot(unsigned x ,unsigned y ,bool value){
-  byte address;
-  if(x >= 0 && x <= 7){
-    address = 3;
-  }
-  if(x >= 8 && x <= 15){
-    address = 2;
-    x = x - 8;
-  }
-  if(x >= 16 && x <= 23){
-    address = 1;
-    x = x - 16;
-  }
-  if(x >= 24 && x <= 34){
-    address = 0;
-    x = x - 24;
-  }
-
-  lc.setLed(address,y,x,value);
-}
-/*credit by Thana Hongsuwan MEDIUM */
 void print_char(unsigned x ,unsigned y ,char c){
-  unsigned dots;
-  if (c >= 'A' && c <= 'Z' || (c >= 'a' && c <= 'z') ) { c &= 0x1F; }   // A-Z maps to 1-26 
-  else if (c >= '0' && c <= '9') { c = (c - '0') + 32; }
-  else if (c == ' ') { c = 0;  }                                        // space 
-  else if (c == '.') { c = 27; }                                        // full stop 
-  else if (c == ':') { c = 28; }                                        // colon 
-  else if (c == '\''){ c = 29; }                                        // single quote mark 
-  else if (c == '!') { c = 30; }                                        // single quote mark 
-  else if (c == '?') { c = 31; }                                        // single quote mark 
+  lcd.fillRect(x,y,11,15,BLACK);
+  lcd.drawChar(x,y,c,RED,2);
+}
 
-  for (uint8_t col = 0; col < 3; col++) {
-    dots = pgm_read_byte_near(&mytinyfont[c][col]);
-    for (uint8_t row = 0; row < 5; row++) {
-      if (dots & (16 >> row))
-        plot(x + col, y + row, true);
-      else
-        plot(x + col, y + row, false);
-    }
-  }
-}
-/*credit by Thana Hongsuwan MEDIUM */
-void fade_up(){
-  for(short i=0;i<ledIntensity;i++){
-    for(byte address=0;address<4;address++){
-      lc.setIntensity(address,i);
-    }
-  }
-}
-/*credit by Thana Hongsuwan MEDIUM */
-void fade_down(){
-  for(short i=ledIntensity;i>=0;i--){
-    for(byte address=0;address<4;address++){
-      lc.setIntensity(address,i);
-    }
-  }
-}
-/*credit by Thana Hongsuwan MEDIUM */
 void clear_display(){
-  for(byte address=0; address<4; address++){
-    lc.clearDisplay(address);
-  }
-}
-void set_intensity(){
-  if(digitalRead(BUTTON_UP)==LOW){
-    ledIntensity++;
-  }
-  else if(digitalRead(BUTTON_DOWN)==LOW){
-    ledIntensity--;
-  }
-
-  if(ledIntensity<0){
-    ledIntensity = 0;
-  }
-  else if(ledIntensity>15){
-    ledIntensity = 15;
-  }
-  
-  for(byte address=0; address<4; address++){
-    lc.setIntensity(address,ledIntensity);
-  }
+  //lcd.fillScreen(BLACK);
+  lcd.fillRect(0,0,100,15,BLACK);
 }
