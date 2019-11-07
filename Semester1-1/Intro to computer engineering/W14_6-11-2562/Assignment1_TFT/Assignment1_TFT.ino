@@ -1,54 +1,32 @@
 #include "ST7735_TEE.h"
-#include "StackArray.h"
-
-#define BUTTON_BACK   5
-#define BUTTON_UP     2
-#define BUTTON_DOWN   4
-#define BUTTON_ENTER  3
-
 //////////////////////////////////////////////////////////////////////// Variable Setup ////////////////////////////////////////////////////////////////////////
-TEE_ST7735 lcd(9, 10, 11, 12, 13);          // pin  CSK,SDA,A0,RST,CS
+TEE_ST7735 lcd(9, 10, 11, 12, 13);              // pin  CSK,SDA,A0,RST,CS
 
-enum{                                       // create enum list for map state with number
-  STATE_HOME = 0,
-  STATE_MENUMAIN,
-  
-  START_MAIN_STATE,
-    STATE_MENUSET,
-    STATE_STOPWATCH,
-    STATE_COUNTDOWN,
-  END_MAIN_STATE,
-  
-  START_SUB_STATE_SET,
-      STATE_SETTIME,
-  END_SUB_STATE_SET,
-};
-StackArray<byte> state;                       // create <stack>state to keep state
-byte selectState = STATE_HOME;                // create selectState to use in MAINMENU, MENUSET State for select next state to go
-
-struct Clock{                                 // create clock
+struct Clock{                                   // create clock,buffclock                            
   byte hour = 0;
   byte minute = 0;
   byte second = 0;
-}clock;
-struct Stopwatch{                             // create stopwatch
-  byte minute = 0;
-  byte second = 0;
-  unsigned millisec = 0;
-  bool running = false;
-}stopwatch;
-struct Countdown{                             // create countdown
-  short hour = 0;
-  short minute = 0;
-  short second = 0;
-  bool running = false;
-}countdown;
+}clock,buffclock;
+
+struct Date{                                    // create date,buffdate
+  char *day;
+  byte date = 1;
+  byte month = 1;
+  short year = 1;
+}date,buffdate;
+
+char day[7][3]={"MON","TUE","WED","THU","FRI","SAT","SUN"};              // create day name list
+uint16_t daycolor[7] ={0xFFE0,0xF81F,0x7E0,0xFBE0,0x1F,MAGENTA,RED};     // create day color list
+int indexday;                                   // create [variable] indexday to point current day
+
+bool initstate_clock = true;
+bool initstate_date = true;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// Interrupt Service Routine /////////////////////////////////////////////////////////////
-float timer1_start = 3036;                    // timer start point #second : 65535-62500 (+1) = 3035 (+1))
-ISR(TIMER1_OVF_vect)                          // Main Clock timer              
+float timer1_start = 3036;                      // timer start point #second : 65535-62500 (+1) = 3035 (+1))
+ISR(TIMER1_OVF_vect)                            // main timer <core of this product>              
 {
-  TCNT1 = timer1_start;                       // preload timer
+  TCNT1 = timer1_start;                         // preload timer
   clock.second++;
   if(clock.second==60){
     clock.second = 0;
@@ -60,68 +38,89 @@ ISR(TIMER1_OVF_vect)                          // Main Clock timer
   }
   if(clock.hour==24){
     clock.hour = 0;
+    date.date++;
+    indexday++;
+    if(indexday == 7){
+      indexday = 0;
+    }
+    date.day = day[indexday];
+  }
+  if(date.month == 1 && date.date == 32 ||
+    date.month == 2 && date.date == 29 && date.year%4!=0 || date.month == 2 && date.date == 30 && date.year%4 == 0 ||
+    date.month == 3 && date.date == 32 ||
+    date.month == 4 && date.date == 31 ||
+    date.month == 5 && date.date == 32 ||
+    date.month == 6 && date.date == 31 ||
+    date.month == 7 && date.date == 32 ||
+    date.month == 8 && date.date == 32 ||
+    date.month == 9 && date.date == 31 ||
+    date.month == 10 && date.date == 32 ||
+    date.month == 11 && date.date == 31 ||
+    date.month == 12 && date.date == 32){
+    date.date = 1;
+    date.month++;
+  }
+  if(date.month == 13){
+    date.month = 1;
+    date.year++;
   }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// Setup Program /////////////////////////////////////////////////////////////////////////
 void setup(){ 
-  initPin();
   initTimer();
   initLcd();
-  initState();
+  initTimeDate();
+  initDecoration();
+  
   Serial.begin(9600);
+  Serial.println("Set Date & Time by below syntax");
+  Serial.println("indexday[1-7][mon-sun]|date.month.year|hour,minute,second");
+  Serial.println("Example >> 3|29.03.2000|10.10.00");
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// Main Program //////////////////////////////////////////////////////////////////////////
 void loop(){
-  //------------ get top of <stack>state to currentState ------------
-  unsigned currentState = state.peek();
-    
-  //---------------------- STATE_HOME -------------------------------
-  if(currentState == STATE_HOME){           
-    show_clock();                                           // show main clock counting
-    if(digitalRead(BUTTON_BACK)==LOW){
-      delay(120);                                           // debouncing 120ms
-      state.push(STATE_MENUMAIN);                           // push STATE_MENUMAIN to <stack>state
-      clear_display();
+  //---------------------------- show display on TFT ----------------------------------------//
+  show_clock();
+  show_date();
+  //-----------------------------------------------------------------------------------------//
+  //---------------------------- input for set time & date ----------------------------------//
+  int bufferRead[22];
+  int bufferIndex = 0;
+  int inputStatus = false;
+  while(Serial.available()){
+    bufferRead[bufferIndex] = Serial.read()-'0';
+    if(bufferRead[bufferIndex]!='\n'-'0'){
+      bufferIndex++;
     }
-  } 
-  
-  //---------------------- STATE_MENUMAIN ----------------------------
-  else if(currentState == STATE_MENUMAIN){  
-    selector_state(START_MAIN_STATE,END_MAIN_STATE);        // show MAINMENU list for go to next state
+    else{
+      bufferIndex = 0;
+      inputStatus = true;
+    }
   }
-  
-  //---------------------- STATE_MENUSET -----------------------------
-  else if(currentState == STATE_MENUSET){
-    selector_state(START_SUB_STATE_SET,END_SUB_STATE_SET);  // show SETMENU list for go to next state
+  //-----------------------------------------------------------------------------------------//
+  //---------------------------- assige value to time & date --------------------------------//
+  if(inputStatus == true){
+    inputStatus = false;
+    
+    indexday = bufferRead[0] - 1;
+    date.day = day[indexday];
+    
+    date.date = bufferRead[2]*10 + bufferRead[3];
+    date.month = bufferRead[5]*10 + bufferRead[6];
+    date.year = bufferRead[8]*1000 + bufferRead[9]*100 + bufferRead[10]*10 + bufferRead[11];
+    
+    clock.hour = bufferRead[13]*10 + bufferRead[14];
+    clock.minute = bufferRead[16]*10 + bufferRead[17];
+    clock.second = bufferRead[19]*10 + bufferRead[20] ;
   }
-  
-  //---------------------- STATE_SETTIME -----------------------------
-  else if(currentState == STATE_SETTIME){  
-    loop_set_clock();                                       // set clock use loop in func
-  }  
-  //---------------------- STATE_STOPWATCH ---------------------------
-  else if(currentState == STATE_STOPWATCH){
-    loop_stopwatch();                                       // run stopwatch with loop in func
-  }
-  
-  //---------------------- STATE_COUNTDOWN ---------------------------
-  else if(currentState == STATE_COUNTDOWN){ 
-    loop_countdown();                                       // run countdown with loop in func
-  }
+  //-----------------------------------------------------------------------------------------//
 }
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////// User Define Func //////////////////////////////////////////////////////////////////////
 /********************* Initialization **************************/
-void initPin(){                                      // func to set initPin
-  pinMode(BUTTON_BACK,INPUT_PULLUP);
-  pinMode(BUTTON_UP,INPUT_PULLUP);
-  pinMode(BUTTON_DOWN,INPUT_PULLUP);
-  pinMode(BUTTON_ENTER,INPUT_PULLUP);
-}
-void initTimer(){                                    // func to set initTimer1
+void initTimer(){                                     // func to set initTimer1
   noInterrupts();
   TCCR1A = 0;
   TCCR1B = 0;
@@ -130,441 +129,86 @@ void initTimer(){                                    // func to set initTimer1
   TIMSK1 = TIMSK1|(1 << TOIE1); 
   interrupts();
 }
-void initLcd(){                                      // func to set initLcd
+void initLcd(){                                       // func to set initLcd
   lcd.init(lcd.VERTICAL);
-  lcd.fillScreen(BLACK);
+  clear_display();
 }
-void initState(){                                    // func to set initState
-  state.push(STATE_HOME);                                     // push STATE_HOME to <stack>state for initial
-}
-
-/********************* Function in STATE_HOME ******************/
-void show_clock(){                                   // func to show mainclock count on TFT
-  print_char( 20, 72, clock.hour / 10 + '0');                   // print hour 
-  print_char( 31, 72, clock.hour % 10 + '0');
+void initTimeDate(){                                  // func to set initTimeDate
+  clock.hour = 0;
+  clock.minute = 0;
+  clock.second = 0;
   
-  print_char(53, 72, clock.minute / 10 + '0');                 // print minute
-  print_char(64, 72, clock.minute % 10 + '0');
-  
-  print_char(86, 72, clock.second / 10 + '0');                 // print second
-  print_char(97, 72, clock.second % 10 + '0');
-
-  if(clock.second % 2 != 0){                                  // print ':' with brink
-    print_char( 42, 72, ' ');
-    print_char( 75, 72, ' ');  
-  }
-  else{
-    print_char( 42, 72, ':');
-    print_char( 75, 72, ':');
-  }
+  indexday = 0;
+  date.day = day[indexday]; 
+  date.date = 1;
+  date.month = 1;
+  date.year = 1;
 }
-
-/********************* Function in MENUMAIN, MENUSET ***********/
-void selector_state(byte startstate, byte endstate){  // func to create & manage list for MENUMAIN, MENUSET state
-  //------------ scope range of list state from enum  ---------------
-  if(selectState<=startstate){                                 
-    selectState = startstate+1;
+void initDecoration(){                                // function to set initDecoration
+  lcd.drawString(35,150,"Created by RsPP",CYAN,1);
+  lcd.drawCircle(64,80,52,RED);
+}
+/********************* Show ***********************************/
+void show_clock(){                                      // func to show mainclock count on TFT
+  if(clock.hour!=buffclock.hour || initstate_clock){
+    print_char( 27, 60, clock.hour / 10 + '0',2,WHITE);                   // print hour 
+    print_char( 40, 60, clock.hour % 10 + '0',2,WHITE);
   }
-  else if(selectState>=endstate){
-    selectState = endstate-1;
+
+  lcd.drawChar(49,60,':',WHITE,2);
+  
+  if(clock.minute!=buffclock.minute || initstate_clock){
+    print_char( 58, 60, clock.minute / 10 + '0',2,WHITE);                 // print minute
+    print_char( 71, 60, clock.minute % 10 + '0',2,WHITE);
   }
   
-  //------------ display seletState on TFT ----------------------------
-  show_selectstate();  
+  if(clock.second!=buffclock.second || initstate_clock){
+    print_char( 89, 73, clock.second / 10 + '0',1,WHITE);                 // print second
+    print_char( 97, 73, clock.second % 10 + '0',1,WHITE);
+  }
 
-  //---------------------- get input ----------------------------------
-  if(digitalRead(BUTTON_UP)==LOW){
-    delay(120);                                                 // debouncing 120ms
-    selectState--;
-  }
-  else if(digitalRead(BUTTON_DOWN)==LOW){
-    delay(120);                                                 // debouncing 120ms
-    selectState++;
-  }
-  else if(digitalRead(BUTTON_ENTER)==LOW){
-    delay(120);                                                 // debouncing 120ms
-    state.push(selectState);
-    clear_display();
-  }
-  else if(digitalRead(BUTTON_BACK)==LOW){
-    delay(120);                                                 // debouncing 120ms
-    state.pop();                                                // pop top of <stack>state when go back state
-    selectState = state.peek();                                 // selectState point to new top of <stack>state
-    clear_display();
-  }
+  initstate_clock = false;
+  buffclock.hour=clock.hour;
+  buffclock.minute=clock.minute;
+  buffclock.second=clock.second;
 }
-void show_selectstate(){                              // func to show selectState on TFT
-  //---------------------- main menu list ---------------------------
-  if(selectState==STATE_MENUSET){
-    print_char(20,72,'S');
-    print_char(31,72,'E');
-    print_char(42,72,'T');
-    print_char(53,72,' ');
-    print_char(64,72,' ');
-    print_char(75,72,' ');
-    print_char(86,72,' ');
-    print_char(97,72,' ');
-  }
-  else if(selectState==STATE_STOPWATCH){
-    print_char(20,72,'S');
-    print_char(31,72,'T');
-    print_char(42,72,'O');
-    print_char(53,72,'P');
-    print_char(64,72,' ');
-    print_char(75,72,' ');
-    print_char(86,72,' ');
-    print_char(97,72,' ');
-  }
-  else if(selectState==STATE_COUNTDOWN){
-    print_char(20,72,'C');
-    print_char(31,72,'O');
-    print_char(42,72,'U');
-    print_char(53,72,'N');
-    print_char(64,72,'T');
-    print_char(75,72,' ');
-    print_char(86,72,' ');
-    print_char(97,72,' ');
-  }
-
-  //---------------------- set menu list ----------------------------
-  else if(selectState==STATE_SETTIME){
-    print_char(20,72,'S');
-    print_char(31,72,'E');
-    print_char(42,72,'T');
-    print_char(53,72,'>');
-    print_char(64,72,'T');
-    print_char(75,72,'I');
-    print_char(86,72,'M');
-    print_char(97,72,'E');
-  }
-}
-
-/********************* Function in STATE_SETTIME ***************/
-void loop_set_clock(){                                // func to set clock with loop
-  bool setting = true;
-  short settingClock[3];
-  settingClock[0] = clock.hour;     
-  settingClock[1] = clock.minute;   
-  settingClock[2] = clock.second; 
-
-  byte index = 0;
-  while(setting){
-    //---------------------- display set clock ----------------------------
-    print_char(20, 72, settingClock[0] / 10 + '0');          
-    print_char(31, 72, settingClock[0] % 10 + '0');
-    print_char(42, 72, ':');
-    print_char(53, 72, settingClock[1] / 10 + '0'); 
-    print_char(64, 72, settingClock[1] % 10 + '0');
-    print_char(75, 72, ':'); 
-    print_char(86, 72, settingClock[2] / 10 + '0'); 
-    print_char(97, 72, settingClock[2] % 10 + '0');
-    delay(80);                                                  //delay display and debouncing 80 ms
-    if(index == 0){
-      print_char(20,72,' ');
-      print_char(31,72,' ');
-    }
-    else if(index == 1){
-      print_char(53,72,' ');
-      print_char(64,72,' ');
-    }
-    else if(index == 2){
-      print_char(86,72,' ');
-      print_char(97,72,' ');
-    }
-    delay(40);                                                  //delay display and debouncing 40 ms
-
-    //---------------------- get input ----------------------------------
-    if(digitalRead(BUTTON_UP)==LOW){
-      settingClock[index]++;
-      if(settingClock[0]>23){
-        settingClock[0] = 0;
-      }
-      if(settingClock[1]>59){
-        settingClock[1] = 0;
-      }
-      if(settingClock[2]>59){
-        settingClock[2] = 0;
-      }
-    }
-    if(digitalRead(BUTTON_DOWN)==LOW){
-      settingClock[index]--;
-      if(settingClock[0]<0){
-        settingClock[0] = 23;
-      }
-      if(settingClock[1]<0){
-        settingClock[1] = 59;
-      }
-      if(settingClock[2]<0){
-        settingClock[2] = 59;
-      }
-    }
-    if(digitalRead(BUTTON_ENTER)==LOW){
-      index++;                                                 // increase index for setting 
-      if(index>2){
-        index = 0;
-      } 
-    }
-    if(digitalRead(BUTTON_BACK)==LOW){
-      clock.hour = settingClock[0];                            // assign setting hour to main clock
-      clock.minute = settingClock[1];                          // assign setting minute to main clock
-      clock.second = settingClock[2];                          // assign setting second to main clock
-      setting = false;                                         // set setting false to [exit] loop
-      
-      state.pop();                                             // pop top of <stack>state when go back state
-      clear_display();
-    }
-  }
-}
-/********************* Function in STATE_STOPWATCH *************/
-void loop_stopwatch(){                                 // func to run stopwatch with loop
-  //------------- display stopwatch  ----------------------------------
-  show_stopwatch();                                            // show stopwatch value
-  
-  unsigned long startMillis;
-  //---------------------- get input ----------------------------------
-  if(digitalRead(BUTTON_ENTER)==LOW){     
-    delay(120);                                                // debouncing 120ms
-    stopwatch.running = true;                                  // set stopwatch.running true for [enter] loop
-    startMillis = millis();
-  }
-  while(stopwatch.running){
-    stopwatch.millisec += millis()-startMillis;
-    startMillis = millis();
-    
-    if(stopwatch.millisec >= 1000){
-      stopwatch.millisec = stopwatch.millisec - 1000;
-      stopwatch.second++;
-    }
-    if(stopwatch.second == 60){
-      stopwatch.second = 0;
-      stopwatch.minute++;
-    }
-    /*if minute >= 60 this stopwatch still run and display that minute such as minute at 71,12,99*/
-    show_stopwatch();                                           // show stopwatch value again because value changed
-    
-    //---------------------- get input ----------------------------------
-    if(digitalRead(BUTTON_ENTER)==LOW){
-      delay(120);                                               // debouncing 120ms
-      stopwatch.running = false;                                // set stopwatch.running false for [exit] loop
-    }
-  }
-
-  //---------------------- get input ----------------------------------
-  if(digitalRead(BUTTON_UP)==LOW && digitalRead(BUTTON_DOWN)==LOW){
-    delay(120);                                                 // debouncing 120ms
-    reset_stopwatch();
-    show_stopwatch();
-  }
-  if(digitalRead(BUTTON_BACK)==LOW){
-    delay(120);                                                 // debouncing 120ms
-    state.pop();                                                // pop top of <stack>state when go back state
-    clear_display();
-  }
-}
-void show_stopwatch(){                                 // func to show stopwatch count on TFT   
-  print_char(20, 72, stopwatch.minute / 10 + '0');               //print minute
-  print_char(31, 72, stopwatch.minute % 10 + '0');
-  
-  print_char(53, 72, stopwatch.second / 10 + '0');               //print second
-  print_char(64, 72, stopwatch.second % 10 + '0');
-  
-  print_char(86, 72, stopwatch.millisec / 100 + '0');            //print millisec
-  print_char(97, 72, (stopwatch.millisec % 100)/10 + '0');
-
-  if(stopwatch.second % 2 != 0){                                //print ':' with brink
-    print_char(42, 72, ' ');
-    print_char(75, 72, ' ');  
-  }
-  else{
-    print_char(42, 72, ':');
-    print_char(75, 72, ':');
-  }
-}
-void reset_stopwatch(){                                 // func to reset stopwatch      
-  stopwatch.minute = 0;
-  stopwatch.second = 0;
-  stopwatch.millisec = 0;
-}
-
-/********************* Function in STATE_COUNTDOWN *************/
-void loop_countdown(){                                  // func to run countdown with loop
-  //------------- display countdown  ----------------------------------
-  show_countdown();                                             // show countdown value
-  unsigned long startMillis;
-  
-  //---------------------- get input ----------------------------------
-  unsigned long pressed;                                          
-  if (digitalRead(BUTTON_ENTER) == LOW){                        // check when prees Enter
-    pressed = millis();
-    while(digitalRead(BUTTON_ENTER) == LOW && millis() - pressed < 1000){             //wait pressed Enter
-    }
-
-    if(millis() - pressed >= 1000){                                                   // if pressed Enter >= 1s
-      loop_set_countdown();                                                           // [enter] loop to set start countdown time
-    }
-    else if(countdown.hour != 0 || countdown.minute != 0 || countdown.second != 0){   // if preesed Enter < 1s
-      countdown.running = true;                                                       // set countdown.running true for [Enter] countdown loop
-      startMillis = millis();                                                         // remember start millis() 
-    }
+void show_date(){                                        // func to show date on TFT
+  if(date.day!=buffdate.day || initstate_date){
+    print_char( 60, 90, date.day[0],3,daycolor[indexday]);                 // print day name
+    print_char( 77, 90, date.day[1],3,daycolor[indexday]);
+    print_char( 94, 90, date.day[2],3,daycolor[indexday]);
   }
   
+  if(date.date!=buffdate.date || initstate_date){
+    print_char( 20, 90, date.date / 10 + '0',1,WHITE);                     // print date
+    print_char( 28, 90, date.date % 10 + '0',1,WHITE);
+  }
   
-  while(countdown.running) {                                                          
-    if (countdown.hour == 0 && countdown.minute == 0 && countdown.second == 0 && countdown.running == true) { 
-      alert_countdown();                                                             
-      countdown.running = false;
-    }
-    else{
-      if(millis() - startMillis >= 1000) {
-        startMillis = millis() + (1000 - (millis() - startMillis));
-        countdown.second--;
-      }
-      if(countdown.second < 0){
-        countdown.second = 59;
-        countdown.minute--;
-      }
-      if(countdown.minute < 0){
-        countdown.minute = 59;
-        countdown.hour--;
-      }
-    }
-    show_countdown();                                           // show countdown value again because value changed
-
-    if(digitalRead(BUTTON_ENTER) == LOW){
-      delay(120);                                               // debouncing 120ms
-      countdown.running = false;                                // set countdown.running false for [Exit] countdown loop
-    }
+  lcd.drawChar(36,90,'/',WHITE,1);
+  
+  if(date.month!=buffdate.month || initstate_date){
+    print_char( 44, 90, date.month / 10 + '0',1,WHITE);                    // print month
+    print_char( 52, 90, date.month % 10 + '0',1,WHITE);
   }
 
-  if(digitalRead(BUTTON_UP) == LOW && digitalRead(BUTTON_DOWN) == LOW){
-    delay(120);                                                 // debouncing 120ms
-    reset_countdown();                                          // reset stopwatch
-    show_countdown();                                           // show countdown value again because value changed
+  if(date.year!=buffdate.year || initstate_date){
+    print_char( 28, 104, date.year / 1000 + '0',1,WHITE);                  // print year
+    print_char( 36, 104, (date.year % 1000) / 100 + '0',1,WHITE);
+    print_char( 44, 104, (date.year % 100) / 10 + '0',1,WHITE);
+    print_char( 52, 104, (date.year % 10) + '0',1,WHITE);
   }
-  if(digitalRead(BUTTON_BACK) == LOW){
-    delay(120);                                                 // debouncing 120ms
-    state.pop();                                                // pop top of <stack>state when go back state
-    clear_display();
-  }
+
+  initstate_date = false;
+  buffdate.day = date.day;
+  buffdate.date = date.date;
+  buffdate.month = date.month;
+  buffdate.year = date.year;
 }
-
-void loop_set_countdown(){                             // func to set countdown with loop
-  bool setting = true;
-  short settingClock[3];
-  settingClock[0] = countdown.hour;
-  settingClock[1] = countdown.minute;
-  settingClock[2] = countdown.second;
-
-  byte index = 0;
-  while(setting){
-    //---------------------- display set countdown -----------------------
-    print_char(20, 72, settingClock[0] / 10 + '0');
-    print_char(31, 72, settingClock[0] % 10 + '0');
-    print_char(42, 72, ':');
-    print_char(53, 72, settingClock[1] / 10 + '0');
-    print_char(64, 72, settingClock[1] % 10 + '0');
-    print_char(75, 72, ':');
-    print_char(86, 72, settingClock[2] / 10 + '0');
-    print_char(96, 72, settingClock[2] % 10 + '0');
-    delay(80);                                                  // delay display and debouncing 80 ms
-    if(index == 0){
-      print_char(20, 72, ' ');
-      print_char(31, 72, ' ');
-    }
-    else if(index == 1){
-      print_char(53, 72, ' ');
-      print_char(64, 72, ' ');
-    }
-    else if(index == 2){
-      print_char(86, 72, ' ');
-      print_char(97, 72, ' ');
-    }
-    delay(40);                                                  // delay display and debouncing 40 ms
-
-    //---------------------- get input ----------------------------------
-    if(digitalRead(BUTTON_UP) == LOW){
-      settingClock[index]++;
-      if(settingClock[0] > 23){
-        settingClock[0] = 0;
-      }
-      if(settingClock[1] > 59){
-        settingClock[1] = 0;
-      }
-      if(settingClock[2] > 59){
-        settingClock[2] = 0;
-      }
-    }
-    if(digitalRead(BUTTON_DOWN) == LOW){
-      settingClock[index]--;
-      if(settingClock[0] < 0){
-        settingClock[0] = 23;
-      }
-      if(settingClock[1] < 0){
-        settingClock[1] = 59;
-      }
-      if(settingClock[2] < 0){
-        settingClock[2] = 59;
-      }
-    }
-    if(digitalRead(BUTTON_ENTER) == LOW){
-      index++;
-      if(index > 2){
-        index = 0;
-      }
-    }
-    if(digitalRead(BUTTON_BACK) == LOW){
-      delay(120);                                               // debouncing 120ms
-      countdown.hour = settingClock[0];                         // assign setcountdown hour to countdownclock
-      countdown.minute = settingClock[1];                       // assign setcountdown minute to countdownclock
-      countdown.second = settingClock[2];                       // assign setcountdown second to countdownclock
-      setting = false;                                          // set setting false to [exit] loop
-    }   
-  }
-}
-
-void show_countdown(){
-  print_char(20, 72, countdown.hour / 10 + '0');                 // print hour
-  print_char(31, 72, countdown.hour % 10 + '0');
-
-  print_char(53, 72, countdown.minute / 10 + '0');               // print minute
-  print_char(64, 72, countdown.minute % 10 + '0');
-
-  print_char(86, 72, countdown.second / 10 + '0');               // print second
-  print_char(97, 72, countdown.second % 10 + '0');
-
-  if(countdown.second % 2 != 0){                                // print ':' with brink
-    print_char(42, 72, ' ');
-    print_char(75, 72, ' ');
-  }
-  else{
-    print_char(42, 72, ':');
-    print_char(75, 72, ':');
-  }
-}
-
-void alert_countdown(){                                 // func to action alert countdown end   
-  lcd.fillScreen(RED);
-  delay(100);
-  lcd.fillScreen(GREEN);
-  delay(100);
-  lcd.fillScreen(BLUE);
-  delay(100);
-  lcd.fillScreen(BLACK);
-}
-
-void reset_countdown(){                                 // func to reset coundown
-  countdown.hour = 0;
-  countdown.minute = 0;
-  countdown.second = 0;
-}
-
 /********************* Display *********************************/
-void print_char(unsigned x ,unsigned y ,char c){
-  lcd.fillRect(x,y,11,15,BLACK);
-  lcd.drawChar(x,y,c,RED,2);
+void print_char(unsigned x ,unsigned y ,char c ,int fontsize ,uint16_t color){
+  lcd.fillRect(x,y,fontsize*5,fontsize*7,BLACK);
+  lcd.drawChar(x,y,c,color,fontsize);
 }
-
 void clear_display(){
-  //lcd.fillScreen(BLACK);
-  lcd.fillRect(0,0,100,15,BLACK);
+  lcd.fillScreen(BLACK);
 }
