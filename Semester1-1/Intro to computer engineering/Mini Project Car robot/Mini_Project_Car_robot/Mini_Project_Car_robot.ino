@@ -1,111 +1,176 @@
+//Define Sensor
+#define SS1 A2
+#define SS2 A3
+#define SS3 A4
+#define SS4 A5
+#define SS5 A6
+
+//Define Control Motor
 #define ENA 10
 #define IN1 6
 #define IN2 7
-
 #define ENB 11
 #define IN3 8
 #define IN4 9
 
-#define LEFT 0
-#define RIGHT 1
-#define STRAIGHT 0
-#define BACK 1
-#define NORMAL 0
-#define REVERSE 1
-
+//-------------------------------------------------------------------- SETUP -------------------------------------------------------------------------------------------
 void setup(){
   pinMode(ENA,OUTPUT);
-  analogWrite(ENA,150);
   pinMode(IN1,OUTPUT);
   pinMode(IN2,OUTPUT);
 
   pinMode(ENB,OUTPUT);
-  analogWrite(ENB,160);
   pinMode(IN3,OUTPUT);
   pinMode(IN4,OUTPUT);
+
+  Serial.begin(9600);
 }
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------- Main -------------------------------------------------------------------------------------------
+//PID Control variable
+int sumError = 0;
+int preError = 0;
+int error = 0;
+int Kp = 25;
+int Kd = 20;
+int Ki = 0;
+
+int baseSpeed = 60;
+int maxSpeed = 150;
 
 void loop(){
-  fn_stop(500);
-  fn_go(STRAIGHT,1000);
+  //Sensor convert analog_value to digital_value
+  int digitalSS1 = getDigitalValue(analogRead(SS1));
+  int digitalSS2 = getDigitalValue(analogRead(SS2));
+  int digitalSS3 = getDigitalValue(analogRead(SS3));
+  int digitalSS4 = getDigitalValue(analogRead(SS4));
+  int digitalSS5 = getDigitalValue(analogRead(SS5));
+
+  //------ debug ------
+  ledDebug(digitalSS1, digitalSS2, digitalSS3, digitalSS4, digitalSS5);
+  //-------------------
   
-  fn_stop(500);
-  fn_spin(RIGHT,192);
+  //Calculate motor speed
+  error = getError(digitalSS1, digitalSS2, digitalSS3, digitalSS4, digitalSS5);
+  sumError += error;
   
-}
-//--------------------- User define function --------------------
-//------------- Car function ------------------------
-void fn_go(int mode ,int delayTime){
-  if(mode == STRAIGHT){
-    ctrl_Lmotor_on(NORMAL);
-    ctrl_Rmotor_on(NORMAL);
+  int adjustSpeed = Kp*error + Kd*(error - preError);
+  int leftMotorSpeed = baseSpeed + adjustSpeed;
+  int rightMotorSpeed = baseSpeed - adjustSpeed;
+
+  //limit motor speed
+  if(leftMotorSpeed > maxSpeed){
+    leftMotorSpeed = maxSpeed;
   }
-  else if(mode == BACK){
-    ctrl_Lmotor_on(REVERSE);
-    ctrl_Rmotor_on(REVERSE);
+  if(leftMotorSpeed < -maxSpeed){
+    leftMotorSpeed = -maxSpeed;
   }
-  
-  delay(delayTime);
-}
-void fn_turn(int mode ,int delayTime){
-  if(mode == LEFT){
-    ctrl_Lmotor_off();
-    ctrl_Rmotor_on(NORMAL);
+  if(rightMotorSpeed > maxSpeed){
+    rightMotorSpeed = maxSpeed;
   }
-  else if(mode == RIGHT){
-    ctrl_Lmotor_on(NORMAL);
-    ctrl_Rmotor_off();
-  }
-  
-  delay(delayTime);
-}
-void fn_spin(int mode ,int delayTime){
-  if(mode == LEFT){
-    ctrl_Lmotor_on(REVERSE);
-    ctrl_Rmotor_on(NORMAL);
-  }
-  else if(mode == RIGHT){
-    ctrl_Lmotor_on(NORMAL);
-    ctrl_Rmotor_on(REVERSE);
+  if(rightMotorSpeed < -maxSpeed){
+    rightMotorSpeed = -maxSpeed;
   }
 
-  delay(delayTime);
+  //Control motor
+  motorControlLeft(leftMotorSpeed);
+  motorControlRight(rightMotorSpeed);
+
+  //------
+  Serial.print(leftMotorSpeed);
+  Serial.print("....");
+  Serial.println(rightMotorSpeed);
+  //------
+
+  //Backup old error
+  preError = error;
 }
-void fn_stop(int delayTime){
-  ctrl_Lmotor_off();
-  ctrl_Rmotor_off();
-  
-  delay(delayTime);
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------- USER DEFINE -------------------------------------------------------------------------------------
+//------------------------------------------------ Calculation --------------------------------------------------------
+int getDigitalValue(int analog_value){
+  int indicator = 400;
+  if(analog_value >= indicator){
+      return 1; //white
+  }
+  else{
+    return 0;   //black
+  }
 }
-//---------------------------------------------------
-//-------------- Control moter ----------------------
-void ctrl_Lmotor_on(int mode){
-  if(mode == NORMAL){
+
+int getError(int value_1, int value_2, int value_3, int value_4, int value_5){
+  if(value_1 + value_2 + value_3 + value_4 + value_5 == 0){
+    return 0;
+  }
+  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 1){
+    return value_1*(-4) + value_2*(-2) + value_3*(0) + value_4*(2) + value_5*(4);
+  }
+  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 2){
+    return value_1*(-2) + value_2*(-1) + value_3*(0) + value_4*(1) + value_5*(2);
+  }
+  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 3){
+    return value_1*(-2) + value_2*(-1) + value_3*(0) + value_4*(1) + value_5*(2);
+  }
+  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 4){
+    return value_1*(-2) + value_2*(-1) + value_3*(0) + value_4*(1) + value_5*(2);
+  }
+  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 5){
+    return 0;
+  }
+}
+
+//------------------------------------------------ Motor Control ------------------------------------------------------
+void motorControlLeft(int left_motor_speed){
+  //forward
+  if(left_motor_speed >= 0){
+    analogWrite(ENA, left_motor_speed);
     digitalWrite(IN1,HIGH);
     digitalWrite(IN2,LOW);
   }
-  else if(mode == REVERSE){
+  //reverse
+  else{
+    analogWrite(ENA, -(left_motor_speed));
     digitalWrite(IN1,LOW);
     digitalWrite(IN2,HIGH);
   }
 }
-void ctrl_Lmotor_off(){
-  digitalWrite(IN1,LOW);
-  digitalWrite(IN2,LOW);
-}
-
-void ctrl_Rmotor_on(int mode){
-  if(mode == NORMAL){
+void motorControlRight(int right_motor_speed){
+  //forward
+  if(right_motor_speed >= 0){
+    analogWrite(ENB, right_motor_speed);
     digitalWrite(IN3,LOW);
     digitalWrite(IN4,HIGH);
   }
-  else if(mode == REVERSE){
+  //reverse
+  else{
+    analogWrite(ENB, -(right_motor_speed));
     digitalWrite(IN3,HIGH);
     digitalWrite(IN4,LOW);
   }
 }
-void ctrl_Rmotor_off(){
-  digitalWrite(IN3,LOW);
-  digitalWrite(IN4,LOW);
+//------------------------------------------------ Debug Show  --------------------------------------------------------
+void ledDebug(int value_1, int value_2, int value_3, int value_4, int value_5){
+  pinMode(3,OUTPUT);
+  pinMode(4,OUTPUT);
+  pinMode(5,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(13,OUTPUT);
+  
+  digitalWrite(3,value_1);
+  digitalWrite(4,value_2);
+  digitalWrite(5,value_3);
+  digitalWrite(12,value_4);
+  digitalWrite(13,value_5);
+
+  Serial.print(value_1);
+  Serial.print(" ");
+  Serial.print(value_2);
+  Serial.print(" ");
+  Serial.print(value_3);
+  Serial.print(" ");
+  Serial.print(value_4);
+  Serial.print(" ");
+  Serial.print(value_5);
+  Serial.print(" | ");
 }
-//---------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
