@@ -1,18 +1,15 @@
-//Define Sensor
-#define SS1 A2
-#define SS2 A3
-#define SS3 A4
-#define SS4 A5
-#define SS5 A6
+#define SENSOR_1 A2
+#define SENSOR_2 A3
+#define SENSOR_3 A4
+#define SENSOR_4 A5
+#define SENSOR_5 A6
 
-//Define Control Motor
 #define ENA 10
 #define IN1 6
 #define IN2 7
 #define ENB 11
 #define IN3 8
 #define IN4 9
-
 //-------------------------------------------------------------------- SETUP -------------------------------------------------------------------------------------------
 void setup(){
   pinMode(ENA,OUTPUT);
@@ -27,99 +24,205 @@ void setup(){
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------- Main -------------------------------------------------------------------------------------------
-//PID Control variable
-int sumError = 0;
-int preError = 0;
-int error = 0;
-int Kp = 25;
-int Kd = 20;
+//------------------------- PID Control variable ----------------------
+int baseSpeed = 60;
+int maxSpeed = 200;
+
+int Kp = 20;
+int Kd = 15;
 int Ki = 0;
 
-int baseSpeed = 60;
-int maxSpeed = 150;
+int error = 0;
+int preError = 0;
+int sumError = 0;
+//---------------------------------------------------------------------
+//------------------------- Sensor variable ---------------------------
+int sensorAnalogValue[5];
+int sensorDigitalValue[5];
+//---------------------------------------------------------------------
+//------------------------- Normal variable ---------------------------
 
+//---------------------------------------------------------------------
+//------------------------- Main Loop ---------------------------------
 void loop(){
-  //Sensor convert analog_value to digital_value
-  int digitalSS1 = getDigitalValue(analogRead(SS1));
-  int digitalSS2 = getDigitalValue(analogRead(SS2));
-  int digitalSS3 = getDigitalValue(analogRead(SS3));
-  int digitalSS4 = getDigitalValue(analogRead(SS4));
-  int digitalSS5 = getDigitalValue(analogRead(SS5));
+  //----- get sensor value -----------
+  readSensorValue();
 
-  //------ debug ------
-  ledDebug(digitalSS1, digitalSS2, digitalSS3, digitalSS4, digitalSS5);
-  //-------------------
+  //----- Show Led Detect ------------
+  ledDebug(sensorDigitalValue[0],sensorDigitalValue[1],sensorDigitalValue[2],sensorDigitalValue[3],sensorDigitalValue[4]);
   
-  //Calculate motor speed
-  error = getError(digitalSS1, digitalSS2, digitalSS3, digitalSS4, digitalSS5);
-  sumError += error;
-  
-  int adjustSpeed = Kp*error + Kd*(error - preError);
-  int leftMotorSpeed = baseSpeed + adjustSpeed;
-  int rightMotorSpeed = baseSpeed - adjustSpeed;
+  //----- Get error ------------------
+  error = getError(sensorDigitalValue[0],sensorDigitalValue[1],sensorDigitalValue[2],sensorDigitalValue[3],sensorDigitalValue[4]); 
 
-  //limit motor speed
-  if(leftMotorSpeed > maxSpeed){
-    leftMotorSpeed = maxSpeed;
+  //-----  Action --------------------
+  if(error == 100){
+    motorControlLeft(0);
+    motorControlRight(70);
   }
-  if(leftMotorSpeed < -maxSpeed){
-    leftMotorSpeed = -maxSpeed;
+  else if(error == -10){
+    motorControlLeft(-70);
+    motorControlRight(120);
   }
-  if(rightMotorSpeed > maxSpeed){
-    rightMotorSpeed = maxSpeed;
-  }
-  if(rightMotorSpeed < -maxSpeed){
-    rightMotorSpeed = -maxSpeed;
-  }
-
-  //Control motor
-  motorControlLeft(leftMotorSpeed);
-  motorControlRight(rightMotorSpeed);
-
-  //------
-  Serial.print(leftMotorSpeed);
-  Serial.print("....");
-  Serial.println(rightMotorSpeed);
-  //------
-
-  //Backup old error
-  preError = error;
-}
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------- USER DEFINE -------------------------------------------------------------------------------------
-//------------------------------------------------ Calculation --------------------------------------------------------
-int getDigitalValue(int analog_value){
-  int indicator = 400;
-  if(analog_value >= indicator){
-      return 1; //white
+  else if(error == 10){
+    motorControlLeft(120);
+    motorControlRight(-70);
   }
   else{
-    return 0;   //black
+    //adjust motor speed
+    int adjustSpeed;
+    if(preError != 100 && preError != 10 && preError !=-10){
+       adjustSpeed = Kp*error + Kd*(error - preError);
+    }
+    else{
+      adjustSpeed = Kp*error;
+    }
+    int leftMotorSpeed = baseSpeed + adjustSpeed;
+    int rightMotorSpeed = baseSpeed - adjustSpeed;
+
+    //limit motor speed
+    if(leftMotorSpeed > maxSpeed){
+      leftMotorSpeed = maxSpeed;
+    }
+    if(leftMotorSpeed < -maxSpeed){
+      leftMotorSpeed = -maxSpeed;
+    }
+    if(rightMotorSpeed > maxSpeed){
+      rightMotorSpeed = maxSpeed;
+    }
+    if(rightMotorSpeed < -maxSpeed){
+      rightMotorSpeed = -maxSpeed;
+    }
+
+    //Control motor
+    motorControlLeft(leftMotorSpeed);
+    motorControlRight(rightMotorSpeed);
+  }
+
+  //----- remember previous error -----
+  preError = error;
+  if(error!=10 || error!=-10 ||error!=100){
+    //sumation error
+    sumError += error;
   }
 }
+//------------------------- Main Loop ---------------------------------
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------- USER DEFINE -------------------------------------------------------------------------------------
+//------------------------- Sensor get value --------------------------
+void readSensorValue(){
+  for(int i=0;i<5;i++){
+    sensorAnalogValue[i] = getAnalogValue(SENSOR_1+i);
+    sensorDigitalValue[i] = getDigitalValue(sensorAnalogValue[i]);
+    Serial.print(sensorAnalogValue[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+}
 
+int getAnalogValue(int pin){
+  int sensor_analog_value = 0;
+  int buff_size = 40 ;
+  for(int i=0;i<buff_size;i++){
+    sensor_analog_value += analogRead(pin);
+  }
+  
+  return sensor_analog_value/buff_size; 
+}
+int getDigitalValue(int sensor_analog_value){
+  int indicator = 295;
+  if(sensor_analog_value >= indicator){
+    return 1;  //white
+  }
+  else{
+    return 0;  //black
+  }
+}
+//---------------------------------------------------------------------
+//------------------------- Error get value ---------------------------
 int getError(int value_1, int value_2, int value_3, int value_4, int value_5){
-  if(value_1 + value_2 + value_3 + value_4 + value_5 == 0){
-    return 0;
-  }
-  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 1){
-    return value_1*(-4) + value_2*(-2) + value_3*(0) + value_4*(2) + value_5*(4);
-  }
-  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 2){
-    return value_1*(-2) + value_2*(-1) + value_3*(0) + value_4*(1) + value_5*(2);
-  }
-  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 3){
-    return value_1*(-2) + value_2*(-1) + value_3*(0) + value_4*(1) + value_5*(2);
-  }
-  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 4){
-    return value_1*(-2) + value_2*(-1) + value_3*(0) + value_4*(1) + value_5*(2);
-  }
-  else if(value_1 + value_2 + value_3 + value_4 + value_5 == 5){
-    return 0;
-  }
-}
+    //detect 5 sensors
+    if(value_1 == 1 && value_2 == 1 && value_3 == 1 && value_4 == 1 && value_5 == 1){
+      return preError;
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 0 && value_4 == 0 && value_5 == 0){ 
+      return preError;
+    }
 
-//------------------------------------------------ Motor Control ------------------------------------------------------
+    //detect 4 sensors
+    else if(value_1 == 1 && value_2 == 1 && value_3 == 1 && value_4 == 1 && value_5 == 0){
+      if(preError == 10){
+        return preError;
+      }
+      return -10; 
+    }
+    if(value_1 == 0 && value_2 == 1 && value_3 == 1 && value_4 == 1 && value_5 == 1){
+      if(preError == -10){
+        return preError;
+      }
+      return 10; 
+    }
+
+    //detect 3 sensors
+    else if(value_1 == 1 && value_2 == 1 && value_3 == 1 && value_4 == 0 && value_5 == 0){
+      if(preError == -10 || preError == 10){
+        return preError;
+      }
+      return -1; 
+    }
+    else if(value_1 == 0 && value_2 == 1 && value_3 == 1 && value_4 == 1 && value_5 == 0){
+      return 0; 
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 1 && value_4 == 1 && value_5 == 1){
+      if(preError == -10 || preError == 10){
+        return preError;
+      }
+      return 1; 
+    }
+    
+    //detect 2 sensors
+    else if(value_1 == 1 && value_2 == 1 && value_3 == 0 && value_4 == 0 && value_5 == 0){
+      if(preError == -10 || preError == 10){
+        return preError;
+      }
+      return -3; 
+    }
+    else if(value_1 == 0 && value_2 == 1 && value_3 == 1 && value_4 == 0 && value_5 == 0){
+      return -1; 
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 1 && value_4 == 1 && value_5 == 0){
+      return 1; 
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 0 && value_4 == 1 && value_5 == 1){
+      if(preError == -10 || preError == 10){
+        return preError;
+      }
+      return 3; 
+    }
+  
+    //detect 1 sensor
+    else if(value_1 == 1 && value_2 == 0 && value_3 == 0 && value_4 == 0 && value_5 == 0){
+      return -4; 
+    }
+    else if(value_1 == 0 && value_2 == 1 && value_3 == 0 && value_4 == 0 && value_5 == 0){
+      return -1; 
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 1 && value_4 == 0 && value_5 == 0){
+      return 0; 
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 0 && value_4 == 1 && value_5 == 0){
+      return 1; 
+    }
+    else if(value_1 == 0 && value_2 == 0 && value_3 == 0 && value_4 == 0 && value_5 == 1){
+      return 4; 
+    }
+
+    //default case
+    else {
+      return preError;
+    }
+}
+//---------------------------------------------------------------------
+//------------------------- Motor Control -----------------------------
 void motorControlLeft(int left_motor_speed){
   //forward
   if(left_motor_speed >= 0){
@@ -148,7 +251,8 @@ void motorControlRight(int right_motor_speed){
     digitalWrite(IN4,LOW);
   }
 }
-//------------------------------------------------ Debug Show  --------------------------------------------------------
+//---------------------------------------------------------------------
+//------------------------- Led Debug Show  ---------------------------
 void ledDebug(int value_1, int value_2, int value_3, int value_4, int value_5){
   pinMode(3,OUTPUT);
   pinMode(4,OUTPUT);
@@ -161,16 +265,6 @@ void ledDebug(int value_1, int value_2, int value_3, int value_4, int value_5){
   digitalWrite(5,value_3);
   digitalWrite(12,value_4);
   digitalWrite(13,value_5);
-
-  Serial.print(value_1);
-  Serial.print(" ");
-  Serial.print(value_2);
-  Serial.print(" ");
-  Serial.print(value_3);
-  Serial.print(" ");
-  Serial.print(value_4);
-  Serial.print(" ");
-  Serial.print(value_5);
-  Serial.print(" | ");
 }
+//---------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------
