@@ -29,7 +29,7 @@ int baseSpeed = 60;
 int maxSpeed = 200;
 
 int Kp = 20;
-int Kd = 15;
+int Kd = 18;
 int Ki = 0;
 
 int error = 0;
@@ -55,17 +55,24 @@ void loop(){
   error = getError(sensorDigitalValue[0],sensorDigitalValue[1],sensorDigitalValue[2],sensorDigitalValue[3],sensorDigitalValue[4]); 
 
   //-----  Action --------------------
-  if(error == 100){
-    motorControlLeft(0);
-    motorControlRight(70);
+  if(error == 0){
+    baseSpeed = 80;
+  }
+  else{
+    baseSpeed = 60;
+  }
+  if(error == 100 && preError == 100){
+    motorControlLeft(-70);
+    motorControlRight(-70);
+    delay(300);
   }
   else if(error == -10){
-    motorControlLeft(-70);
-    motorControlRight(120);
+    motorControlLeft(-30);
+    motorControlRight(100);
   }
   else if(error == 10){
-    motorControlLeft(120);
-    motorControlRight(-70);
+    motorControlLeft(100);
+    motorControlRight(-30);
   }
   else{
     //adjust motor speed
@@ -129,7 +136,7 @@ int getAnalogValue(int pin){
   return sensor_analog_value/buff_size; 
 }
 int getDigitalValue(int sensor_analog_value){
-  int indicator = 295;
+  int indicator = 300;
   if(sensor_analog_value >= indicator){
     return 1;  //white
   }
@@ -137,6 +144,7 @@ int getDigitalValue(int sensor_analog_value){
     return 0;  //black
   }
 }
+
 //---------------------------------------------------------------------
 //------------------------- Error get value ---------------------------
 int getError(int value_1, int value_2, int value_3, int value_4, int value_5){
@@ -145,7 +153,7 @@ int getError(int value_1, int value_2, int value_3, int value_4, int value_5){
       return preError;
     }
     else if(value_1 == 0 && value_2 == 0 && value_3 == 0 && value_4 == 0 && value_5 == 0){ 
-      return preError;
+      return 100;
     }
 
     //detect 4 sensors
