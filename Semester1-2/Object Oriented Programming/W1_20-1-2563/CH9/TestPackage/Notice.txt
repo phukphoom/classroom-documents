@@ -1,0 +1,5 @@
+!!!!!! You must compile TestCircle.java in this directory layer !!!!!!
+
+Compile by this command 
+	=> javac Shape/TestCircle.java 
+for test the programe
