@@ -1,6 +1,7 @@
 import java.util.Date;
 
 public class Account {
+    //Data Field
     private int id;
     private double balance;
     private double annualInterestRate = 0;

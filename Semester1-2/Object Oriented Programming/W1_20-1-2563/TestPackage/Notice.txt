@@ -2,4 +2,4 @@
 
 Compile by this command 
 	=> javac Shape/TestCircle.java 
-for test the programe
+for test the program
