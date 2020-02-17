@@ -13,7 +13,6 @@ public class CheckingAccount extends Account{
             System.out.println(" => !! Not enough money !!");
         }
     }
-
     public void deposite (double amount){
         if(this.getBalance()+amount>=20){
             super.deposite(amount-20);

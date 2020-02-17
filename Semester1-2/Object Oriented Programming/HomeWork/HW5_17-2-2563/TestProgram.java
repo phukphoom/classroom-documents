@@ -21,7 +21,7 @@ public class TestProgram{
         System.out.println("\n======================================================================================================================================");
 
         System.out.println("======================================================================================================================================\n");
-        PriviledgedAccount priviledgedAccount = new PriviledgedAccount("Priviled", "1122", 1000 ,1.5);
+        PriviledgedAccount priviledgedAccount = new PriviledgedAccount("Priviled", "1144", 1000 ,1.5);
         System.out.println(priviledgedAccount.toString() + "\n");
         priviledgedAccount.withdraw(200000);
         priviledgedAccount.withdraw(1100);

@@ -17,10 +17,6 @@ public class Transaction{
         this.description = description;
     }
 
-    //Setter
-
-    //Getter
-
     //Method
     public String toString(){
         return " => type : " + this.type + "\tamount = " + this.amount + "\tbalance = " + this.balance + "\tdescription : " + this.description + "\tdate : " + this.date;
