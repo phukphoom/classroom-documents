@@ -1,10 +1,8 @@
-# **ClassDocs**
-	
-This respository created for keep my code that implemented in computer engineering classroom.
-
-### **Class Subject in Semester[1-1]**
+# **Repository - ClassDocs**
+`Repository` สำหรับเก็บ `Source Code` ที่เขียนขึ้นในชั้นเรียน `Computer Engineering @KMITL` 
+### **วิชาที่เรียนในชั้นปี [1-1]**
 - Intro to computer engineering
 - Programming fundamental
 
-### **Class Subject in Semester[1-2]**
+### **วิชาที่เรียนในชั้นปี [1-2]**
 - Object Oriented Programming
