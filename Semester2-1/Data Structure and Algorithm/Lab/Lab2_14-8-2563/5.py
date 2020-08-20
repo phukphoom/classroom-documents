@@ -32,6 +32,7 @@ class TorKhamGame:
                         self.wordList.append(word)
                         print("'{}' -> {}".format(word, self.wordList))
                     else:
+                        print("'{}' -> game over".format(word))
                         self.endGame = True
 
             elif option == 'R':
