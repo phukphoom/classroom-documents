@@ -8,7 +8,6 @@ else:
     dataList = list(map(int,textInput[0].split()))
     countDict = {}
     for item in dataList:
-        pass
         if item not in countDict.keys():
             countDict[item] = 1
         else:
