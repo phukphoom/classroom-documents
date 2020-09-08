@@ -12,8 +12,11 @@ class Queue:
     def deQueue(self):
         return self.items.pop(0)
 
-    def peek(self):
+    def front(self):
         return self.items[0]
+
+    def raer(self):
+        return self.items[-1]
 
     def size(self):
         return len(self.items)
@@ -24,22 +27,22 @@ class Queue:
 ### Function ###
 def encodemsg(string_queue, code_queue):
     for i in range(string_queue.size()):
-        if string_queue.peek().islower():
-            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('a')+code_queue.peek())%26 + ord('a')))
+        if string_queue.front().islower():
+            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('a')+code_queue.front())%26 + ord('a')))
 
-        elif string_queue.peek().isupper():
-            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('A')+code_queue.peek())%26 + ord('A')))
+        elif string_queue.front().isupper():
+            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('A')+code_queue.front())%26 + ord('A')))
 
         code_queue.enQueue(code_queue.deQueue())
     print('Encode message is :  {}'.format(string_queue.items))
 
 def decodemsg(string_queue, code_queue):
     for i in range(string_queue.size()):
-        if string_queue.peek().islower():
-            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('a')-code_queue.peek())%26 + ord('a')))
+        if string_queue.front().islower():
+            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('a')-code_queue.front())%26 + ord('a')))
 
-        elif string_queue.peek().isupper():
-            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('A')-code_queue.peek())%26 + ord('A')))
+        elif string_queue.front().isupper():
+            string_queue.enQueue(chr((ord(string_queue.deQueue())-ord('A')-code_queue.front())%26 + ord('A')))
 
         code_queue.enQueue(code_queue.deQueue())
     print('Decode message is :  {}'.format(string_queue.items))

@@ -12,7 +12,7 @@ class Stack:
     def pop(self):
         return self.items.pop()
 
-    def peek(self):
+    def top(self):
         return self.items[-1]
 
     def size(self):
@@ -54,7 +54,7 @@ elif option == 'depart':
     else:
         if parkingStack.isHave(car):
             tempStack = Stack()
-            while parkingStack.peek() != car:
+            while parkingStack.top() != car:
                 tempStack.push(parkingStack.pop())
             parkingStack.pop()
             while not tempStack.isEmpty():

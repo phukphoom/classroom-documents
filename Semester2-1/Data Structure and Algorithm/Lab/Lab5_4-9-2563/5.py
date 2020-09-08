@@ -12,7 +12,7 @@ class Stack:
     def pop(self):
         return self.items.pop()
 
-    def peek(self):
+    def top(self):
         return self.items[-1]
 
     def size(self):
@@ -34,8 +34,11 @@ class Queue:
     def deQueue(self):
         return self.items.pop(0)
 
-    def peek(self):
+    def front(self):
         return self.items[0]
+    
+    def raer(self):
+        return self.items[-1]
 
     def size(self):
         return len(self.items)
@@ -63,7 +66,7 @@ while not blueStorage.isEmpty():
     if tempQueue.isEmpty():
         tempQueue.enQueue(blueStorage.pop())
     else:
-        if tempQueue.peek() == blueStorage.peek():
+        if tempQueue.front() == blueStorage.top():
             tempQueue.enQueue(blueStorage.pop())
             if tempQueue.size() == 3:
                 blueAlreadyBomb.enQueue(tempQueue.deQueue())
@@ -91,11 +94,11 @@ while not redStorage.isEmpty():
     if tempQueue.isEmpty():
         tempQueue.enQueue(redStorage.deQueue())
     else:
-        if tempQueue.peek() == redStorage.peek():
+        if tempQueue.front() == redStorage.front():
             tempQueue.enQueue(redStorage.deQueue())
             if tempQueue.size() == 3:
                 if not blueAlreadyBomb.isEmpty():
-                    if tempQueue.peek() == blueAlreadyBomb.peek():
+                    if tempQueue.front() == blueAlreadyBomb.front():
                         tempQueue.deQueue()
                         tempQueue.deQueue()
                         blueAlreadyBomb.deQueue()

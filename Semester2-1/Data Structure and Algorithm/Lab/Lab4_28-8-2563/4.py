@@ -12,7 +12,7 @@ class Stack:
     def pop(self):
         return self.items.pop()
 
-    def peek(self):
+    def top(self):
         return self.items[-1]
 
     def size(self):
@@ -33,10 +33,10 @@ for command in commandList:
         if treeHeightStack.isEmpty():
             treeHeightStack.push(treeHeight)
         else:
-            if treeHeight<treeHeightStack.peek():
+            if treeHeight<treeHeightStack.top():
                 treeHeightStack.push(treeHeight)
             else:
-                while not treeHeightStack.isEmpty() and treeHeight >= treeHeightStack.peek():
+                while not treeHeightStack.isEmpty() and treeHeight >= treeHeightStack.top():
                     treeHeightStack.pop()
                 treeHeightStack.push(treeHeight)
         

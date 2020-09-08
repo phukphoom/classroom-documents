@@ -12,7 +12,7 @@ class Stack:
     def pop(self):
         return self.items.pop()
 
-    def peek(self):
+    def top(self):
         return self.items[-1]
 
     def size(self):
@@ -31,7 +31,7 @@ for item in inputString:
     if colorStack.isEmpty():
         colorStack.push([item,1])
     else:
-        topItem,topItamCount = colorStack.peek()
+        topItem,topItamCount = colorStack.top()
         if item == topItem:
             if topItamCount == 2:
                 for i in range(2):

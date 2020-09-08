@@ -5,19 +5,19 @@ class Stack:
             self.items = []
         else:
             self.items = items
-
+    
     def push(self,item):
         self.items.append(item)
-
+    
     def pop(self):
         return self.items.pop()
-
-    def peek(self):
+    
+    def top(self):
         return self.items[-1]
-
+    
     def size(self):
-        return len(self.items)
-        
+        return len(self.items)  
+    
     def isEmpty(self):
         return len(self.items) == 0
 
@@ -32,6 +32,6 @@ for item in inputDataNest:
     if plateStack.isEmpty():
         plateStack.push(item)
     else:
-        while not plateStack.isEmpty() and item[0] > plateStack.peek()[0] :
+        while not plateStack.isEmpty() and item[0] > plateStack.top()[0] :
             print(plateStack.pop()[1])
         plateStack.push(item)

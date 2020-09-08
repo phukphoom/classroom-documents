@@ -5,14 +5,19 @@ class Stack:
             self.items = []
         else:
             self.items = items
+
     def push(self,item):
         self.items.append(item)
+
     def pop(self):
         return self.items.pop()
-    def peek(self):
+
+    def top(self):
         return self.items[-1]
+
     def size(self):
         return len(self.items)
+        
     def isEmpty(self):
         return len(self.items) == 0
 
@@ -24,11 +29,11 @@ for item in inputString:
     if(bracketStack.isEmpty()):
         bracketStack.push(item)
     else:
-        if bracketStack.peek()=='(' and item == ')':
+        if bracketStack.top()=='(' and item == ')':
             bracketStack.pop()
-        elif bracketStack.peek()=='{' and item == '}':
+        elif bracketStack.top()=='{' and item == '}':
             bracketStack.pop()
-        elif bracketStack.peek()=='[' and item == ']':
+        elif bracketStack.top()=='[' and item == ']':
             bracketStack.pop()
         else:
             bracketStack.push(item)
