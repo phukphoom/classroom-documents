@@ -48,9 +48,11 @@ class DoublyLinkedList:
     def insert(self, pos, data):
         if pos >= 0 and pos <= self.size:
             current = self.head
-            for i in range(pos+1):
+            for i in range(pos):
                 current = current.next
-            current.prev.next = Node(data, current.prev,current)
+            newNode = Node(data, current, current.next)
+            current.next.prev = newNode
+            current.next = newNode
             self.size += 1
         else:
             print(">> Can't insert! You inserted at wrong position.")
@@ -66,11 +68,11 @@ class DoublyLinkedList:
     def delete(self, pos):
         try:
             current = self.head
-            for i in range(pos+1):
+            for i in range(pos):
                 current = current.next
-            current.prev.next = current.next
+            current.next.next.prev = current
+            current.next = current.next.next
             self.size -= 1
-
         except AttributeError:
             print(">> Can't delete! You deleted at wrong position.")
 
@@ -80,6 +82,7 @@ class DoublyLinkedList:
             while current.data != data:
                 current = current.next
             current.prev.next = current.next
+            current.next.prev = current.prev
             self.size -= 1
         except AttributeError:
             print(">> Can't remove! {} is not in List.".format(data))

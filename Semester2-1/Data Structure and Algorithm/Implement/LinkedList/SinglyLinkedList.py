@@ -32,7 +32,7 @@ class SinglyLinkedList:
         self.size += 1
 
     def insert(self, pos, data):
-        if pos >= 0 and pos < self.size:
+        if pos >= 0 and pos <= self.size:
             current = self.head
             previous = None
             for i in range(pos+1):
