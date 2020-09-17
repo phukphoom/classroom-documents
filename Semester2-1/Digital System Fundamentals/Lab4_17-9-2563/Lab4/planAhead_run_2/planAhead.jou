@@ -1,0 +1,33 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7
+# Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
+# Start of session at: Thu Sep 17 10:48:19 2020
+# Process ID: 12600
+# Log file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab4_17-9-2563/Lab4/planAhead_run_2/planAhead.log
+# Journal file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab4_17-9-2563/Lab4/planAhead_run_2/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab4_17-9-2563/Lab4/pa.fromHdl.tcl}
+update_compile_order -fileset sim_1
+set_property package_pin "" [get_ports [list  D_SW6]]
+set_property package_pin "" [get_ports [list  B_SW4]]
+set_property package_pin "" [get_ports [list  D_SW6]]
+startgroup
+set_property package_pin P58 [get_ports B_SW4]
+endgroup
+startgroup
+set_property package_pin P56 [get_ports D_SW6]
+endgroup
+startgroup
+set_property package_pin P55 [get_ports E_SW7]
+endgroup
+startgroup
+set_property package_pin P59 [get_ports H_SW3]
+endgroup
+startgroup
+set_property package_pin P83 [get_ports L0_OUTPUT]
+endgroup
+startgroup
+set_property package_pin P57 [get_ports S_SW5]
+endgroup
+save_constraints

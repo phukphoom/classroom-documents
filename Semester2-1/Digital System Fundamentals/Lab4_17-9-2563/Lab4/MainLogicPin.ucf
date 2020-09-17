@@ -1,0 +1,8 @@
+# PlanAhead Generated physical constraints 
+
+NET "B_SW4_P58" LOC = P58;
+NET "BUZZER_P83" LOC = P83;
+NET "D_SW6_P56" LOC = P56;
+NET "E_SW7_P55" LOC = P55;
+NET "H_SW3_P59" LOC = P59;
+NET "S_SW5_P57" LOC = P57;

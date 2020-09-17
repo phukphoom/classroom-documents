@@ -1,0 +1,13 @@
+//! **************************************************************************
+// Written by: Map P.20131013 on Thu Sep 17 11:34:36 2020
+//! **************************************************************************
+
+SCHEMATIC START;
+COMP "BUZZER_P83" LOCATE = SITE "P83" LEVEL 1;
+COMP "B_SW4_P58" LOCATE = SITE "P58" LEVEL 1;
+COMP "E_SW7_P55" LOCATE = SITE "P55" LEVEL 1;
+COMP "H_SW3_P59" LOCATE = SITE "P59" LEVEL 1;
+COMP "S_SW5_P57" LOCATE = SITE "P57" LEVEL 1;
+COMP "D_SW6_P56" LOCATE = SITE "P56" LEVEL 1;
+SCHEMATIC END;
+
