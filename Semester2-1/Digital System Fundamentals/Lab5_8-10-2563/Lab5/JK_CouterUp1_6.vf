@@ -1,0 +1,184 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 14.7
+//  \   \         Application : sch2hdl
+//  /   /         Filename : JK_CouterUp1_6.vf
+// /___/   /\     Timestamp : 10/08/2020 19:11:35
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: sch2hdl -intstyle ise -family spartan6 -verilog "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab5_8-10-2563/Lab5/JK_CouterUp1_6.vf" -w "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab5_8-10-2563/Lab5/JK_CouterUp1_6.sch"
+//Design Name: JK_CouterUp1_6
+//Device: spartan6
+//Purpose:
+//    This verilog netlist is translated from an ECS schematic.It can be 
+//    synthesized and simulated, but it should not be modified. 
+//
+`timescale 100 ps / 10 ps
+
+module FJKC_HXILINX_JK_CouterUp1_6(Q, C, CLR, J, K);
+   
+   output             Q;
+
+   input 	      C;	
+   input 	      CLR;	
+   input              J;
+   input              K;
+   
+   parameter INIT = 1'b0;
+   reg                Q = INIT;
+
+
+   always @(posedge C or posedge CLR)
+     begin
+	if (CLR)
+	  Q <= 1'b0;
+	else
+        begin
+           if(!J)
+           begin
+              if(K)
+              Q <= 1'b0;
+           end
+           else
+           begin
+              if(!K)
+              Q <= 1'b1;
+              else 
+              Q <= !Q;
+           end
+        end
+     end
+   
+endmodule
+`timescale 1ns / 1ps
+
+module JK_CouterUp1_6(PB1_P45, 
+                      A_L0_P82, 
+                      a_P41, 
+                      B_L1_P81, 
+                      b_P40, 
+                      common1_P43, 
+                      common2_P33, 
+                      common3_P30, 
+                      C_L2_P80, 
+                      c_P35, 
+                      d_P34, 
+                      e_P32, 
+                      f_P29, 
+                      g_P27, 
+                      p_P26);
+
+    input PB1_P45;
+   output A_L0_P82;
+   output a_P41;
+   output B_L1_P81;
+   output b_P40;
+   output common1_P43;
+   output common2_P33;
+   output common3_P30;
+   output C_L2_P80;
+   output c_P35;
+   output d_P34;
+   output e_P32;
+   output f_P29;
+   output g_P27;
+   output p_P26;
+   
+   wire XLXN_76;
+   wire XLXN_79;
+   wire XLXN_88;
+   wire XLXN_89;
+   wire XLXN_138;
+   wire XLXN_151;
+   wire XLXN_153;
+   wire XLXN_225;
+   wire XLXN_228;
+   wire XLXN_239;
+   wire XLXN_246;
+   wire XLXN_252;
+   wire A_L0_P82_DUMMY;
+   wire B_L1_P81_DUMMY;
+   wire C_L2_P80_DUMMY;
+   
+   assign A_L0_P82 = A_L0_P82_DUMMY;
+   assign B_L1_P81 = B_L1_P81_DUMMY;
+   assign C_L2_P80 = C_L2_P80_DUMMY;
+   AND2  XLXI_47 (.I0(B_L1_P81_DUMMY), 
+                 .I1(A_L0_P82_DUMMY), 
+                 .O(XLXN_76));
+   AND2B1  XLXI_49 (.I0(A_L0_P82_DUMMY), 
+                   .I1(B_L1_P81_DUMMY), 
+                   .O(XLXN_79));
+   OR2  XLXI_50 (.I0(XLXN_88), 
+                .I1(A_L0_P82_DUMMY), 
+                .O(XLXN_89));
+   AND2  XLXI_51 (.I0(B_L1_P81_DUMMY), 
+                 .I1(C_L2_P80_DUMMY), 
+                 .O(XLXN_88));
+   (* HU_SET = "XLXI_72_0" *) 
+   FJKC_HXILINX_JK_CouterUp1_6  XLXI_72 (.C(XLXN_138), 
+                                        .CLR(XLXN_151), 
+                                        .J(XLXN_76), 
+                                        .K(XLXN_79), 
+                                        .Q(C_L2_P80_DUMMY));
+   (* HU_SET = "XLXI_73_1" *) 
+   FJKC_HXILINX_JK_CouterUp1_6  XLXI_73 (.C(XLXN_138), 
+                                        .CLR(XLXN_151), 
+                                        .J(XLXN_153), 
+                                        .K(XLXN_153), 
+                                        .Q(A_L0_P82_DUMMY));
+   (* HU_SET = "XLXI_74_2" *) 
+   FJKC_HXILINX_JK_CouterUp1_6  XLXI_74 (.C(XLXN_138), 
+                                        .CLR(XLXN_151), 
+                                        .J(A_L0_P82_DUMMY), 
+                                        .K(XLXN_89), 
+                                        .Q(B_L1_P81_DUMMY));
+   AND2  XLXI_77 (.I0(PB1_P45), 
+                 .I1(XLXN_153), 
+                 .O(XLXN_138));
+   VCC  XLXI_78 (.P(XLXN_153));
+   GND  XLXI_79 (.G(XLXN_151));
+   GND  XLXI_125 (.G(p_P26));
+   VCC  XLXI_126 (.P(common3_P30));
+   VCC  XLXI_127 (.P(common2_P33));
+   VCC  XLXI_128 (.P(common1_P43));
+   OR2  XLXI_130 (.I0(XLXN_225), 
+                 .I1(XLXN_228), 
+                 .O(a_P41));
+   AND2  XLXI_131 (.I0(A_L0_P82_DUMMY), 
+                  .I1(C_L2_P80_DUMMY), 
+                  .O(XLXN_225));
+   AND2B1  XLXI_133 (.I0(C_L2_P80_DUMMY), 
+                    .I1(B_L1_P81_DUMMY), 
+                    .O(XLXN_228));
+   OR2  XLXI_143 (.I0(A_L0_P82_DUMMY), 
+                 .I1(C_L2_P80_DUMMY), 
+                 .O(c_P35));
+   OR2  XLXI_144 (.I0(B_L1_P81_DUMMY), 
+                 .I1(XLXN_246), 
+                 .O(d_P34));
+   AND2  XLXI_145 (.I0(C_L2_P80_DUMMY), 
+                  .I1(A_L0_P82_DUMMY), 
+                  .O(XLXN_246));
+   AND2B1  XLXI_150 (.I0(A_L0_P82_DUMMY), 
+                    .I1(B_L1_P81_DUMMY), 
+                    .O(e_P32));
+   OR2  XLXI_153 (.I0(B_L1_P81_DUMMY), 
+                 .I1(C_L2_P80_DUMMY), 
+                 .O(g_P27));
+   INV  XLXI_156 (.I(XLXN_252), 
+                 .O(f_P29));
+   INV  XLXI_157 (.I(C_L2_P80_DUMMY), 
+                 .O(XLXN_252));
+   OR2B1  XLXI_192 (.I0(C_L2_P80_DUMMY), 
+                   .I1(XLXN_239), 
+                   .O(b_P40));
+   AND2B2  XLXI_193 (.I0(B_L1_P81_DUMMY), 
+                    .I1(A_L0_P82_DUMMY), 
+                    .O(XLXN_239));
+endmodule

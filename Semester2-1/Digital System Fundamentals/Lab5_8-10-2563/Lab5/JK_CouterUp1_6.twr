@@ -1,0 +1,71 @@
+--------------------------------------------------------------------------------
+Release 14.7 Trace  (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 3
+-n 3 -fastpaths -xml JK_CouterUp1_6.twx JK_CouterUp1_6.ncd -o
+JK_CouterUp1_6.twr JK_CouterUp1_6.pcf -ucf AddPin.ucf
+
+Design file:              JK_CouterUp1_6.ncd
+Physical constraint file: JK_CouterUp1_6.pcf
+Device,package,speed:     xc6slx9,tqg144,C,-3 (PRODUCTION 1.23 2013-10-13)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Clock PB1_P45 to Pad
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+            |Max (slowest) clk|  Process   |Min (fastest) clk|  Process   |                  | Clock  |
+Destination |  (edge) to PAD  |   Corner   |  (edge) to PAD  |   Corner   |Internal Clock(s) | Phase  |
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+A_L0_P82    |         8.691(R)|      SLOW  |         5.090(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+B_L1_P81    |         9.150(R)|      SLOW  |         5.506(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+C_L2_P80    |         9.411(R)|      SLOW  |         5.590(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+a_P41       |         8.444(R)|      SLOW  |         4.511(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+b_P40       |         8.543(R)|      SLOW  |         4.452(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+c_P35       |         7.881(R)|      SLOW  |         4.399(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+d_P34       |         8.137(R)|      SLOW  |         4.341(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+e_P32       |         7.801(R)|      SLOW  |         4.252(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+f_P29       |         7.665(R)|      SLOW  |         4.397(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+g_P27       |         8.799(R)|      SLOW  |         4.884(R)|      FAST  |PB1_P45_IBUF      |   0.000|
+------------+-----------------+------------+-----------------+------------+------------------+--------+
+
+Clock to Setup on destination clock PB1_P45
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+PB1_P45        |    2.500|         |         |         |
+---------------+---------+---------+---------+---------+
+
+
+Analysis completed Thu Oct 08 19:12:02 2020 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 4572 MB
+
+
+

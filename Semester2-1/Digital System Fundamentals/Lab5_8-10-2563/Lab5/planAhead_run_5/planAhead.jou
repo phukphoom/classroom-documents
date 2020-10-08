@@ -1,0 +1,51 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7
+# Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
+# Start of session at: Thu Oct 08 16:00:30 2020
+# Process ID: 3380
+# Log file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab5_8-10-2563/Lab5/planAhead_run_5/planAhead.log
+# Journal file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab5_8-10-2563/Lab5/planAhead_run_5/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab5_8-10-2563/Lab5/pa.fromHdl.tcl}
+update_compile_order -fileset sim_1
+startgroup
+set_property package_pin P41 [get_ports a_P41]
+endgroup
+startgroup
+set_property package_pin P40 [get_ports b_P40]
+endgroup
+startgroup
+set_property package_pin P81 [get_ports B_L1_P81]
+endgroup
+startgroup
+set_property package_pin P35 [get_ports c_P35]
+endgroup
+startgroup
+set_property package_pin P43 [get_ports common1_P43]
+endgroup
+startgroup
+set_property package_pin P33 [get_ports common2_P33]
+endgroup
+startgroup
+set_property package_pin P30 [get_ports common3_P30]
+endgroup
+startgroup
+set_property package_pin P34 [get_ports d_P34]
+endgroup
+startgroup
+set_property package_pin P32 [get_ports e_P32]
+endgroup
+startgroup
+set_property package_pin P29 [get_ports f_P29]
+endgroup
+startgroup
+set_property package_pin P27 [get_ports g_P27]
+endgroup
+startgroup
+set_property package_pin P26 [get_ports p_P26]
+endgroup
+startgroup
+set_property package_pin P45 [get_ports PB1_P45]
+endgroup
+save_constraints
