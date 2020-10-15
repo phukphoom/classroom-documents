@@ -89,7 +89,10 @@
     <transform xil_pn:end_ts="1602159096" xil_pn:in_ck="1370956438676917638" xil_pn:name="TRAN_schematicsToHdl" xil_pn:prop_ck="5265925762360356927" xil_pn:start_ts="1602159094">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.vf"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1602138964" xil_pn:name="TRAN_regenerateCores" xil_pn:prop_ck="858664435329153718" xil_pn:start_ts="1602138964">
       <status xil_pn:value="SuccessfullyRun"/>
@@ -106,89 +109,73 @@
     <transform xil_pn:end_ts="1602138964" xil_pn:name="TRAN_SubProjectPreToStructuralProxy" xil_pn:prop_ck="250970745955965653" xil_pn:start_ts="1602138964">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
     </transform>
     <transform xil_pn:end_ts="1602138964" xil_pn:name="TRAN_platgen" xil_pn:prop_ck="3018407962054888960" xil_pn:start_ts="1602138964">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
     </transform>
     <transform xil_pn:end_ts="1602159103" xil_pn:in_ck="4133535677694169275" xil_pn:name="TRANEXT_xstsynthesize_spartan6" xil_pn:prop_ck="-7297095574342298530" xil_pn:start_ts="1602159096">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.jhd"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.lso"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.ngc"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.ngr"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.prj"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.stx"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.syr"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.xst"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_xst.xrpt"/>
-      <outfile xil_pn:name="_xmsgs/xst.xmsgs"/>
-      <outfile xil_pn:name="webtalk_pn.xml"/>
-      <outfile xil_pn:name="xst"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1602148657" xil_pn:in_ck="3161756751137724" xil_pn:name="TRAN_compileBCD2" xil_pn:prop_ck="-2170917798833193453" xil_pn:start_ts="1602148657">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
     </transform>
     <transform xil_pn:end_ts="1602159108" xil_pn:in_ck="1288651216753240403" xil_pn:name="TRANEXT_ngdbuild_FPGA" xil_pn:prop_ck="-2529812580766666409" xil_pn:start_ts="1602159103">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.bld"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.ngd"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_ngdbuild.xrpt"/>
-      <outfile xil_pn:name="_ngo"/>
-      <outfile xil_pn:name="_xmsgs/ngdbuild.xmsgs"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1602159114" xil_pn:in_ck="1288651216753240404" xil_pn:name="TRANEXT_map_spartan6" xil_pn:prop_ck="6093601622908603872" xil_pn:start_ts="1602159108">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
       <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
       <status xil_pn:value="OutputChanged"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.pcf"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_map.map"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_map.mrp"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_map.ncd"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_map.ngm"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_map.xrpt"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_summary.xml"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_usage.xml"/>
-      <outfile xil_pn:name="_xmsgs/map.xmsgs"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1602159123" xil_pn:in_ck="-419905235106594195" xil_pn:name="TRANEXT_par_spartan6" xil_pn:prop_ck="-6780099238861732004" xil_pn:start_ts="1602159114">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.ncd"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.pad"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.par"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.ptwx"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.unroutes"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.xpi"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_pad.csv"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_pad.txt"/>
-      <outfile xil_pn:name="JK_CouterUp1_6_par.xrpt"/>
-      <outfile xil_pn:name="_xmsgs/par.xmsgs"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1602159130" xil_pn:in_ck="7279468847940716052" xil_pn:name="TRANEXT_bitFile_spartan6" xil_pn:prop_ck="5341574683187206424" xil_pn:start_ts="1602159123">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.ut"/>
-      <outfile xil_pn:name="_xmsgs/bitgen.xmsgs"/>
-      <outfile xil_pn:name="jk_couterup1_6.bgn"/>
-      <outfile xil_pn:name="jk_couterup1_6.bit"/>
-      <outfile xil_pn:name="jk_couterup1_6.drc"/>
-      <outfile xil_pn:name="usage_statistics_webtalk.html"/>
-      <outfile xil_pn:name="webtalk.log"/>
-      <outfile xil_pn:name="webtalk_pn.xml"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
     <transform xil_pn:end_ts="1602159123" xil_pn:in_ck="1288651216753240272" xil_pn:name="TRAN_postRouteTrce" xil_pn:prop_ck="445577401284416185" xil_pn:start_ts="1602159119">
       <status xil_pn:value="SuccessfullyRun"/>
       <status xil_pn:value="ReadyToRun"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.twr"/>
-      <outfile xil_pn:name="JK_CouterUp1_6.twx"/>
-      <outfile xil_pn:name="_xmsgs/trce.xmsgs"/>
+      <status xil_pn:value="OutOfDateForInputs"/>
+      <status xil_pn:value="OutOfDateForPredecessor"/>
+      <status xil_pn:value="OutOfDateForOutputs"/>
+      <status xil_pn:value="InputRemoved"/>
+      <status xil_pn:value="OutputRemoved"/>
     </transform>
   </transforms>
 
