@@ -4,8 +4,22 @@ class Node:
         self.value = value
         self.left = None
         self.right = None
+        self.height = 1
 
-class BinarySearchTree:
+
+class AVLTree:
+    def getHeight(self, root):
+        if root is None:
+            return 0
+
+        return root.height
+
+    def getBalance(self, root):
+        if root is None:
+            return 0
+
+        return self.getHeight(root.left) - self.getHeight(root.right)
+
     def getMinNode(self, root):
         current = root
         while current.left is not None:
@@ -18,7 +32,7 @@ class BinarySearchTree:
             current = current.right
         return current
 
-    def getNodeByValue(self, root,value):
+    def getNodeByValue(self, root, value):
         current = root
         while current is not None:
             if value < current.value:
@@ -28,18 +42,70 @@ class BinarySearchTree:
             else:
                 return current
 
-    def insert(self,root,value):
+    def rotateLeft(self, z):
+        y = z.right
+        T2 = y.left
+
+        z.right = T2
+        y.left = z
+
+        z.height = 1 + max(self.getHeight(z.left), self.getHeight(z.right))
+        y.height = 1 + max(self.getHeight(y.left), self.getHeight(y.right))
+
+        return y
+
+    def rotateRight(self, z):
+        y = z.left
+        T3 = y.right
+
+        z.left = T3
+        y.right = z
+
+        z.height = 1 + max(self.getHeight(z.left), self.getHeight(z.right))
+        y.height = 1 + max(self.getHeight(y.left), self.getHeight(y.right))
+
+        return y
+
+    def insert(self, root, value):
+
         if root is None:
             return Node(value)
 
         if value < root.value:
-            root.left = self.insert(root.left,value)  
+            root.left = self.insert(root.left, value)
         else:
-            root.right = self.insert(root.right,value)
+            root.right = self.insert(root.right, value)
+
+
+        ### AVL re-balance ###
+        # Update height for every node along the path
+        root.height = 1 + max(self.getHeight(root.left),
+                              self.getHeight(root.right))
+
+        balance = self.getBalance(root)
+
+        # Rotate SubTree
+        #> [Left Left]
+        if balance > 1 and value < root.left.value:
+            return self.rotateRight(root)
+
+        #> [Right Right]
+        if balance < -1 and value > root.right.value:
+            return self.rotateLeft(root)
+
+        #> [Left Right]
+        if balance > 1 and value > root.left.value:
+            root.left = self.rotateLeft(root.left)
+            return self.rotateRight(root)
+
+        #> [Right Left]
+        if balance < -1 and value < root.right.value:
+            root.right = self.rotateRight(root.right)
+            return self.rotateLeft(root)
 
         return root
 
-    def delete(self,root,value):
+    def delete(self, root,value):
         ### Base Case ###
         if root is None:
             return root
@@ -49,6 +115,7 @@ class BinarySearchTree:
             root.left = self.delete(root.left, value)
         if value > root.value:
             root.right = self.delete(root.right, value)
+
 
         ### Found Deleted Node ###
         if value == root.value:
@@ -72,7 +139,33 @@ class BinarySearchTree:
 
                 # Delete node that content the successor
                 root.right = self.delete(root.right, successor.value)
-                
+
+        ### AVL re-balance ###
+        # Update height for every node along the path
+        root.height = 1 + max(self.getHeight(root.left),
+                              self.getHeight(root.right))
+
+        balance = self.getBalance(root) 
+        
+        ## Rotate SubTree
+        #> [Left Left]
+        if balance > 1 and self.getBalance(root.left) >= 0:
+            return self.rotateRight(root)
+
+        #> [Right Right]
+        if balance < -1 and self.getBalance(root.right) <= 0:
+            return self.rotateLeft(root)
+
+        #> [Left Right]
+        if balance > 1 and self.getBalance(root.left) < 0:
+            root.left = self.rotateLeft(root.left)
+            return self.rotateRight(root)
+
+        #> [Right Left]
+        if balance < -1 and self.getBalance(root.right) > 0:
+            root.right = self.rotateRight(root.right)
+            return self.rotateLeft(root)
+
         return root
 
     def BFS(self, root):
