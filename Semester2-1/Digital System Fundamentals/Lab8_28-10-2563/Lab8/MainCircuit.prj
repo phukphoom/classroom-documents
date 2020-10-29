@@ -1,0 +1,6 @@
+verilog work "FullAdder.vf"
+verilog work "ZeroChecker.vf"
+verilog work "Mux4to1_4.vf"
+verilog work "HEX27SEG.vf"
+verilog work "Adder8Bits.vf"
+verilog work "MainCircuit.vf"

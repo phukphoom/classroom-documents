@@ -1,0 +1,188 @@
+--------------------------------------------------------------------------------
+Release 14.7 Trace  (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\trce.exe -intstyle ise -v 3 -s 3
+-n 3 -fastpaths -xml MainCircuit.twx MainCircuit.ncd -o MainCircuit.twr
+MainCircuit.pcf -ucf MainCircuitPin.ucf
+
+Design file:              MainCircuit.ncd
+Physical constraint file: MainCircuit.pcf
+Device,package,speed:     xc6slx9,tqg144,C,-3 (PRODUCTION 1.23 2013-10-13)
+Report level:             verbose report
+
+Environment Variable      Effect 
+--------------------      ------ 
+NONE                      No environment variables were set
+--------------------------------------------------------------------------------
+
+INFO:Timing:2698 - No timing constraints found, doing default enumeration.
+INFO:Timing:3412 - To improve timing, see the Timing Closure User Guide (UG612).
+INFO:Timing:2752 - To get complete path coverage, use the unconstrained paths 
+   option. All paths that are not constrained will be reported in the 
+   unconstrained paths section(s) of the report.
+INFO:Timing:3339 - The clock-to-out numbers in this timing report are based on 
+   a 50 Ohm transmission line loading model.  For the details of this model, 
+   and for more information on accounting for different loading conditions, 
+   please see the device datasheet.
+
+
+
+Data Sheet report:
+-----------------
+All values displayed in nanoseconds (ns)
+
+Clock to Setup on destination clock CLK_P123
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+CLK_P123       |    1.686|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Pad to Pad
+---------------+---------------+---------+
+Source Pad     |Destination Pad|  Delay  |
+---------------+---------------+---------+
+DIP1_P112      |BUZZ_P83       |   10.156|
+DIP1_P112      |SEG_A_P41      |   13.138|
+DIP1_P112      |SEG_B_P40      |   13.775|
+DIP1_P112      |SEG_C_P35      |   13.425|
+DIP1_P112      |SEG_D_P34      |   13.359|
+DIP1_P112      |SEG_E_P32      |   13.369|
+DIP1_P112      |SEG_F_P29      |   13.225|
+DIP1_P112      |SEG_G_P27      |   12.884|
+DIP2_P111      |BUZZ_P83       |   11.284|
+DIP2_P111      |SEG_A_P41      |   14.213|
+DIP2_P111      |SEG_B_P40      |   14.903|
+DIP2_P111      |SEG_C_P35      |   14.553|
+DIP2_P111      |SEG_D_P34      |   14.487|
+DIP2_P111      |SEG_E_P32      |   14.497|
+DIP2_P111      |SEG_F_P29      |   14.353|
+DIP2_P111      |SEG_G_P27      |   14.012|
+DIP3_P105      |BUZZ_P83       |   11.562|
+DIP3_P105      |SEG_A_P41      |   14.491|
+DIP3_P105      |SEG_B_P40      |   15.181|
+DIP3_P105      |SEG_C_P35      |   14.831|
+DIP3_P105      |SEG_D_P34      |   14.765|
+DIP3_P105      |SEG_E_P32      |   14.775|
+DIP3_P105      |SEG_F_P29      |   14.631|
+DIP3_P105      |SEG_G_P27      |   14.290|
+DIP4_P104      |BUZZ_P83       |   12.101|
+DIP4_P104      |SEG_A_P41      |   15.030|
+DIP4_P104      |SEG_B_P40      |   15.720|
+DIP4_P104      |SEG_C_P35      |   15.370|
+DIP4_P104      |SEG_D_P34      |   15.304|
+DIP4_P104      |SEG_E_P32      |   15.314|
+DIP4_P104      |SEG_F_P29      |   15.170|
+DIP4_P104      |SEG_G_P27      |   14.829|
+DIP5_P102      |BUZZ_P83       |   12.210|
+DIP5_P102      |SEG_A_P41      |   15.139|
+DIP5_P102      |SEG_B_P40      |   15.829|
+DIP5_P102      |SEG_C_P35      |   15.479|
+DIP5_P102      |SEG_D_P34      |   15.413|
+DIP5_P102      |SEG_E_P32      |   15.423|
+DIP5_P102      |SEG_F_P29      |   15.279|
+DIP5_P102      |SEG_G_P27      |   14.938|
+DIP6_P101      |BUZZ_P83       |   13.293|
+DIP6_P101      |SEG_A_P41      |   16.222|
+DIP6_P101      |SEG_B_P40      |   16.912|
+DIP6_P101      |SEG_C_P35      |   16.562|
+DIP6_P101      |SEG_D_P34      |   16.496|
+DIP6_P101      |SEG_E_P32      |   16.506|
+DIP6_P101      |SEG_F_P29      |   16.362|
+DIP6_P101      |SEG_G_P27      |   16.021|
+DIP7_P100      |BUZZ_P83       |   13.528|
+DIP7_P100      |SEG_A_P41      |   16.457|
+DIP7_P100      |SEG_B_P40      |   17.147|
+DIP7_P100      |SEG_C_P35      |   16.797|
+DIP7_P100      |SEG_D_P34      |   16.731|
+DIP7_P100      |SEG_E_P32      |   16.741|
+DIP7_P100      |SEG_F_P29      |   16.597|
+DIP7_P100      |SEG_G_P27      |   16.256|
+DIP8_P99       |BUZZ_P83       |   14.110|
+DIP8_P99       |SEG_A_P41      |   17.039|
+DIP8_P99       |SEG_B_P40      |   17.729|
+DIP8_P99       |SEG_C_P35      |   17.379|
+DIP8_P99       |SEG_D_P34      |   17.313|
+DIP8_P99       |SEG_E_P32      |   17.323|
+DIP8_P99       |SEG_F_P29      |   17.179|
+DIP8_P99       |SEG_G_P27      |   16.838|
+SW0_P66        |BUZZ_P83       |   13.676|
+SW0_P66        |SEG_A_P41      |   16.605|
+SW0_P66        |SEG_B_P40      |   17.295|
+SW0_P66        |SEG_C_P35      |   16.945|
+SW0_P66        |SEG_D_P34      |   16.879|
+SW0_P66        |SEG_E_P32      |   16.889|
+SW0_P66        |SEG_F_P29      |   16.745|
+SW0_P66        |SEG_G_P27      |   16.404|
+SW1_P62        |BUZZ_P83       |   13.569|
+SW1_P62        |SEG_A_P41      |   16.498|
+SW1_P62        |SEG_B_P40      |   17.188|
+SW1_P62        |SEG_C_P35      |   16.838|
+SW1_P62        |SEG_D_P34      |   16.772|
+SW1_P62        |SEG_E_P32      |   16.782|
+SW1_P62        |SEG_F_P29      |   16.638|
+SW1_P62        |SEG_G_P27      |   16.297|
+SW2_P61        |BUZZ_P83       |   13.166|
+SW2_P61        |SEG_A_P41      |   16.095|
+SW2_P61        |SEG_B_P40      |   16.785|
+SW2_P61        |SEG_C_P35      |   16.435|
+SW2_P61        |SEG_D_P34      |   16.369|
+SW2_P61        |SEG_E_P32      |   16.379|
+SW2_P61        |SEG_F_P29      |   16.235|
+SW2_P61        |SEG_G_P27      |   15.894|
+SW3_P59        |BUZZ_P83       |   12.075|
+SW3_P59        |SEG_A_P41      |   15.004|
+SW3_P59        |SEG_B_P40      |   15.694|
+SW3_P59        |SEG_C_P35      |   15.344|
+SW3_P59        |SEG_D_P34      |   15.278|
+SW3_P59        |SEG_E_P32      |   15.288|
+SW3_P59        |SEG_F_P29      |   15.144|
+SW3_P59        |SEG_G_P27      |   14.803|
+SW4_P58        |BUZZ_P83       |   11.888|
+SW4_P58        |SEG_A_P41      |   14.817|
+SW4_P58        |SEG_B_P40      |   15.507|
+SW4_P58        |SEG_C_P35      |   15.157|
+SW4_P58        |SEG_D_P34      |   15.091|
+SW4_P58        |SEG_E_P32      |   15.101|
+SW4_P58        |SEG_F_P29      |   14.957|
+SW4_P58        |SEG_G_P27      |   14.616|
+SW5_P57        |BUZZ_P83       |   10.781|
+SW5_P57        |SEG_A_P41      |   13.710|
+SW5_P57        |SEG_B_P40      |   14.400|
+SW5_P57        |SEG_C_P35      |   14.050|
+SW5_P57        |SEG_D_P34      |   13.984|
+SW5_P57        |SEG_E_P32      |   13.994|
+SW5_P57        |SEG_F_P29      |   13.850|
+SW5_P57        |SEG_G_P27      |   13.509|
+SW6_P56        |BUZZ_P83       |   10.681|
+SW6_P56        |SEG_A_P41      |   13.610|
+SW6_P56        |SEG_B_P40      |   14.300|
+SW6_P56        |SEG_C_P35      |   13.950|
+SW6_P56        |SEG_D_P34      |   13.884|
+SW6_P56        |SEG_E_P32      |   13.894|
+SW6_P56        |SEG_F_P29      |   13.750|
+SW6_P56        |SEG_G_P27      |   13.409|
+SW7_P55        |BUZZ_P83       |    9.694|
+SW7_P55        |SEG_A_P41      |   12.676|
+SW7_P55        |SEG_B_P40      |   13.313|
+SW7_P55        |SEG_C_P35      |   12.963|
+SW7_P55        |SEG_D_P34      |   12.897|
+SW7_P55        |SEG_E_P32      |   12.907|
+SW7_P55        |SEG_F_P29      |   12.763|
+SW7_P55        |SEG_G_P27      |   12.422|
+---------------+---------------+---------+
+
+
+Analysis completed Thu Oct 29 10:32:29 2020 
+--------------------------------------------------------------------------------
+
+Trace Settings:
+-------------------------
+Trace Settings 
+
+Peak Memory Usage: 4571 MB
+
+
+

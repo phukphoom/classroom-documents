@@ -1,0 +1,241 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 14.7
+//  \   \         Application : sch2hdl
+//  /   /         Filename : HEX27SEG.vf
+// /___/   /\     Timestamp : 10/29/2020 02:11:32
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: sch2hdl -intstyle ise -family spartan6 -verilog "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/HEX27SEG.vf" -w "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/HEX27SEG.sch"
+//Design Name: HEX27SEG
+//Device: spartan6
+//Purpose:
+//    This verilog netlist is translated from an ECS schematic.It can be 
+//    synthesized and simulated, but it should not be modified. 
+//
+`timescale  100 ps / 10 ps
+
+module D4_16E_HXILINX_HEX27SEG (D0, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, D12, D13, D14, D15, A0, A1, A2, A3, E);
+    
+
+   output D0;
+   output D1;
+   output D2;
+   output D3;
+   output D4;
+   output D5;
+   output D6;
+   output D7;
+   output D8;
+   output D9;
+   output D10;
+   output D11;
+   output D12;
+   output D13;
+   output D14;
+   output D15;
+
+   input  A0;
+   input  A1;
+   input  A2;
+   input  A3;
+   input  E;
+  
+   reg D0;
+   reg D1;
+   reg D2;
+   reg D3;
+   reg D4;
+   reg D5;
+   reg D6;
+   reg D7;
+   reg D8;
+   reg D9;
+   reg D10;
+   reg D11;
+   reg D12;
+   reg D13;
+   reg D14;
+   reg D15;
+
+      always @ (A0 or A1 or A2 or A3 or E)
+      begin
+         if(!E)
+           {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0000_0000;
+        else
+        begin
+           case({A3,A2,A1,A0})
+             4'b0000 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0000_0001;
+             4'b0001 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0000_0010;
+             4'b0010 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0000_0100;
+             4'b0011 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0000_1000;
+             4'b0100 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0001_0000;
+             4'b0101 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0010_0000;
+             4'b0110 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_0100_0000;
+             4'b0111 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0000_1000_0000;
+             4'b1000 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0001_0000_0000;
+             4'b1001 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0010_0000_0000;
+             4'b1010 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_0100_0000_0000;
+             4'b1011 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0000_1000_0000_0000;
+             4'b1100 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0001_0000_0000_0000;
+             4'b1101 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0010_0000_0000_0000;
+             4'b1110 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b0100_0000_0000_0000;
+             4'b1111 :  {D15, D14, D13, D12, D11, D10, D9, D8, D7, D6, D5, D4, D3, D2, D1, D0} <= 16'b1000_0000_0000_0000;
+          endcase
+        end
+     end 
+
+endmodule
+`timescale  100 ps / 10 ps
+
+module OR6_HXILINX_HEX27SEG (O, I0, I1, I2, I3, I4, I5);
+    
+
+   output O;
+
+   input I0;
+   input I1;
+   input I2;
+   input I3;
+   input I4;
+   input I5;
+
+assign O = (I0 || I1 || I2 || I3 || I4 || I5);
+
+endmodule
+`timescale 1ns / 1ps
+
+module HEX27SEG(HEX0, 
+                HEX1, 
+                HEX2, 
+                HEX3, 
+                SEG_A, 
+                SEG_B, 
+                SEG_C, 
+                SEG_D, 
+                SEG_E, 
+                SEG_F, 
+                SEG_G);
+
+    input HEX0;
+    input HEX1;
+    input HEX2;
+    input HEX3;
+   output SEG_A;
+   output SEG_B;
+   output SEG_C;
+   output SEG_D;
+   output SEG_E;
+   output SEG_F;
+   output SEG_G;
+   
+   wire XLXN_1;
+   wire XLXN_2;
+   wire XLXN_4;
+   wire XLXN_5;
+   wire XLXN_6;
+   wire XLXN_7;
+   wire XLXN_8;
+   wire XLXN_9;
+   wire XLXN_11;
+   wire XLXN_12;
+   wire XLXN_13;
+   wire XLXN_14;
+   wire XLXN_35;
+   wire XLXN_36;
+   wire XLXN_53;
+   wire XLXN_56;
+   wire XLXN_57;
+   wire XLXN_58;
+   wire XLXN_59;
+   wire XLXN_60;
+   wire XLXN_61;
+   wire XLXN_62;
+   wire XLXN_74;
+   
+   OR4  XLXI_1 (.I0(XLXN_2), 
+               .I1(XLXN_5), 
+               .I2(XLXN_36), 
+               .I3(XLXN_12), 
+               .O(XLXN_56));
+   (* HU_SET = "XLXI_2_0" *) 
+   OR6_HXILINX_HEX27SEG  XLXI_2 (.I0(XLXN_6), 
+                                .I1(XLXN_7), 
+                                .I2(XLXN_36), 
+                                .I3(XLXN_11), 
+                                .I4(XLXN_13), 
+                                .I5(XLXN_14), 
+                                .O(XLXN_57));
+   OR4  XLXI_3 (.I0(XLXN_35), 
+               .I1(XLXN_11), 
+               .I2(XLXN_13), 
+               .I3(XLXN_14), 
+               .O(XLXN_58));
+   OR5  XLXI_4 (.I0(XLXN_2), 
+               .I1(XLXN_5), 
+               .I2(XLXN_53), 
+               .I3(XLXN_9), 
+               .I4(XLXN_14), 
+               .O(XLXN_59));
+   (* HU_SET = "XLXI_5_1" *) 
+   D4_16E_HXILINX_HEX27SEG  XLXI_5 (.A0(HEX0), 
+                                   .A1(HEX1), 
+                                   .A2(HEX2), 
+                                   .A3(HEX3), 
+                                   .E(XLXN_74), 
+                                   .D0(XLXN_1), 
+                                   .D1(XLXN_2), 
+                                   .D2(XLXN_35), 
+                                   .D3(XLXN_4), 
+                                   .D4(XLXN_5), 
+                                   .D5(XLXN_6), 
+                                   .D6(XLXN_7), 
+                                   .D7(XLXN_53), 
+                                   .D8(), 
+                                   .D9(XLXN_8), 
+                                   .D10(XLXN_9), 
+                                   .D11(XLXN_36), 
+                                   .D12(XLXN_11), 
+                                   .D13(XLXN_12), 
+                                   .D14(XLXN_13), 
+                                   .D15(XLXN_14));
+   (* HU_SET = "XLXI_6_2" *) 
+   OR6_HXILINX_HEX27SEG  XLXI_6 (.I0(XLXN_2), 
+                                .I1(XLXN_4), 
+                                .I2(XLXN_5), 
+                                .I3(XLXN_6), 
+                                .I4(XLXN_53), 
+                                .I5(XLXN_8), 
+                                .O(XLXN_60));
+   OR5  XLXI_18 (.I0(XLXN_2), 
+                .I1(XLXN_35), 
+                .I2(XLXN_4), 
+                .I3(XLXN_53), 
+                .I4(XLXN_12), 
+                .O(XLXN_61));
+   OR4  XLXI_19 (.I0(XLXN_1), 
+                .I1(XLXN_2), 
+                .I2(XLXN_53), 
+                .I3(XLXN_11), 
+                .O(XLXN_62));
+   INV  XLXI_20 (.I(XLXN_56), 
+                .O(SEG_A));
+   INV  XLXI_21 (.I(XLXN_57), 
+                .O(SEG_B));
+   INV  XLXI_22 (.I(XLXN_58), 
+                .O(SEG_C));
+   INV  XLXI_23 (.I(XLXN_59), 
+                .O(SEG_D));
+   INV  XLXI_24 (.I(XLXN_60), 
+                .O(SEG_E));
+   INV  XLXI_25 (.I(XLXN_61), 
+                .O(SEG_F));
+   INV  XLXI_26 (.I(XLXN_62), 
+                .O(SEG_G));
+   VCC  XLXI_27 (.P(XLXN_74));
+endmodule

@@ -1,0 +1,8 @@
+INTSTYLE=ise
+INFILE=C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab8_28-10-2563\Lab8\MainCircuit.ncd
+OUTFILE=C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab8_28-10-2563\Lab8\MainCircuit.bit
+FAMILY=Spartan6
+PART=xc6slx9-3tqg144
+WORKINGDIR=C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab8_28-10-2563\Lab8
+LICENSE=WebPack
+USER_INFO=__0_0_0

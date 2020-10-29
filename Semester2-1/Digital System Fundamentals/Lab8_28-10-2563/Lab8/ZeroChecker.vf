@@ -1,0 +1,80 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 14.7
+//  \   \         Application : sch2hdl
+//  /   /         Filename : ZeroChecker.vf
+// /___/   /\     Timestamp : 10/29/2020 02:14:50
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: sch2hdl -intstyle ise -family spartan6 -verilog "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/ZeroChecker.vf" -w "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/ZeroChecker.sch"
+//Design Name: ZeroChecker
+//Device: spartan6
+//Purpose:
+//    This verilog netlist is translated from an ECS schematic.It can be 
+//    synthesized and simulated, but it should not be modified. 
+//
+`timescale  100 ps / 10 ps
+
+module OR9_HXILINX_ZeroChecker (O, I0, I1, I2, I3, I4, I5, I6, I7, I8);
+    
+
+   output O;
+
+   input I0;
+   input I1;
+   input I2;
+   input I3;
+   input I4;
+   input I5;
+   input I6;
+   input I7;
+   input I8;
+
+assign O = (I0 || I1 || I2 || I3 || I4 || I5 || I6 || I7 || I8 );
+
+endmodule
+`timescale 1ns / 1ps
+
+module ZeroChecker(BIT0, 
+                   BIT1, 
+                   BIT2, 
+                   BIT3, 
+                   BIT4, 
+                   BIT5, 
+                   BIT6, 
+                   BIT7, 
+                   BIT8, 
+                   IS_ZERO);
+
+    input BIT0;
+    input BIT1;
+    input BIT2;
+    input BIT3;
+    input BIT4;
+    input BIT5;
+    input BIT6;
+    input BIT7;
+    input BIT8;
+   output IS_ZERO;
+   
+   wire XLXN_15;
+   
+   (* HU_SET = "XLXI_4_10" *) 
+   OR9_HXILINX_ZeroChecker  XLXI_4 (.I0(BIT8), 
+                                   .I1(BIT7), 
+                                   .I2(BIT6), 
+                                   .I3(BIT5), 
+                                   .I4(BIT4), 
+                                   .I5(BIT3), 
+                                   .I6(BIT2), 
+                                   .I7(BIT1), 
+                                   .I8(BIT0), 
+                                   .O(XLXN_15));
+   INV  XLXI_8 (.I(XLXN_15), 
+               .O(IS_ZERO));
+endmodule

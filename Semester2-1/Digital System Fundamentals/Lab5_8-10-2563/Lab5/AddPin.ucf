@@ -6,7 +6,6 @@ NET "C_L2_P80" LOC = P80;
 NET "PB1_P45" LOC = P45;
 
 # PlanAhead Generated physical constraints 
-
 NET "a_P41" LOC = P41;
 NET "b_P40" LOC = P40;
 NET "c_P35" LOC = P35;

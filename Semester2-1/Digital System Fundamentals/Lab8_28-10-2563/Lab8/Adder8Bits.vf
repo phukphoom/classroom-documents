@@ -1,0 +1,159 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 14.7
+//  \   \         Application : sch2hdl
+//  /   /         Filename : Adder8Bits.vf
+// /___/   /\     Timestamp : 10/29/2020 02:11:32
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: sch2hdl -intstyle ise -family spartan6 -verilog "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/Adder8Bits.vf" -w "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/Adder8Bits.sch"
+//Design Name: Adder8Bits
+//Device: spartan6
+//Purpose:
+//    This verilog netlist is translated from an ECS schematic.It can be 
+//    synthesized and simulated, but it should not be modified. 
+//
+`timescale 1ns / 1ps
+
+module FullAdder_MUSER_Adder8Bits(A_BIT, 
+                                  B_BIT, 
+                                  C_IN, 
+                                  C_OUT, 
+                                  SUM);
+
+    input A_BIT;
+    input B_BIT;
+    input C_IN;
+   output C_OUT;
+   output SUM;
+   
+   wire XLXN_7;
+   wire XLXN_15;
+   wire XLXN_16;
+   
+   XOR2  XLXI_20 (.I0(B_BIT), 
+                 .I1(A_BIT), 
+                 .O(XLXN_7));
+   XOR2  XLXI_21 (.I0(C_IN), 
+                 .I1(XLXN_7), 
+                 .O(SUM));
+   AND2  XLXI_22 (.I0(XLXN_7), 
+                 .I1(C_IN), 
+                 .O(XLXN_15));
+   AND2  XLXI_23 (.I0(A_BIT), 
+                 .I1(B_BIT), 
+                 .O(XLXN_16));
+   OR2  XLXI_24 (.I0(XLXN_16), 
+                .I1(XLXN_15), 
+                .O(C_OUT));
+endmodule
+`timescale 1ns / 1ps
+
+module Adder8Bits(A0, 
+                  A1, 
+                  A2, 
+                  A3, 
+                  A4, 
+                  A5, 
+                  A6, 
+                  A7, 
+                  B0, 
+                  B1, 
+                  B2, 
+                  B3, 
+                  B4, 
+                  B5, 
+                  B6, 
+                  B7, 
+                  C_OUT, 
+                  SUM0, 
+                  SUM1, 
+                  SUM2, 
+                  SUM3, 
+                  SUM4, 
+                  SUM5, 
+                  SUM6, 
+                  SUM7);
+
+    input A0;
+    input A1;
+    input A2;
+    input A3;
+    input A4;
+    input A5;
+    input A6;
+    input A7;
+    input B0;
+    input B1;
+    input B2;
+    input B3;
+    input B4;
+    input B5;
+    input B6;
+    input B7;
+   output C_OUT;
+   output SUM0;
+   output SUM1;
+   output SUM2;
+   output SUM3;
+   output SUM4;
+   output SUM5;
+   output SUM6;
+   output SUM7;
+   
+   wire XLXN_1;
+   wire XLXN_2;
+   wire XLXN_3;
+   wire XLXN_4;
+   wire XLXN_5;
+   wire XLXN_6;
+   wire XLXN_7;
+   wire XLXN_33;
+   
+   FullAdder_MUSER_Adder8Bits  XLXI_1 (.A_BIT(A0), 
+                                      .B_BIT(B0), 
+                                      .C_IN(XLXN_33), 
+                                      .C_OUT(XLXN_1), 
+                                      .SUM(SUM0));
+   FullAdder_MUSER_Adder8Bits  XLXI_2 (.A_BIT(A1), 
+                                      .B_BIT(B1), 
+                                      .C_IN(XLXN_1), 
+                                      .C_OUT(XLXN_2), 
+                                      .SUM(SUM1));
+   FullAdder_MUSER_Adder8Bits  XLXI_35 (.A_BIT(A2), 
+                                       .B_BIT(B2), 
+                                       .C_IN(XLXN_2), 
+                                       .C_OUT(XLXN_3), 
+                                       .SUM(SUM2));
+   FullAdder_MUSER_Adder8Bits  XLXI_36 (.A_BIT(A3), 
+                                       .B_BIT(B3), 
+                                       .C_IN(XLXN_3), 
+                                       .C_OUT(XLXN_4), 
+                                       .SUM(SUM3));
+   FullAdder_MUSER_Adder8Bits  XLXI_40 (.A_BIT(A4), 
+                                       .B_BIT(B4), 
+                                       .C_IN(XLXN_4), 
+                                       .C_OUT(XLXN_5), 
+                                       .SUM(SUM4));
+   FullAdder_MUSER_Adder8Bits  XLXI_41 (.A_BIT(A5), 
+                                       .B_BIT(B5), 
+                                       .C_IN(XLXN_5), 
+                                       .C_OUT(XLXN_6), 
+                                       .SUM(SUM5));
+   FullAdder_MUSER_Adder8Bits  XLXI_42 (.A_BIT(A6), 
+                                       .B_BIT(B6), 
+                                       .C_IN(XLXN_6), 
+                                       .C_OUT(XLXN_7), 
+                                       .SUM(SUM6));
+   FullAdder_MUSER_Adder8Bits  XLXI_43 (.A_BIT(A7), 
+                                       .B_BIT(B7), 
+                                       .C_IN(XLXN_7), 
+                                       .C_OUT(C_OUT), 
+                                       .SUM(SUM7));
+   GND  XLXI_76 (.G(XLXN_33));
+endmodule

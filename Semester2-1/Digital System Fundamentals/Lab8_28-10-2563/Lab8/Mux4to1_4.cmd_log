@@ -1,0 +1,1 @@
+sch2sym -intstyle ise -family spartan6 -w -refsym Mux4to1_4 {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/Mux4to1_4.sch} {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/Mux4to1_4.sym} 

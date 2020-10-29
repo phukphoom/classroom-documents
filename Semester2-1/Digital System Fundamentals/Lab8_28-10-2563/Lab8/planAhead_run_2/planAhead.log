@@ -1,0 +1,158 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7
+# Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
+# Start of session at: Thu Oct 29 02:15:45 2020
+# Process ID: 7672
+# Log file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/planAhead_run_2/planAhead.log
+# Journal file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/planAhead_run_2/planAhead.jou
+#-----------------------------------------------------------
+INFO: [Common 17-78] Attempting to get a license: PlanAhead
+INFO: [Common 17-290] Got license for PlanAhead
+INFO: [Device 21-36] Loading parts and site information from C:/Xilinx/14.7/ISE_DS/PlanAhead/data/parts/arch.xml
+Parsing RTL primitives file [C:/Xilinx/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+Finished parsing RTL primitives file [C:/Xilinx/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
+start_gui
+source {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/pa.fromHdl.tcl}
+# create_project -name Lab8 -dir "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/planAhead_run_2" -part xc6slx9tqg144-3
+# set_param project.pinAheadLayout yes
+# set srcset [get_property srcset [current_run -impl]]
+# set_property target_constrs_file "MainCircuitPin.ucf" [current_fileset -constrset]
+Adding file 'C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/MainCircuitPin.ucf' to fileset 'constrs_1'
+# set hdlfile [add_files [list {FullAdder.vf}]]
+# set_property file_type Verilog $hdlfile
+# set_property library work $hdlfile
+# set hdlfile [add_files [list {ZeroChecker.vf}]]
+# set_property file_type Verilog $hdlfile
+# set_property library work $hdlfile
+# set hdlfile [add_files [list {Mux16To4.vf}]]
+# set_property file_type Verilog $hdlfile
+# set_property library work $hdlfile
+# set hdlfile [add_files [list {HEX27SEG.vf}]]
+# set_property file_type Verilog $hdlfile
+# set_property library work $hdlfile
+# set hdlfile [add_files [list {Adder8Bits.vf}]]
+# set_property file_type Verilog $hdlfile
+# set_property library work $hdlfile
+# set hdlfile [add_files [list {MainCircuit.vf}]]
+# set_property file_type Verilog $hdlfile
+# set_property library work $hdlfile
+# set_property top MainCircuit $srcset
+# add_files [list {MainCircuitPin.ucf}] -fileset [get_property constrset [current_run]]
+# open_rtl_design -part xc6slx9tqg144-3
+Using Verific elaboration
+Parsing VHDL file "C:/Xilinx/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/lib/synplify/synattr.vhd" into library synplify
+Analyzing Verilog file "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/MainCircuit.vf" into library work
+Loading clock regions from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan6/spartan6lx/xc6slx9/ClockRegion.xml
+Loading clock buffers from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan6/spartan6lx/xc6slx9/ClockBuffers.xml
+Loading package pin functions from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan6/PinFunctions.xml...
+Loading package from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan6/spartan6lx/xc6slx9/tqg144/Package.xml
+Loading io standards from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan6/IOStandards.xml
+Loading device configuration modes from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan6/ConfigModes.xml
+Loading list of drcs for the architecture : C:/Xilinx/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan6/drc.xml
+Parsing UCF File [C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/MainCircuitPin.ucf]
+Finished Parsing UCF File [C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8/MainCircuitPin.ucf]
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Phase 0 | Netlist Checksum: d83b966a
+open_rtl_design: Time (s): elapsed = 00:00:08 . Memory (MB): peak = 543.316 ; gain = 103.750
+update_compile_order -fileset sim_1
+set_property package_pin "" [get_ports [list  CLK_P70]]
+startgroup
+set_property package_pin P83 [get_ports BUZZ_P83]
+endgroup
+startgroup
+set_property package_pin P70 [get_ports CLK_P70]
+endgroup
+startgroup
+set_property package_pin P44 [get_ports COMMON0_P44]
+endgroup
+startgroup
+set_property package_pin P43 [get_ports COMMON1_P43]
+endgroup
+startgroup
+set_property package_pin P33 [get_ports COMMON2_P33]
+endgroup
+startgroup
+set_property package_pin P30 [get_ports COMMON3_P30]
+endgroup
+startgroup
+set_property package_pin P112 [get_ports DIP1_P112]
+endgroup
+startgroup
+set_property package_pin P111 [get_ports DIP2_P111]
+endgroup
+startgroup
+set_property package_pin P105 [get_ports DIP3_P105]
+endgroup
+startgroup
+set_property package_pin P104 [get_ports DIP4_P104]
+endgroup
+startgroup
+set_property package_pin P102 [get_ports DIP5_P102]
+endgroup
+startgroup
+set_property package_pin P101 [get_ports DIP6_P101]
+endgroup
+startgroup
+set_property package_pin P100 [get_ports DIP7_P100]
+endgroup
+startgroup
+set_property package_pin P99 [get_ports DIP8_P99]
+endgroup
+startgroup
+set_property package_pin P41 [get_ports SEG_A_P41]
+endgroup
+startgroup
+set_property package_pin P40 [get_ports SEG_B_P40]
+endgroup
+startgroup
+set_property package_pin P35 [get_ports SEG_C_P35]
+endgroup
+startgroup
+set_property package_pin P34 [get_ports SEG_D_P34]
+endgroup
+startgroup
+set_property package_pin P32 [get_ports SEG_E_P32]
+endgroup
+startgroup
+set_property package_pin P29 [get_ports SEG_F_P29]
+endgroup
+startgroup
+set_property package_pin P27 [get_ports SEG_G_P27]
+endgroup
+startgroup
+set_property package_pin P66 [get_ports SW0_P66]
+endgroup
+startgroup
+set_property package_pin P62 [get_ports SW1_P62]
+endgroup
+startgroup
+set_property package_pin P61 [get_ports SW2_P61]
+endgroup
+startgroup
+set_property package_pin P59 [get_ports SW3_P59]
+endgroup
+startgroup
+set_property package_pin P58 [get_ports SW4_P58]
+endgroup
+startgroup
+set_property package_pin P57 [get_ports SW5_P57]
+endgroup
+startgroup
+set_property package_pin P56 [get_ports SW6_P56]
+endgroup
+startgroup
+set_property package_pin P55 [get_ports SW7_P55]
+endgroup
+save_constraints
+exit
+ERROR: [PlanAhead 12-106] *** Exception: ui.h.b: Found deleted key in HTclEventBroker. Verify if the classes listed here call cleanup()
+HTclEvent: DEBUG_CORE_CONFIG_CHANGE   Classes: ui.views.aR 
+HTclEvent: DEBUG_PORT_CONFIG_CHANGE   Classes: ui.views.aR 
+HTclEvent: SIGNAL_MODIFY   Classes: ui.views.aR 
+HTclEvent: SIGNAL_BUS_MODIFY   Classes: ui.views.aR 
+ (See C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab8_28-10-2563/Lab8\planAhead_pid7672.debug)
+ERROR: [Common 17-39] 'stop_gui' failed due to earlier errors.
+INFO: [Common 17-206] Exiting PlanAhead at Thu Oct 29 02:17:36 2020...
+INFO: [Common 17-83] Releasing license: PlanAhead
