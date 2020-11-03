@@ -6,7 +6,6 @@ class Node:
         self.right = None
         self.height = 1
 
-
 class AVLTree:
     def getHeight(self, root):
         if root is None:
@@ -86,20 +85,20 @@ class AVLTree:
 
         # Rotate SubTree
         #> [Left Left]
-        if balance > 1 and value < root.left.value:
+        if balance > 1 and self.getBalance(root.left) >= 0:
             return self.rotateRight(root)
 
         #> [Right Right]
-        if balance < -1 and value > root.right.value:
+        if balance < -1 and self.getBalance(root.right) <= 0:
             return self.rotateLeft(root)
 
         #> [Left Right]
-        if balance > 1 and value > root.left.value:
+        if balance > 1 and self.getBalance(root.left) < 0:
             root.left = self.rotateLeft(root.left)
             return self.rotateRight(root)
 
         #> [Right Left]
-        if balance < -1 and value < root.right.value:
+        if balance < -1 and self.getBalance(root.right) > 0:
             root.right = self.rotateRight(root.right)
             return self.rotateLeft(root)
 
@@ -208,3 +207,17 @@ class AVLTree:
             self.printTree(node.right, level + 1)
             print('     ' * level, node.value)
             self.printTree(node.left, level + 1)
+
+tree = AVLTree()
+root = Node(1)
+
+root = tree.insert(root,2)
+root = tree.insert(root,3)
+root = tree.insert(root,1)
+root = tree.insert(root,0)
+root = tree.insert(root,2)
+root = tree.insert(root,3)
+root = tree.insert(root,1)
+root = tree.insert(root,0)
+
+tree.printTree(root)
