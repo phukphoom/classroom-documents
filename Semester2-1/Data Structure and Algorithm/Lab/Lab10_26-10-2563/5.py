@@ -9,9 +9,7 @@ class Node:
     def __str__(self):
         return str(self.data)
 
-
 class Tree:
-
     def __init__(self):
         self.root = None
         self.num = 0
@@ -68,7 +66,6 @@ def insert_subtree(r, num, val):
     else:
         return
 
-
 def height(root):
     if root == None:
         return -1
@@ -79,7 +76,6 @@ def height(root):
             return left + 1
         else:
             return right + 1
-
 
 def printTree90(node, level=0):
     if node != None:

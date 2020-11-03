@@ -1,86 +1,78 @@
 ### Class ###
-class Node:
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-        self.right = None
+class HaffmanNode:
+    def __init__(self, char, freq, left=None, right=None):
+        self.char = char
+        self.freq = freq
+        self.left = left
+        self.right = right
 
+class HaffmanTree:
+    def __init__(self, text):
+        self.text = text
+        self.charFreq = self.mapCharFreq(self.text)
 
-class BinarySearchTree:
-    def __init__(self, root=None):
-        if root is None:
-            self.root = None
-        else:
-            self.root = root
+        self.root = self.generateTree()
 
-    def getMinNode(self, root):
-        current = root
-        while current.left is not None:
-            current = current.left
-        return current
+        self.code = dict()
+        self.generateCode(self.root,[])
 
-    def getMaxNode(self, root):
-        current = root
-        while current.right is not None:
-            current = current.right
-        return current
+    def mapCharFreq(self, text):
+        charFreq = dict()
+        for char in text:
+            if char not in charFreq.keys():
+                charFreq[char] = 1
+            else:
+                charFreq[char] += 1
 
-    def getClosetValue(self, value):
-        minDistance = 999999
+        return charFreq
 
-        queue = []
-        queue.append(self.root)
-        while len(queue) != 0:
-            
-            if abs(value-queue[0].value) < minDistance:
-                closestValue = queue[0].value
-                minDistance = abs(value-queue[0].value)
+    def generateCode(self,root,code):
+        if root.char != '*':
+            self.code[root.char] = "".join(code)
+            return
+        
+        code.append('1')
+        self.generateCode(root.right,code)
+        code.pop()
 
-            if queue[0].left is not None:
-                queue.append(queue[0].left)
-            if queue[0].right is not None:
-                queue.append(queue[0].right)
-            queue.pop(0)
-        return closestValue
+        code.append('0')
+        self.generateCode(root.left,code)
+        code.pop()
+    
+    def generateTree(self):
+        slot = []
+        for key in self.charFreq.keys():
+            slot.append(HaffmanNode(key, self.charFreq[key]))
+        slot.sort(key=lambda node: ord(node.char) + 62 if node.char == ' ' else ord(node.char))
+        slot.sort(key=lambda node: node.freq)
+        while len(slot) > 1:
+            sumFreq = slot[0].freq + slot[1].freq
 
-    def insert(self, value):
-        newNode = Node(value)
+            if slot[0].freq <= slot[1].freq:
+                slot.append(HaffmanNode('*', sumFreq, slot[0], slot[1]))
+            else:
+                slot.append(HaffmanNode('*', sumFreq, slot[1], slot[0]))
+            slot.pop(0)
+            slot.pop(0)
+            slot.sort(key=lambda node: ord(node.char) + 62 if node.char == ' ' else ord(node.char))
+            slot.sort(key=lambda node: node.freq)
 
-        if self.root is None:
-            self.root = newNode
-        else:
-            current = self.root
-            while current is not None:
-                if value < current.value:
-                    if current.left is not None:
-                        current = current.left
-                    else:
-                        current.left = newNode
-                        return self.root
-                else:
-                    if current.right is not None:
-                        current = current.right
-                    else:
-                        current.right = newNode
-                        return self.root
+        return slot[0]
 
     def printTree(self, node, level=0):
         if node is not None:
             self.printTree(node.right, level + 1)
-            print('     ' * level, node.value)
+            # print("{}({}){}".format('     ' * level,node.freq,node.char))
+            print('     ' * level, node.char)
             self.printTree(node.left, level + 1)
 
 
 ### Main ###
-insertList, closestValue = input("Enter Input : ").split('/')
-insertList = list(map(int, insertList.split()))
-closestValue = int(closestValue)
+inputText = input('Enter Input : ')
+tree = HaffmanTree(inputText)
 
-print(closestValue)
-tree = BinarySearchTree()
-for item in insertList:
-    tree.insert(item)
-    tree.printTree(tree.root)
-    print('--------------------------------------------------')
-print('Closest value of {} : {}'.format(
-    closestValue, tree.getClosetValue(closestValue)))
+print(tree.code)
+tree.printTree(tree.root)
+print("Encoded! : ",end='')
+for char in inputText:
+    print(tree.code[char],end='')
