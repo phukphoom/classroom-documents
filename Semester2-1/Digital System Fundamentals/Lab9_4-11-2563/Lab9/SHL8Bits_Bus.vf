@@ -1,0 +1,45 @@
+////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+////////////////////////////////////////////////////////////////////////////////
+//   ____  ____ 
+//  /   /\/   / 
+// /___/  \  /    Vendor: Xilinx 
+// \   \   \/     Version : 14.7
+//  \   \         Application : sch2hdl
+//  /   /         Filename : SHL8Bits_Bus.vf
+// /___/   /\     Timestamp : 11/05/2020 02:23:59
+// \   \  /  \ 
+//  \___\/\___\ 
+//
+//Command: sch2hdl -intstyle ise -family spartan6 -verilog "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/SHL8Bits_Bus.vf" -w "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/SHL8Bits_Bus.sch"
+//Design Name: SHL8Bits_Bus
+//Device: spartan6
+//Purpose:
+//    This verilog netlist is translated from an ECS schematic.It can be 
+//    synthesized and simulated, but it should not be modified. 
+//
+`timescale 1ns / 1ps
+
+module SHL8Bits_Bus(A, 
+                    O);
+
+    input [7:0] A;
+   output [7:0] O;
+   
+   
+   GND  XLXI_8 (.G(O[0]));
+   BUF  XLXI_13_0 (.I(A[0]), 
+                  .O(O[1]));
+   BUF  XLXI_13_1 (.I(A[1]), 
+                  .O(O[2]));
+   BUF  XLXI_13_2 (.I(A[2]), 
+                  .O(O[3]));
+   BUF  XLXI_13_3 (.I(A[3]), 
+                  .O(O[4]));
+   BUF  XLXI_13_4 (.I(A[4]), 
+                  .O(O[5]));
+   BUF  XLXI_13_5 (.I(A[5]), 
+                  .O(O[6]));
+   BUF  XLXI_13_6 (.I(A[6]), 
+                  .O(O[7]));
+endmodule

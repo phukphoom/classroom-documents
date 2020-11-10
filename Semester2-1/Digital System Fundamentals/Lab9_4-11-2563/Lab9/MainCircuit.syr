@@ -1,0 +1,768 @@
+Release 14.7 - xst P.20131013 (nt64)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+--> Parameter TMPDIR set to xst/projnav.tmp
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.14 secs
+ 
+--> Parameter xsthdpdir set to xst
+
+
+Total REAL time to Xst completion: 1.00 secs
+Total CPU time to Xst completion: 0.14 secs
+ 
+--> Reading design: MainCircuit.prj
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Parsing
+  3) HDL Elaboration
+  4) HDL Synthesis
+       4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+       5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Partition Report
+  8) Design Summary
+       8.1) Primitive and Black Box Usage
+       8.2) Device utilization summary
+       8.3) Partition Resource Summary
+       8.4) Timing Report
+            8.4.1) Clock Information
+            8.4.2) Asynchronous Control Signals Information
+            8.4.3) Timing Summary
+            8.4.4) Timing Details
+            8.4.5) Cross Clock Domains Report
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "MainCircuit.prj"
+Ignore Synthesis Constraint File   : NO
+
+---- Target Parameters
+Output File Name                   : "MainCircuit"
+Output Format                      : NGC
+Target Device                      : xc6slx9-3-tqg144
+
+---- Source Options
+Top Module Name                    : MainCircuit
+Automatic FSM Extraction           : YES
+FSM Encoding Algorithm             : Auto
+Safe Implementation                : No
+FSM Style                          : LUT
+RAM Extraction                     : Yes
+RAM Style                          : Auto
+ROM Extraction                     : Yes
+Shift Register Extraction          : YES
+ROM Style                          : Auto
+Resource Sharing                   : YES
+Asynchronous To Synchronous        : NO
+Shift Register Minimum Size        : 2
+Use DSP Block                      : Auto
+Automatic Register Balancing       : No
+
+---- Target Options
+LUT Combining                      : Auto
+Reduce Control Sets                : Auto
+Add IO Buffers                     : YES
+Global Maximum Fanout              : 100000
+Add Generic Clock Buffer(BUFG)     : 16
+Register Duplication               : YES
+Optimize Instantiated Primitives   : NO
+Use Clock Enable                   : Auto
+Use Synchronous Set                : Auto
+Use Synchronous Reset              : Auto
+Pack IO Registers into IOBs        : Auto
+Equivalent register Removal        : YES
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+Power Reduction                    : NO
+Keep Hierarchy                     : No
+Netlist Hierarchy                  : As_Optimized
+RTL Output                         : Yes
+Global Optimization                : AllClockNets
+Read Cores                         : YES
+Write Timing Constraints           : NO
+Cross Clock Analysis               : NO
+Hierarchy Separator                : /
+Bus Delimiter                      : <>
+Case Specifier                     : Maintain
+Slice Utilization Ratio            : 100
+BRAM Utilization Ratio             : 100
+DSP48 Utilization Ratio            : 100
+Auto BRAM Packing                  : NO
+Slice Utilization Ratio Delta      : 5
+
+=========================================================================
+
+
+=========================================================================
+*                          HDL Parsing                                  *
+=========================================================================
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\FullAdder.vf" into library work
+Parsing module <FullAdder>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\Mux4To1_4_Bus.vf" into library work
+Parsing module <M4_1E_HXILINX_Mux4To1_4_Bus>.
+Parsing module <Mux4To1_4_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\Adder8Bits_Bus.vf" into library work
+Parsing module <FullAdder_MUSER_Adder8Bits_Bus>.
+Parsing module <Adder8Bits_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\Xor8Bits_Bus.vf" into library work
+Parsing module <Xor8Bits_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\Sub8Bits_Bus.vf" into library work
+Parsing module <INV8_HXILINX_Sub8Bits_Bus>.
+Parsing module <FullAdder_MUSER_Sub8Bits_Bus>.
+Parsing module <Adder8Bits_Bus_MUSER_Sub8Bits_Bus>.
+Parsing module <Sub8Bits_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\SHL8Bits_Bus.vf" into library work
+Parsing module <SHL8Bits_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\Mux4To1_8_Bus.vf" into library work
+Parsing module <M4_1E_HXILINX_Mux4To1_8_Bus>.
+Parsing module <Mux4To1_4_Bus_MUSER_Mux4To1_8_Bus>.
+Parsing module <Mux4To1_8_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\HEX27SEG_Bus.vf" into library work
+Parsing module <D4_16E_HXILINX_HEX27SEG_Bus>.
+Parsing module <OR6_HXILINX_HEX27SEG_Bus>.
+Parsing module <HEX27SEG_Bus>.
+Analyzing Verilog file "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" into library work
+Parsing module <D4_16E_HXILINX_MainCircuit>.
+Parsing module <INV8_HXILINX_MainCircuit>.
+Parsing module <OR6_HXILINX_MainCircuit>.
+Parsing module <M4_1E_HXILINX_MainCircuit>.
+Parsing module <D2_4E_HXILINX_MainCircuit>.
+Parsing module <CC16RE_HXILINX_MainCircuit>.
+Parsing module <CB2CE_HXILINX_MainCircuit>.
+Parsing module <Xor8Bits_Bus_MUSER_MainCircuit>.
+Parsing module <SHL8Bits_Bus_MUSER_MainCircuit>.
+Parsing module <Mux4To1_4_Bus_MUSER_MainCircuit>.
+Parsing module <Mux4To1_8_Bus_MUSER_MainCircuit>.
+Parsing module <HEX27SEG_Bus_MUSER_MainCircuit>.
+Parsing module <FullAdder_MUSER_MainCircuit>.
+Parsing module <Adder8Bits_Bus_MUSER_MainCircuit>.
+Parsing module <Sub8Bits_Bus_MUSER_MainCircuit>.
+Parsing module <MainCircuit>.
+
+=========================================================================
+*                            HDL Elaboration                            *
+=========================================================================
+
+Elaborating module <MainCircuit>.
+
+Elaborating module <CB2CE_HXILINX_MainCircuit>.
+WARNING:HDLCompiler:413 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" Line 241: Result of 3-bit expression is truncated to fit in 2-bit target.
+
+Elaborating module <D2_4E_HXILINX_MainCircuit>.
+
+Elaborating module <VCC>.
+
+Elaborating module <INV>.
+
+Elaborating module <CC16RE_HXILINX_MainCircuit>.
+WARNING:HDLCompiler:413 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" Line 211: Result of 17-bit expression is truncated to fit in 16-bit target.
+
+Elaborating module <GND>.
+
+Elaborating module <Mux4To1_4_Bus_MUSER_MainCircuit>.
+
+Elaborating module <M4_1E_HXILINX_MainCircuit>.
+
+Elaborating module <Adder8Bits_Bus_MUSER_MainCircuit>.
+
+Elaborating module <FullAdder_MUSER_MainCircuit>.
+
+Elaborating module <XOR2>.
+
+Elaborating module <AND2>.
+
+Elaborating module <OR2>.
+
+Elaborating module <SHL8Bits_Bus_MUSER_MainCircuit>.
+
+Elaborating module <BUF>.
+
+Elaborating module <Sub8Bits_Bus_MUSER_MainCircuit>.
+
+Elaborating module <INV8_HXILINX_MainCircuit>.
+
+Elaborating module <HEX27SEG_Bus_MUSER_MainCircuit>.
+
+Elaborating module <OR4>.
+
+Elaborating module <OR6_HXILINX_MainCircuit>.
+
+Elaborating module <OR5>.
+
+Elaborating module <D4_16E_HXILINX_MainCircuit>.
+
+Elaborating module <Mux4To1_8_Bus_MUSER_MainCircuit>.
+
+Elaborating module <Xor8Bits_Bus_MUSER_MainCircuit>.
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Set property "HU_SET = XLXI_18_9" for instance <XLXI_18>.
+    Set property "HU_SET = XLXI_25_8" for instance <XLXI_25>.
+    Set property "HU_SET = XLXI_53_10" for instance <XLXI_53>.
+    Set property "HU_SET = XLXI_86_11" for instance <XLXI_86>.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 710: Output port <CEO> of the instance <XLXI_18> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 710: Output port <TC> of the instance <XLXI_18> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 735: Output port <Q> of the instance <XLXI_53> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 735: Output port <CEO> of the instance <XLXI_53> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 749: Output port <C_OUT> of the instance <XLXI_75> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 767: Output port <CEO> of the instance <XLXI_86> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 767: Output port <TC> of the instance <XLXI_86> is unconnected or connected to loadless signal.
+    Summary:
+	no macro.
+Unit <MainCircuit> synthesized.
+
+Synthesizing Unit <CB2CE_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Found 1-bit register for signal <Q1>.
+    Found 1-bit register for signal <Q0>.
+    Found 2-bit adder for signal <Q1_GND_2_o_add_0_OUT> created at line 241.
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred   2 D-type flip-flop(s).
+Unit <CB2CE_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <D2_4E_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	inferred   4 Multiplexer(s).
+Unit <D2_4E_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <CC16RE_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+        TERMINAL_COUNT = 16'b1111111111111111
+    Found 16-bit register for signal <Q>.
+    Found 16-bit adder for signal <Q[15]_GND_6_o_add_1_OUT> created at line 211.
+    Summary:
+	inferred   1 Adder/Subtractor(s).
+	inferred  16 D-type flip-flop(s).
+	inferred   1 Multiplexer(s).
+Unit <CC16RE_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <Mux4To1_4_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Set property "HU_SET = XLXI_1_0" for instance <XLXI_1>.
+    Set property "HU_SET = XLXI_2_1" for instance <XLXI_2>.
+    Set property "HU_SET = XLXI_3_2" for instance <XLXI_3>.
+    Set property "HU_SET = XLXI_4_3" for instance <XLXI_4>.
+    Summary:
+	no macro.
+Unit <Mux4To1_4_Bus_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <M4_1E_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Found 1-bit 4-to-1 multiplexer for signal <S1_D3_Mux_0_o> created at line 145.
+    Summary:
+	inferred   2 Multiplexer(s).
+Unit <M4_1E_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <Adder8Bits_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	no macro.
+Unit <Adder8Bits_Bus_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <FullAdder_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	no macro.
+Unit <FullAdder_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <SHL8Bits_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+WARNING:Xst:647 - Input <A<7:7>> is never used. This port will be preserved and left unconnected if it belongs to a top-level block or it belongs to a sub-block and the hierarchy of this sub-block is preserved.
+    Summary:
+	no macro.
+Unit <SHL8Bits_Bus_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <Sub8Bits_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Set property "HU_SET = XLXI_9_7" for instance <XLXI_9>.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 631: Output port <C_OUT> of the instance <XLXI_2> is unconnected or connected to loadless signal.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 635: Output port <C_OUT> of the instance <XLXI_3> is unconnected or connected to loadless signal.
+    Summary:
+	no macro.
+Unit <Sub8Bits_Bus_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <INV8_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	no macro.
+Unit <INV8_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <HEX27SEG_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Set property "HU_SET = XLXI_2_4" for instance <XLXI_2>.
+    Set property "HU_SET = XLXI_5_5" for instance <XLXI_5>.
+    Set property "HU_SET = XLXI_6_6" for instance <XLXI_6>.
+INFO:Xst:3210 - "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf" line 464: Output port <D8> of the instance <XLXI_5> is unconnected or connected to loadless signal.
+    Summary:
+	no macro.
+Unit <HEX27SEG_Bus_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <OR6_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	no macro.
+Unit <OR6_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <D4_16E_HXILINX_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	inferred  16 Multiplexer(s).
+Unit <D4_16E_HXILINX_MainCircuit> synthesized.
+
+Synthesizing Unit <Mux4To1_8_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	no macro.
+Unit <Mux4To1_8_Bus_MUSER_MainCircuit> synthesized.
+
+Synthesizing Unit <Xor8Bits_Bus_MUSER_MainCircuit>.
+    Related source file is "C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester2-1\Digital System Fundamentals\Lab9_4-11-2563\Lab9\MainCircuit.vf".
+    Summary:
+	no macro.
+Unit <Xor8Bits_Bus_MUSER_MainCircuit> synthesized.
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 3
+ 16-bit adder                                          : 1
+ 2-bit adder                                           : 2
+# Registers                                            : 5
+ 1-bit register                                        : 4
+ 16-bit register                                       : 1
+# Multiplexers                                         : 45
+ 1-bit 2-to-1 multiplexer                              : 33
+ 1-bit 4-to-1 multiplexer                              : 12
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+Synthesizing (advanced) Unit <CC16RE_HXILINX_MainCircuit>.
+The following registers are absorbed into counter <Q>: 1 register on signal <Q>.
+Unit <CC16RE_HXILINX_MainCircuit> synthesized (advanced).
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Adders/Subtractors                                   : 2
+ 2-bit adder                                           : 2
+# Counters                                             : 1
+ 16-bit up counter                                     : 1
+# Registers                                            : 4
+ Flip-Flops                                            : 4
+# Multiplexers                                         : 45
+ 1-bit 2-to-1 multiplexer                              : 33
+ 1-bit 4-to-1 multiplexer                              : 12
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+
+Optimizing unit <MainCircuit> ...
+
+Optimizing unit <HEX27SEG_Bus_MUSER_MainCircuit> ...
+
+Optimizing unit <INV8_HXILINX_MainCircuit> ...
+
+Optimizing unit <CC16RE_HXILINX_MainCircuit> ...
+
+Optimizing unit <CB2CE_HXILINX_MainCircuit> ...
+
+Optimizing unit <M4_1E_HXILINX_MainCircuit> ...
+
+Optimizing unit <D2_4E_HXILINX_MainCircuit> ...
+
+Optimizing unit <D4_16E_HXILINX_MainCircuit> ...
+
+Optimizing unit <OR6_HXILINX_MainCircuit> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+Found area constraint ratio of 100 (+ 5) on block MainCircuit, actual ratio is 0.
+
+Final Macro Processing ...
+
+=========================================================================
+Final Register Report
+
+Macro Statistics
+# Registers                                            : 20
+ Flip-Flops                                            : 20
+
+=========================================================================
+
+=========================================================================
+*                           Partition Report                            *
+=========================================================================
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+=========================================================================
+*                            Design Summary                             *
+=========================================================================
+
+Top Level Output File Name         : MainCircuit.ngc
+
+Primitive and Black Box Usage:
+------------------------------
+# BELS                             : 250
+#      AND2                        : 48
+#      BUF                         : 7
+#      GND                         : 2
+#      INV                         : 22
+#      LUT1                        : 15
+#      LUT2                        : 6
+#      LUT4                        : 19
+#      LUT5                        : 1
+#      LUT6                        : 12
+#      MUXCY                       : 15
+#      OR2                         : 24
+#      OR4                         : 3
+#      OR5                         : 2
+#      VCC                         : 2
+#      XOR2                        : 56
+#      XORCY                       : 16
+# FlipFlops/Latches                : 20
+#      FDCE                        : 4
+#      FDRE                        : 16
+# Clock Buffers                    : 2
+#      BUFGP                       : 2
+# IO Buffers                       : 29
+#      IBUF                        : 16
+#      OBUF                        : 13
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 6slx9tqg144-3 
+
+
+Slice Logic Utilization: 
+ Number of Slice Registers:              20  out of  11440     0%  
+ Number of Slice LUTs:                   75  out of   5720     1%  
+    Number used as Logic:                75  out of   5720     1%  
+
+Slice Logic Distribution: 
+ Number of LUT Flip Flop pairs used:     95
+   Number with an unused Flip Flop:      75  out of     95    78%  
+   Number with an unused LUT:            20  out of     95    21%  
+   Number of fully used LUT-FF pairs:     0  out of     95     0%  
+   Number of unique control sets:         3
+
+IO Utilization: 
+ Number of IOs:                          31
+ Number of bonded IOBs:                  31  out of    102    30%  
+
+Specific Feature Utilization:
+ Number of BUFG/BUFGCTRLs:                2  out of     16    12%  
+
+---------------------------
+Partition Resource Summary:
+---------------------------
+
+  No Partitions were found in this design.
+
+---------------------------
+
+
+=========================================================================
+Timing Report
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+CLK_P123                           | BUFGP                  | 16    |
+XLXI_53/TC(XLXI_53/Mmux_TC13:O)    | NONE(*)(XLXI_18/Q0)    | 2     |
+MODE_SW_P45                        | BUFGP                  | 2     |
+-----------------------------------+------------------------+-------+
+(*) This 1 clock signal(s) are generated by combinatorial logic,
+and XST is not able to identify which are the primary clock signals.
+Please use the CLOCK_SIGNAL constraint to specify the clock signal(s) generated by combinatorial logic.
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+
+Asynchronous Control Signals Information:
+----------------------------------------
+No asynchronous control signals found in this design
+
+Timing Summary:
+---------------
+Speed Grade: -3
+
+   Minimum period: 2.216ns (Maximum Frequency: 451.233MHz)
+   Minimum input arrival time before clock: No path found
+   Maximum output required time after clock: 9.778ns
+   Maximum combinational path delay: 31.893ns
+
+Timing Details:
+---------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'CLK_P123'
+  Clock period: 1.989ns (frequency: 502.702MHz)
+  Total number of paths / destination ports: 136 / 16
+-------------------------------------------------------------------------
+Delay:               1.989ns (Levels of Logic = 17)
+  Source:            XLXI_53/Q_0 (FF)
+  Destination:       XLXI_53/Q_15 (FF)
+  Source Clock:      CLK_P123 rising
+  Destination Clock: CLK_P123 rising
+
+  Data Path: XLXI_53/Q_0 to XLXI_53/Q_15
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDRE:C->Q             2   0.447   0.616  Q_0 (Q_0)
+     INV:I->O              1   0.206   0.000  Mcount_Q_lut<0>_INV_0 (Mcount_Q_lut<0>)
+     MUXCY:S->O            1   0.172   0.000  Mcount_Q_cy<0> (Mcount_Q_cy<0>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<1> (Mcount_Q_cy<1>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<2> (Mcount_Q_cy<2>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<3> (Mcount_Q_cy<3>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<4> (Mcount_Q_cy<4>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<5> (Mcount_Q_cy<5>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<6> (Mcount_Q_cy<6>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<7> (Mcount_Q_cy<7>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<8> (Mcount_Q_cy<8>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<9> (Mcount_Q_cy<9>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<10> (Mcount_Q_cy<10>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<11> (Mcount_Q_cy<11>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<12> (Mcount_Q_cy<12>)
+     MUXCY:CI->O           1   0.019   0.000  Mcount_Q_cy<13> (Mcount_Q_cy<13>)
+     MUXCY:CI->O           0   0.019   0.000  Mcount_Q_cy<14> (Mcount_Q_cy<14>)
+     XORCY:CI->O           1   0.180   0.000  Mcount_Q_xor<15> (Result<15>)
+     FDRE:D                    0.102          Q_15
+    ----------------------------------------
+    Total                      1.989ns (1.373ns logic, 0.616ns route)
+                                       (69.0% logic, 31.0% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'XLXI_53/TC'
+  Clock period: 2.190ns (frequency: 456.663MHz)
+  Total number of paths / destination ports: 3 / 2
+-------------------------------------------------------------------------
+Delay:               2.190ns (Levels of Logic = 1)
+  Source:            XLXI_18/Q0 (FF)
+  Destination:       XLXI_18/Q0 (FF)
+  Source Clock:      XLXI_53/TC rising
+  Destination Clock: XLXI_53/TC rising
+
+  Data Path: XLXI_18/Q0 to XLXI_18/Q0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q            10   0.447   0.856  Q0 (Q0)
+     INV:I->O              1   0.206   0.579  Madd_Q1_GND_2_o_add_0_OUT_xor<0>11_INV_0 (Q1_GND_2_o_add_0_OUT<0>)
+     FDCE:D                    0.102          Q0
+    ----------------------------------------
+    Total                      2.190ns (0.755ns logic, 1.435ns route)
+                                       (34.5% logic, 65.5% route)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'MODE_SW_P45'
+  Clock period: 2.216ns (frequency: 451.233MHz)
+  Total number of paths / destination ports: 3 / 2
+-------------------------------------------------------------------------
+Delay:               2.216ns (Levels of Logic = 1)
+  Source:            XLXI_86/Q0 (FF)
+  Destination:       XLXI_86/Q0 (FF)
+  Source Clock:      MODE_SW_P45 rising
+  Destination Clock: MODE_SW_P45 rising
+
+  Data Path: XLXI_86/Q0 to XLXI_86/Q0
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q            11   0.447   0.882  Q0 (Q0)
+     INV:I->O              1   0.206   0.579  Madd_Q1_GND_2_o_add_0_OUT_xor<0>11_INV_0 (Q1_GND_2_o_add_0_OUT<0>)
+     FDCE:D                    0.102          Q0
+    ----------------------------------------
+    Total                      2.216ns (0.755ns logic, 1.461ns route)
+                                       (34.1% logic, 65.9% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'MODE_SW_P45'
+  Total number of paths / destination ports: 546 / 9
+-------------------------------------------------------------------------
+Offset:              9.778ns (Levels of Logic = 10)
+  Source:            XLXI_86/Q0 (FF)
+  Destination:       SEG_A_P41 (PAD)
+  Source Clock:      MODE_SW_P45 rising
+
+  Data Path: XLXI_86/Q0 to SEG_A_P41
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q            11   0.447   1.247  Q0 (Q0)
+     end scope: 'XLXI_86:Q0'
+     begin scope: 'XLXI_90/XLXI_1/XLXI_2:S0'
+     LUT6:I0->O            1   0.203   0.684  Mmux_O11 (O)
+     end scope: 'XLXI_90/XLXI_1/XLXI_2:O'
+     begin scope: 'XLXI_74/XLXI_2:D0'
+     LUT4:I2->O           15   0.203   1.210  Mmux_O11 (O)
+     end scope: 'XLXI_74/XLXI_2:O'
+     begin scope: 'XLXI_83/XLXI_5:A2'
+     LUT4:I1->O            5   0.205   1.059  Mmux_D1111 (D1)
+     end scope: 'XLXI_83/XLXI_5:D1'
+     OR4:I1->O             1   0.223   0.579  XLXI_83/XLXI_19 (XLXI_83/XLXN_62)
+     INV:I->O              1   0.568   0.579  XLXI_83/XLXI_26 (SEG_G_P27_OBUF)
+     OBUF:I->O                 2.571          SEG_G_P27_OBUF (SEG_G_P27)
+    ----------------------------------------
+    Total                      9.778ns (4.420ns logic, 5.358ns route)
+                                       (45.2% logic, 54.8% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'XLXI_53/TC'
+  Total number of paths / destination ports: 280 / 11
+-------------------------------------------------------------------------
+Offset:              8.748ns (Levels of Logic = 8)
+  Source:            XLXI_18/Q0 (FF)
+  Destination:       SEG_A_P41 (PAD)
+  Source Clock:      XLXI_53/TC rising
+
+  Data Path: XLXI_18/Q0 to SEG_A_P41
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDCE:C->Q            10   0.447   1.085  Q0 (Q0)
+     end scope: 'XLXI_18:Q0'
+     begin scope: 'XLXI_74/XLXI_4:S0'
+     LUT4:I1->O           15   0.205   1.229  Mmux_O11 (O)
+     end scope: 'XLXI_74/XLXI_4:O'
+     begin scope: 'XLXI_83/XLXI_5:A0'
+     LUT4:I0->O            5   0.203   1.059  Mmux_D1111 (D1)
+     end scope: 'XLXI_83/XLXI_5:D1'
+     OR4:I1->O             1   0.223   0.579  XLXI_83/XLXI_19 (XLXI_83/XLXN_62)
+     INV:I->O              1   0.568   0.579  XLXI_83/XLXI_26 (SEG_G_P27_OBUF)
+     OBUF:I->O                 2.571          SEG_G_P27_OBUF (SEG_G_P27)
+    ----------------------------------------
+    Total                      8.748ns (4.217ns logic, 4.531ns route)
+                                       (48.2% logic, 51.8% route)
+
+=========================================================================
+Timing constraint: Default path analysis
+  Total number of paths / destination ports: 28526 / 7
+-------------------------------------------------------------------------
+Delay:               31.893ns (Levels of Logic = 30)
+  Source:            DIP<0> (PAD)
+  Destination:       SEG_A_P41 (PAD)
+
+  Data Path: DIP<0> to SEG_A_P41
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     IBUF:I->O             4   1.222   0.683  DIP_0_IBUF (DIP_0_IBUF)
+     begin scope: 'XLXI_78/XLXI_9:I<0>'
+     INV:I->O              2   0.206   0.981  O<0>1_INV_0 (O<0>)
+     end scope: 'XLXI_78/XLXI_9:O<0>'
+     XOR2:I0->O            2   0.203   0.961  XLXI_78/XLXI_2/XLXI_1/XLXI_20 (XLXI_78/XLXI_2/XLXI_1/XLXN_7)
+     XOR2:I1->O            2   0.223   0.961  XLXI_78/XLXI_2/XLXI_1/XLXI_21 (XLXI_78/XLXN_5<0>)
+     XOR2:I1->O            2   0.223   0.981  XLXI_78/XLXI_3/XLXI_1/XLXI_20 (XLXI_78/XLXI_3/XLXI_1/XLXN_7)
+     AND2:I0->O            1   0.203   0.924  XLXI_78/XLXI_3/XLXI_1/XLXI_22 (XLXI_78/XLXI_3/XLXI_1/XLXN_15)
+     OR2:I1->O             2   0.223   0.961  XLXI_78/XLXI_3/XLXI_1/XLXI_24 (XLXI_78/XLXI_3/XLXN_2)
+     AND2:I1->O            1   0.223   0.924  XLXI_78/XLXI_3/XLXI_2/XLXI_22 (XLXI_78/XLXI_3/XLXI_2/XLXN_15)
+     OR2:I1->O             2   0.223   0.961  XLXI_78/XLXI_3/XLXI_2/XLXI_24 (XLXI_78/XLXI_3/XLXN_4)
+     AND2:I1->O            1   0.223   0.924  XLXI_78/XLXI_3/XLXI_35/XLXI_22 (XLXI_78/XLXI_3/XLXI_35/XLXN_15)
+     OR2:I1->O             2   0.223   0.961  XLXI_78/XLXI_3/XLXI_35/XLXI_24 (XLXI_78/XLXI_3/XLXN_6)
+     AND2:I1->O            1   0.223   0.924  XLXI_78/XLXI_3/XLXI_36/XLXI_22 (XLXI_78/XLXI_3/XLXI_36/XLXN_15)
+     OR2:I1->O             2   0.223   0.961  XLXI_78/XLXI_3/XLXI_36/XLXI_24 (XLXI_78/XLXI_3/XLXN_8)
+     AND2:I1->O            1   0.223   0.924  XLXI_78/XLXI_3/XLXI_40/XLXI_22 (XLXI_78/XLXI_3/XLXI_40/XLXN_15)
+     OR2:I1->O             2   0.223   0.961  XLXI_78/XLXI_3/XLXI_40/XLXI_24 (XLXI_78/XLXI_3/XLXN_10)
+     AND2:I1->O            1   0.223   0.924  XLXI_78/XLXI_3/XLXI_41/XLXI_22 (XLXI_78/XLXI_3/XLXI_41/XLXN_15)
+     OR2:I1->O             2   0.223   0.961  XLXI_78/XLXI_3/XLXI_41/XLXI_24 (XLXI_78/XLXI_3/XLXN_12)
+     AND2:I1->O            1   0.223   0.924  XLXI_78/XLXI_3/XLXI_42/XLXI_22 (XLXI_78/XLXI_3/XLXI_42/XLXN_15)
+     OR2:I1->O             2   0.223   0.981  XLXI_78/XLXI_3/XLXI_42/XLXI_24 (XLXI_78/XLXI_3/XLXN_14)
+     XOR2:I0->O            1   0.203   0.808  XLXI_78/XLXI_3/XLXI_43/XLXI_21 (XLXN_245<7>)
+     begin scope: 'XLXI_90/XLXI_2/XLXI_1:D1'
+     LUT6:I3->O            1   0.205   0.580  Mmux_O11 (O)
+     end scope: 'XLXI_90/XLXI_2/XLXI_1:O'
+     begin scope: 'XLXI_74/XLXI_1:D1'
+     LUT4:I3->O           15   0.205   1.210  Mmux_O11 (O)
+     end scope: 'XLXI_74/XLXI_1:O'
+     begin scope: 'XLXI_83/XLXI_5:A3'
+     LUT4:I1->O            3   0.205   0.995  Mmux_D411 (D4)
+     end scope: 'XLXI_83/XLXI_5:D4'
+     OR4:I1->O             1   0.223   0.579  XLXI_83/XLXI_1 (XLXI_83/XLXN_56)
+     INV:I->O              1   0.568   0.579  XLXI_83/XLXI_20 (SEG_A_P41_OBUF)
+     OBUF:I->O                 2.571          SEG_A_P41_OBUF (SEG_A_P41)
+    ----------------------------------------
+    Total                     31.893ns (9.359ns logic, 22.534ns route)
+                                       (29.3% logic, 70.7% route)
+
+=========================================================================
+
+Cross Clock Domains Report:
+--------------------------
+
+Clock to Setup on destination clock CLK_P123
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+CLK_P123       |    1.989|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock MODE_SW_P45
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+MODE_SW_P45    |    2.216|         |         |         |
+---------------+---------+---------+---------+---------+
+
+Clock to Setup on destination clock XLXI_53/TC
+---------------+---------+---------+---------+---------+
+               | Src:Rise| Src:Fall| Src:Rise| Src:Fall|
+Source Clock   |Dest:Rise|Dest:Rise|Dest:Fall|Dest:Fall|
+---------------+---------+---------+---------+---------+
+XLXI_53/TC     |    2.190|         |         |         |
+---------------+---------+---------+---------+---------+
+
+=========================================================================
+
+
+Total REAL time to Xst completion: 6.00 secs
+Total CPU time to Xst completion: 5.29 secs
+ 
+--> 
+
+Total memory usage is 4486176 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    3 (   0 filtered)
+Number of infos    :   11 (   0 filtered)
+

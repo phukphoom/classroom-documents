@@ -1,0 +1,19 @@
+#-----------------------------------------------------------
+# PlanAhead v14.7
+# Build 321239 by xbuild on Fri Sep 27 19:31:35 MDT 2013
+# Start of session at: Thu Nov 05 03:09:58 2020
+# Process ID: 10808
+# Log file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/planAhead_run_3/planAhead.log
+# Journal file: C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/planAhead_run_3/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/pa.fromHdl.tcl}
+update_compile_order -fileset sim_1
+startgroup
+set_property package_pin P82 [get_ports {ModeSel[0]}]
+endgroup
+save_constraints
+startgroup
+set_property package_pin P81 [get_ports {ModeSel[1]}]
+endgroup
+save_constraints

@@ -190,6 +190,8 @@ void loop() {
   }
 }
 
+
+
 void sendFrame(String frame) {
   Serial.println("Send frame : " + frame);
   Serial.println("Frame No : " + String(frameNo));
@@ -200,6 +202,8 @@ void sendFrame(String frame) {
   canSend = false;
   timer = millis();
 }
+
+
 void sendArk(String frame) {
   Serial.print("Send Ark Status : ");
   Serial.println(arkNo);
@@ -208,6 +212,9 @@ void sendArk(String frame) {
     mySerial.write(frame[i]);
   }
 }
+
+
+
 String insertEscapeChar(String data) {
   String returnBuffer = "";
   for (int i = 0; i < data.length(); i++) {
@@ -221,6 +228,8 @@ String insertEscapeChar(String data) {
   }
   return returnBuffer;
 }
+
+
 String getSum(String string) {
   int sum = 0;
   for (int i = 0; i < string.length(); i++) {

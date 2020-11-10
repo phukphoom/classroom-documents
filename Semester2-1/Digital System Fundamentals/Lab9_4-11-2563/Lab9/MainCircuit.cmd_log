@@ -1,0 +1,33 @@
+sch2hdl -intstyle ise -family spartan6 -verilog MainCircuit.vf -w {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.sch} 
+sch2verilog -intstyle ise -family spartan6 -tionly {} -tiext tfi -w {C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.sch} MainCircuit.tfi 
+xst -intstyle ise -ifn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.xst" -ofn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.syr" 
+xst -intstyle ise -ifn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.xst" -ofn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+xst -intstyle ise -ifn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.xst" -ofn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+par -w -intstyle ise -ol high -mt off MainCircuit_map.ncd MainCircuit.ncd MainCircuit.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml MainCircuit.twx MainCircuit.ncd -o MainCircuit.twr MainCircuit.pcf -ucf MainCircuitPin.ucf 
+bitgen -intstyle ise -f MainCircuit.ut MainCircuit.ncd 
+xst -intstyle ise -ifn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.xst" -ofn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+par -w -intstyle ise -ol high -mt off MainCircuit_map.ncd MainCircuit.ncd MainCircuit.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml MainCircuit.twx MainCircuit.ncd -o MainCircuit.twr MainCircuit.pcf -ucf MainCircuitPin.ucf 
+bitgen -intstyle ise -f MainCircuit.ut MainCircuit.ncd 
+xst -intstyle ise -ifn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.xst" -ofn "C:/Users/Admin/Desktop/CodeHub/ClassDocs/Semester2-1/Digital System Fundamentals/Lab9_4-11-2563/Lab9/MainCircuit.syr" 
+ngdbuild -intstyle ise -dd _ngo -nt timestamp -uc MainCircuitPin.ucf -p xc6slx9-tqg144-3 "MainCircuit.ngc" MainCircuit.ngd  
+map -intstyle ise -p xc6slx9-tqg144-3 -w -logic_opt off -ol high -t 1 -xt 0 -register_duplication off -r 4 -global_opt off -mt off -ir off -pr off -lc off -power off -o MainCircuit_map.ncd MainCircuit.ngd MainCircuit.pcf 
+par -w -intstyle ise -ol high -mt off MainCircuit_map.ncd MainCircuit.ncd MainCircuit.pcf 
+trce -intstyle ise -v 3 -s 3 -n 3 -fastpaths -xml MainCircuit.twx MainCircuit.ncd -o MainCircuit.twr MainCircuit.pcf -ucf MainCircuitPin.ucf 
+bitgen -intstyle ise -f MainCircuit.ut MainCircuit.ncd 
