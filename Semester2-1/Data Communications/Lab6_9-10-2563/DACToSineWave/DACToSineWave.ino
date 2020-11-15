@@ -5,9 +5,9 @@ Adafruit_MCP4725 dac;
 int delay0;
 
 #define defaultFreq  1700     //DAC speed
-#define freqSine 500         // sine wave frequency
+#define freqSine 1000         // sine wave frequency
 
-const int zetaLength = 8;
+const int zetaLength = 4;
 float zeta[zetaLength];
 float s[zetaLength];
 uint16_t s_dac[zetaLength];
@@ -15,7 +15,13 @@ uint16_t s_dac[zetaLength];
 void setup()
 {
   dac.begin(0x64);
-  delay0 = (1000000 / freqSine - 1000000 / defaultFreq) * zetaLength;   //[(Tsin - Tdac) /  zetaLength]
+  delay0 = (1000000/freqSine - 1000000/defaultFreq) / zetaLength;   //[(Tsin - Tdac) /  zetaLength]
+  if(zetaLength==8){
+    delay0 -= 75;
+  }
+  else if(zetaLength==16){
+    delay0 -= 100;
+  }
   Serial.begin(115200);
   Serial.print("delay0 is ");
   Serial.println(delay0);

@@ -12,38 +12,38 @@ def boubleSort(sequence):
             break
     return sequence
 
-def getPatternStorage(sequence, summation, curr_summation=0, index=0, pattern=None, patternStorage=None):
+def getPatternStorage(sequence, summation, curr_summation=0, index=0, pattern=None, pattern_storage=None):
     if pattern is None:
         pattern = []
-    if patternStorage is None:
-        patternStorage = []
+    if pattern_storage is None:
+        pattern_storage = []
 
     if curr_summation == summation:
-        patternStorage.append(list(pattern))
-        return patternStorage
+        pattern_storage.append(list(pattern))
+        return pattern_storage
 
     if index == len(sequence):
-        return patternStorage
+        return pattern_storage
 
     pattern.append(sequence[index])
-    getPatternStorage(sequence, summation, curr_summation + sequence[index], index+1, pattern, patternStorage)
+    getPatternStorage(sequence, summation, curr_summation + sequence[index], index+1, pattern, pattern_storage)
 
     pattern.pop()
-    getPatternStorage(sequence, summation, curr_summation, index+1, pattern, patternStorage)
+    getPatternStorage(sequence, summation, curr_summation, index+1, pattern, pattern_storage)
 
-    return patternStorage
+    return pattern_storage
 
-def sortPatterStorage(patternStorage):
-    for i in range(len(patternStorage)-1):
+def sortPatterStorage(pattern_storage):
+    for i in range(len(pattern_storage)-1):
         swaped = False
 
-        for j in range(len(patternStorage)-1-i):
-            if len(patternStorage[j]) > len(patternStorage[j+1]):
+        for j in range(len(pattern_storage)-1-i):
+            if len(pattern_storage[j]) > len(pattern_storage[j+1]):
                 swaped = True
-                patternStorage[j], patternStorage[j+1] = patternStorage[j+1], patternStorage[j]
+                pattern_storage[j], pattern_storage[j+1] = pattern_storage[j+1], pattern_storage[j]
         if not swaped:
             break
-    return patternStorage
+    return pattern_storage
 
 ### Main ###
 summation, inputList = input('Enter Input : ').split('/')
