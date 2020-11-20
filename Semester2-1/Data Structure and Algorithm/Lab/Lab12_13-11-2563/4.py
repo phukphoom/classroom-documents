@@ -4,8 +4,8 @@ class Hash:
 
         self.table = [None]*table_size
         self.tableSize = table_size
-        self.numData = 0
         self.addOrder = []
+        self.numData = 0
         self.maxCollision = max_collision
         self.thresHold = threshold
 
@@ -57,13 +57,13 @@ class Hash:
 
     def reHash(self):
         # Set Old Table to None
-        for item in self.table:
-            item = None
+        for i in range(len(self.table)):
+            if self.table[i] is not None:
+                self.table[i] = None
 
         # Find new TableSize
         newTableSize = self.tableSize*2
         while not self.isPrime(newTableSize):
-        
             newTableSize += 1
 
         # Create new Table with append None
@@ -71,7 +71,7 @@ class Hash:
             self.table.append(None)
         self.tableSize = newTableSize
 
-        # Re-hashing old data to new Table with addOrder
+        # Re-hashing old data to new Table
         for data in self.addOrder:
             index = self.hashing(data)
             self.table[index] = data
