@@ -1,6 +1,6 @@
 ### Function ###
 def SelectionSort(sequence):
-    for i in range(len(sequence)):
+    for i in range(len(sequence)-1):
         minIndex = i
         
         for j in range(i,len(sequence)):
