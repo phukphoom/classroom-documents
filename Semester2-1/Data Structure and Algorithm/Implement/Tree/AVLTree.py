@@ -207,17 +207,3 @@ class AVLTree:
             self.printTree(node.right, level + 1)
             print('     ' * level, node.value)
             self.printTree(node.left, level + 1)
-
-tree = AVLTree()
-root = Node(1)
-
-root = tree.insert(root,2)
-root = tree.insert(root,3)
-root = tree.insert(root,1)
-root = tree.insert(root,0)
-root = tree.insert(root,2)
-root = tree.insert(root,3)
-root = tree.insert(root,1)
-root = tree.insert(root,0)
-
-tree.printTree(root)
