@@ -6,3 +6,8 @@
 
 ### **วิชาที่เรียนในชั้นปี [1-2]**
 - Object Oriented Programming
+
+### **วิชาที่เรียนในชั้นปี [2-1]**
+- Data Communications
+- Data Structure and Algorithm
+- Digital System Fundamentals
