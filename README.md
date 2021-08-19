@@ -1,13 +1,33 @@
 # **Repository - ClassDocs**
 `Repository` สำหรับเก็บ `Source Code` ที่เขียนขึ้นในชั้นเรียน `Computer Engineering @KMITL` 
+
+# **รายวิชาหลัก**
 ### **วิชาที่เรียนในชั้นปี [1-1]**
-- Intro to computer engineering
-- Programming fundamental
+- **Programming Fundamental**
+- **Intro to computer engineering**
+- *Calculus I*
 
 ### **วิชาที่เรียนในชั้นปี [1-2]**
-- Object Oriented Programming
+- **Object Oriented Programming**
+- **Circuit and Electronics**
+- *Discrete Structure*
+- *Calculus II*
 
 ### **วิชาที่เรียนในชั้นปี [2-1]**
-- Data Communications
-- Data Structure and Algorithm
-- Digital System Fundamentals
+- **Data Structure and Algorithm**
+- **Data Communications**
+- **Digital System Fundamentals**
+- *Elemental Differential Equation And Linear Algebra*
+
+### **วิชาที่เรียนในชั้นปี [2-2]**
+- **Software Development Process**
+- **Computer Networks**
+- **Computer Organization and Assembly Language**
+- *Probability and Statistics*
+
+### **วิชาที่เรียนในชั้นปี [3-1]**
+- **Software Architecture and Design**
+- **User Experiance and User Interface Design**
+- **Operating Systems**
+- **Database Systems**
+- **Internetworking Standard and Technologies**
