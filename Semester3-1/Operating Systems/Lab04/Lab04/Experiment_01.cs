@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Lab04_Concurrency
 {
-    // Inspect theread behavior
+    // Inspect thread behavior
     public class Experiment_01
     {
         private static void TestThread1()
