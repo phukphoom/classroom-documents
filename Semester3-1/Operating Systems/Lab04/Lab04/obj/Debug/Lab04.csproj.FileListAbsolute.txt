@@ -1,0 +1,14 @@
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\bin\Debug\Lab04.exe.config
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\bin\Debug\Lab04.exe
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\bin\Debug\Lab04.pdb
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.csprojAssemblyReference.cache
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.exe
+C:\Users\Admin\Desktop\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.pdb
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\bin\Debug\Lab04.exe.config
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\bin\Debug\Lab04.exe
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\bin\Debug\Lab04.pdb
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.csprojAssemblyReference.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.exe
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-1\Operating Systems\Lab04\Lab04\obj\Debug\Lab04.pdb
