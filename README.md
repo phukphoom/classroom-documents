@@ -1,4 +1,4 @@
-# **Repository - ClassDocs**
+# **Classroom Documents**
 `Repository` สำหรับเก็บ `Source Code` ที่เขียนขึ้นในชั้นเรียน `Computer Engineering @KMITL` 
 
 # **รายวิชาหลัก**
