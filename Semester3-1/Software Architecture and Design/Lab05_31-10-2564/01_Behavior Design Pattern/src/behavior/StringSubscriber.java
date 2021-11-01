@@ -3,7 +3,7 @@ package behavior;
 import java.util.concurrent.Flow;
 
 public abstract class StringSubscriber implements Flow.Subscriber<String>{
-    protected StringSubscription stringSubscription;
+    protected StringSubscription subscription;
 
     public abstract void onSubscribe(Flow.Subscription subscription);
 

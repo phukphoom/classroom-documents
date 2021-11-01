@@ -11,12 +11,8 @@ public class NumberSubscriber extends StringSubscriber{
         this.pathToPrint = pathToPrint;
     }
 
-    private String filterNumber(String str){
-        return str.replaceAll("[^0-9]","");
-    }
-
     public void onSubscribe(Flow.Subscription subscription) {
-        super.stringSubscription = (StringSubscription) subscription;
+        super.subscription = (StringSubscription) subscription;
 
         System.out.println("NumberSubscriber: Subscribed");
     }
@@ -26,19 +22,17 @@ public class NumberSubscriber extends StringSubscriber{
             System.out.println("NumberSubscriber: Received \"" + item + "\"");
             try{
                 FileWriter writer = new FileWriter(this.pathToPrint,true);
-                String stringFiltered = this.filterNumber(item);
-
-                writer.write(stringFiltered);
+                writer.write(item);
                 writer.close();
 
-                System.out.println("NumberSubscriber: Write \"" + stringFiltered + "\" to " + this.pathToPrint);
+                System.out.println("NumberSubscriber: Write \"" + item + "\" to " + this.pathToPrint);
             }
             catch (IOException error){
                 System.out.println("NumberSubscriber: " + error);
             }
         }
         else{
-            System.out.println("NumberSubscriber: Received null item");
+            System.out.println("NumberSubscriber: Received null");
         }
     }
 }

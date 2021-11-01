@@ -11,12 +11,8 @@ public class AlphabetSubscriber extends StringSubscriber{
         this.pathToPrint = pathToPrint;
     }
 
-    private String filterAlphabet(String str){
-        return str.replaceAll("[^a-zA-Z]","");
-    }
-
     public void onSubscribe(Flow.Subscription subscription) {
-        super.stringSubscription = (StringSubscription) subscription;
+        super.subscription = (StringSubscription) subscription;
 
         System.out.println("AlphabetSubscriber: Subscribed");
     }
@@ -26,19 +22,17 @@ public class AlphabetSubscriber extends StringSubscriber{
             System.out.println("AlphabetSubscriber: Received \"" + item + "\"");
             try{
                 FileWriter writer = new FileWriter(this.pathToPrint,true);
-                String stringFiltered = this.filterAlphabet(item);
-
-                writer.write(stringFiltered);
+                writer.write(item);
                 writer.close();
 
-                System.out.println("AlphabetSubscriber: Write \"" + stringFiltered + "\" to " + this.pathToPrint);
+                System.out.println("AlphabetSubscriber: Write \"" + item + "\" to " + this.pathToPrint);
             }
             catch (IOException error){
                 System.out.println("AlphabetSubscriber: " + error);
             }
         }
         else{
-            System.out.println("AlphabetSubscriber: Received null item");
+            System.out.println("AlphabetSubscriber: Received null");
         }
     }
 }

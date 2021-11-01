@@ -11,12 +11,8 @@ public class SymbolSubscriber extends StringSubscriber{
         this.pathToPrint = pathToPrint;
     }
 
-    private String filterSymbol(String str){
-        return str.replaceAll("[a-zA-Z]|[0-9]|[\s]","");
-    }
-
     public void onSubscribe(Flow.Subscription subscription) {
-        super.stringSubscription = (StringSubscription) subscription;
+        super.subscription = (StringSubscription) subscription;
 
         System.out.println("SymbolSubscriber: Subscribed");
     }
@@ -26,19 +22,17 @@ public class SymbolSubscriber extends StringSubscriber{
             System.out.println("SymbolSubscriber: Received \"" + item + "\"");
             try{
                 FileWriter writer = new FileWriter(this.pathToPrint,true);
-                String stringFiltered = this.filterSymbol(item);
-
-                writer.write(stringFiltered);
+                writer.write(item);
                 writer.close();
 
-                System.out.println("SymbolSubscriber: Write \"" + stringFiltered + "\" to " + this.pathToPrint);
+                System.out.println("SymbolSubscriber: Write \"" + item + "\" to " + this.pathToPrint);
             }
             catch (IOException error){
                 System.out.println("SymbolSubscriber: " + error);
             }
         }
         else{
-            System.out.println("SymbolSubscriber: Received null item");
+            System.out.println("SymbolSubscriber: Received null");
         }
     }
 
