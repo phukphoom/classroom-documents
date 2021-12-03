@@ -1,0 +1,79 @@
+============================================
+Router> enable
+Router# configure terminal
+Router(config)# hostname StubRouter
+
+Router(config)# enable secret cisco
+
+StubRouter(config)# line vty 0
+StubRouter(config-line)# password cisco
+StubRouter(config-line)# login
+StubRouter(config-line)# exit
+
+StubRouter(config)# interface s0/0 
+StubRouter(config-if)# ip address 161.246.1.1 255.255.255.0
+StubRouter(config-if)# clock rate 56000
+StubRouter(config-if)# no shutdown
+StubRouter(config-if)# exit
+
+StubRouter(config)# ip route 0.0.0.0 0.0.0.0 161.246.1.254 
+
+StubRouter(config)# ip nat inside source static 192.168.10.11 161.246.1.101
+StubRouter(config)# ip nat inside source static 192.168.10.12 161.246.1.102
+StubRouter(config)# ip nat inside source static 192.168.20.11 161.246.1.103
+StubRouter(config)# ip nat inside source static 192.168.20.12 161.246.1.104
+
+StubRouter(config)# interface fa0/0
+StubRouter(config-if)# ip nat inside
+StubRouter(config-if)# exit
+
+StubRouter(config)# interface fa0/0.10
+StubRouter(config-if)# ip nat inside
+StubRouter(config-if)# exit
+
+StubRouter(config)# interface fa0/0.20
+StubRouter(config-if)# ip nat inside
+StubRouter(config-if)# exit
+
+StubRouter(config)# interface s0/0
+StubRouter(config-if)# ip nat outside
+StubRouter(config-if)# exit
+--------------------------------------------
+enable
+configure terminal
+hostname StubRouter
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface s0/0 
+ip address 161.246.1.1 255.255.255.0
+clock rate 56000
+no shutdown
+
+ip route 0.0.0.0 0.0.0.0 161.246.1.254 
+
+ip nat inside source static 192.168.10.11 161.246.1.101
+ip nat inside source static 192.168.10.12 161.246.1.102
+ip nat inside source static 192.168.20.11 161.246.1.103
+ip nat inside source static 192.168.20.12 161.246.1.104
+
+interface fa0/0
+ip nat inside
+exit
+
+interface fa0/0.10
+ip nat inside
+exit
+
+interface fa0/0.20
+ip nat inside
+exit
+
+interface s0/0
+ip nat outside
+exit

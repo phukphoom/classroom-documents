@@ -1,0 +1,31 @@
+============================================
+Phuket> enable
+Phuket# config t
+Phuket(config)# line vty 0
+Phuket(config-line)# password cisco
+Phuket(config-if)# login
+Phuket(config-if)# exit
+--------------------------------------------
+enable
+config t
+line vty 0
+password cisco
+login
+exit
+
+============================================
+
+Phuket(config)# access-list 100 deny tcp host 192.168.3.11 172.1.0.0 0.0.1.255 eq telnet
+Phuket(config)# access-list 100 deny tcp host 192.168.3.11 172.1.2.0 0.0.0.127 eq telnet
+Phuket(config)# access-list 100 permit ip any any
+Phuket(config)# interface fa0/0
+Phuket(config-if)# ip access-group 100 in
+Phuket(config-if)# exit
+
+--------------------------------------------
+access-list 100 deny tcp host 192.168.3.11 172.1.0.0 0.0.1.255 eq telnet
+access-list 100 deny tcp host 192.168.3.11 172.1.2.0 0.0.0.127 eq telnet
+access-list 100 permit ip any any
+interface fa0/0
+ip access-group 100 in
+exit

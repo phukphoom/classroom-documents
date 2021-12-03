@@ -1,0 +1,59 @@
+============================================
+Router> enable
+Router# configure terminal
+Router(config)# hostname Phuket
+
+Router(config)# enable secret cisco
+
+Phuket(config)# line vty 0
+Phuket(config-line)# password cisco
+Phuket(config-line)# login
+Phuket(config-line)# exit
+
+Phuket(config)# interface s0/0/1
+Phuket(config-if)# ip address 192.168.2.6 255.255.255.252
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+Phuket(config)# interface gi0/0
+Phuket(config-if)# ip address 192.168.3.1 255.255.255.0
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+Phuket(config)# interface lo0
+Phuket(config-if)# ip address 10.1.1.1 255.255.255.252
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+Phuket(config)# ip route 172.1.0.0 255.255.252.0 gi0/0
+Phuket(config)# ip route 0.0.0.0 0.0.0.0 lo0
+
+--------------------------------------------
+enable
+configure terminal
+hostname Phuket
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface s0/0/1
+ip address 192.168.2.6 255.255.255.252
+no shutdown
+exit
+
+interface gi0/0
+ip address 192.168.3.1 255.255.255.0
+no shutdown
+exit
+
+interface lo0
+ip address 10.1.1.1 255.255.255.252
+no shutdown
+exit
+
+ip route 172.1.0.0 255.255.252.0 s0/0/1
+ip route 0.0.0.0 0.0.0.0 lo0

@@ -1,0 +1,84 @@
+============================================
+Router> enable
+Router# config t
+Router(config)# hostname Udon
+
+Udon(config)# interface s0/0
+Udon(config-if)# ip add 172.1.2.129 255.255.255.252
+Udon(config-if)# no shutdown
+Udon(config-if)# exit
+
+Udon(config)# interface s0/1
+Udon(config-if)# ip add 192.168.2.10 255.255.255.252
+Udon(config-if)# no shutdown
+Udon(config-if)# exit
+
+Udon(config)# interface fa0/0
+Udon(config-if)# ip add 172.1.1.254 255.255.254.0
+Udon(config-if)# no shutdown
+Udon(config-if)# exit
+--------------------------------------------
+enable
+config t
+hostname Udon
+
+interface s0/0
+ip add 172.1.2.129 255.255.255.252
+no shutdown
+exit
+
+interface s0/1
+ip add 192.168.2.10 255.255.255.252
+no shutdown
+exit
+
+interface fa0/0
+ip add 172.1.1.254 255.255.254.0
+no shutdown
+exit
+
+============================================
+Udon(config)# ip dhcp excluded-address 172.1.0.1 172.1.0.10
+Udon(config)# ip dhcp excluded-address 172.1.1.254
+Udon(config)# ip dhcp pool LAN-POOL-X
+Udon(dhcp-config)# network 172.1.0.0 255.255.254.0
+Udon(dhcp-config)# default-router 172.1.1.254
+Udon(dhcp-config)# exit
+--------------------------------------------
+ip dhcp excluded-address 172.1.0.1 172.1.0.10
+ip dhcp excluded-address 172.1.1.254
+ip dhcp pool LAN-POOL-X
+network 172.1.0.0 255.255.254.0
+default-router 172.1.1.254
+exit
+
+============================================
+Udon(config)# router ospf 1
+Udon(config-router)# router-id 1.1.1.1
+Udon(config-router)# network 172.1.2.128 0.0.0.3 area 0
+Udon(config-router)# network 192.168.2.8 0.0.0.3 area 0
+Udon(config-router)# network 172.1.0.0 0.0.1.255 area 0
+Udon(config-router)# exit
+--------------------------------------------
+router ospf 1
+router-id 1.1.1.1
+network 172.1.2.128 0.0.0.3 area 0
+network 192.168.2.8 0.0.0.3 area 0
+network 172.1.0.0 0.0.1.255 area 0
+exit
+
+============================================
+Udon(config)# interface s0/0
+Udon(config-if)# ip ospf cost 32
+Udon(config-if)# exit
+Udon(config)# interface s0/1
+Udon(config-if)# bandwidth 64
+Udon(config-if)# exit
+--------------------------------------------
+interface s0/0
+ip ospf cost 32
+exit
+interface s0/1
+bandwidth 64
+exit
+

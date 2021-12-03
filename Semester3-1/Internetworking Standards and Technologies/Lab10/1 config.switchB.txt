@@ -1,0 +1,76 @@
+============================================
+Switch> enable
+Switch# configure terminal
+Switch(config)# hostname SwitchB
+
+SwitchB(config)# enable secret cisco
+
+SwitchB(config)# line vty 0
+SwitchB(config-line)# password cisco
+SwitchB(config-line)# login
+SwitchB(config-line)# exit
+
+SwitchB(config)# interface vlan 1
+SwitchB(config-if)# ip address 192.168.1.12 255.255.255.0
+SwitchB(config-if)# no shutdown
+SwitchB(config-if)# exit
+
+SwitchB(config)# ip default-gateway 192.168.1.254
+
+SwitchB(config)# interface range fa0/23-24
+SwitchB(config-if-range)# switchport mode trunk
+SwitchB(config-if-range)# switchport trunk native vlan 1
+SwitchB(config-if-range)# exit
+
+SwitchB(config)# vtp version 2
+SwitchB(config)# vtp domain ce
+SwitchB(config)# vtp password cisco
+SwitchB(config)# vtp mode client
+
+SwitchB(config)# interface range fa0/1-10
+SwitchB(config-if-range)# switchport mode access
+SwitchB(config-if-range)# switchport access vlan 10
+SwitchB(config-if-range)# exit
+
+SwitchB(config)# interface range fa0/11-20
+SwitchB(config-if-range)# switchport mode access
+SwitchB(config-if-range)# switchport access vlan 20
+SwitchB(config-if-range)# exit
+--------------------------------------------
+enable
+configure terminal
+hostname SwitchB
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface vlan 1
+ip address 192.168.1.12 255.255.255.0
+no shutdown
+exit
+
+ip default-gateway 192.168.1.254
+
+interface range fa0/23-24
+switchport mode trunk
+switchport trunk native vlan 1
+exit
+
+vtp version 2
+vtp domain ce
+vtp password cisco
+vtp mode client
+
+interface range fa0/1-10
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range fa0/11-20
+switchport mode access
+switchport access vlan 20
+exit

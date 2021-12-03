@@ -1,0 +1,101 @@
+============================================
+Router> enable
+Router# config t
+Router(config)# hostname Phuket
+
+Phuket(config)# interface s0/0
+Phuket(config-if)# ip add 192.168.2.9 255.255.255.252
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+Phuket(config)# interface s0/1
+Phuket(config-if)# ip add 192.168.2.6 255.255.255.252
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+Phuket(config)# interface fa0/0
+Phuket(config-if)# ip add 192.168.3.254 255.255.255.0
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+Phuket(config)# interface lo 0
+Phuket(config-if)# ip add 10.3.3.1 255.255.255.252
+Phuket(config-if)# no shutdown
+Phuket(config-if)# exit
+
+--------------------------------------------
+enable
+config t
+hostname Phuket
+
+interface s0/0
+ip add 192.168.2.9 255.255.255.252
+no shutdown
+exit
+
+interface s0/1
+ip add 192.168.2.6 255.255.255.252
+no shutdown
+exit
+
+interface fa0/0
+ip add 192.168.3.254 255.255.255.0
+no shutdown
+exit
+
+interface lo 0
+ip add 10.3.3.1 255.255.255.252
+no shutdown
+exit
+
+============================================
+Phuket(config)# ip dhcp excluded-address 192.168.3.1 192.168.3.10
+Phuket(config)# ip dhcp excluded-address 192.168.3.254
+Phuket(config)# ip dhcp pool LAN-POOL-Z
+Phuket(dhcp-config)# network 192.168.3.0 255.255.255.0
+Phuket(dhcp-config)# default-router 192.168.3.254
+Phuket(dhcp-config)# exit
+--------------------------------------------
+ip dhcp excluded-address 192.168.3.1 192.168.3.10
+ip dhcp excluded-address 192.168.3.254
+ip dhcp pool LAN-POOL-Z
+network 192.168.3.0 255.255.255.0
+default-router 192.168.3.254
+exit
+
+============================================
+Phuket(config)# ip route 0.0.0.0 0.0.0.0 lo 0
+Phuket(config)# router ospf 3
+Phuket(config-router)# router-id 3.3.3.3
+Phuket(config-router)# network 192.168.2.8 0.0.0.3 area 0
+Phuket(config-router)# network 192.168.2.4 0.0.0.3 area 0
+Phuket(config-router)# network 192.168.3.0 0.0.0.255 area 0
+Phuket(config-router)# default-information originate
+Phuket(config-router)# exit
+--------------------------------------------
+ip route 0.0.0.0 0.0.0.0 lo 0
+router ospf 3
+router-id 3.3.3.3
+network 192.168.2.8 0.0.0.3 area 0
+network 192.168.2.4 0.0.0.3 area 0
+network 192.168.3.0 0.0.0.255 area 0
+default-information originate
+exit
+
+============================================
+Phuket(config)# interface s0/0
+Phuket(config-if)# ip ospf cost 1562
+Phuket(config-if)# exit
+Phuket(config)# interface s0/1
+Phuket(config-if)# bandwidth 2048
+Phuket(config-if)# exit
+--------------------------------------------
+interface s0/0
+ip ospf cost 1562
+exit
+interface s0/1
+bandwidth 2048
+exit
+
+
+

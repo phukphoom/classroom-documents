@@ -1,0 +1,97 @@
+============================================
+Switch> enable
+Switch# delete flash:vlan.dat
+Switch# erase startup-config
+Switch# reload
+
+--------------------------------------------
+enable
+delete flash:vlan.dat
+erase startup-config
+reload
+
+============================================
+Switch> enable
+Switch# configure terminal
+Switch(config)# hostname IST
+
+IST(config)# enable password ccna
+IST(config)# enable secret class
+
+IST(config)# line console 0
+IST(config-line)# password cisco
+IST(config-line)# login
+IST(config-line)# exit
+
+IST(config)# interface vlan 99
+IST(config-if)# ip address 172.17.1.11 255.255.255.0
+IST(config-if)# no shutdown
+IST(config-if)# exit
+IST(config)# ip default-gateway 172.17.1.254
+
+IST(config)# vlan 99
+IST(config-vlan)# exit
+IST(config)# interface fa 0/1
+IST(config-if)# switchport mode access
+IST(config-if)# switchport access vlan 99
+IST(config-if)# exit
+
+IST(config)# line vty 0
+IST(config-line)# password istlab
+IST(config-line)# login
+IST(config-line)# exit
+
+IST(config)# username ADMINist secret istlab
+IST(config)# line vty 0
+IST(config-line)# login local
+IST(config-line)# exit
+
+IST(config)# ip domain-name ce.kmitl.ac.th
+IST(config)# line vty 0
+IST(config-line)# transport input ssh
+IST(config-line)# exit
+IST(config)# crypto key generate rsa
+some dialog : 1024
+
+--------------------------------------------
+enable
+configure terminal
+hostname IST
+
+enable password ccna
+enable secret class
+
+line console 0
+password cisco
+login
+exit
+
+interface vlan 99
+ip address 172.17.1.11 255.255.255.0
+no shutdown
+exit
+ip default-gateway 172.17.1.254
+
+vlan 99
+exit
+interface fa 0/1
+switchport mode access
+switchport access vlan 99
+exit
+
+line vty 0
+password istlab
+login
+exit
+
+username ADMINist secret istlab
+line vty 0
+login local
+exit
+
+ip domain-name ce.kmitl.ac.th
+line vty 0
+transport input ssh
+exit
+crypto key generate rsa
+1024

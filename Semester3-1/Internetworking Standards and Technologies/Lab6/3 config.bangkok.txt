@@ -1,0 +1,29 @@
+============================================
+Bangkok> enable
+Bangkok# config t
+Bangkok(config)# line vty 0
+Bangkok(config-line)# password cisco
+Bangkok(config-if)# login
+Bangkok(config-if)# exit
+--------------------------------------------
+enable
+config t
+line vty 0
+password cisco
+login
+exit
+
+============================================
+
+Bangkok(config)# access-list 100 deny tcp 172.1.2.0 0.0.0.127 172.1.0.0 0.0.1.255 eq telnet
+Bangkok(config)# access-list 100 permit ip any any
+Bangkok(config)# interface fa0/0
+Bangkok(config-if)# ip access-group 100 in
+Bangkok(config-if)# exit
+
+--------------------------------------------
+access-list 100 deny tcp 172.1.2.0 0.0.0.127 172.1.0.0 0.0.1.255 eq telnet
+access-list 100 permit ip any any
+interface fa0/0
+ip access-group 100 in
+exit

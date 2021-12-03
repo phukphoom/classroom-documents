@@ -1,0 +1,34 @@
+============================================
+Router> enable
+Router# configure terminal
+Router(config)# interface fa0/0 
+Router(config-if)# no shutdown
+
+Router(config-if)# interface fa0/0.10
+Router(config-subif)# description vlan 10
+Router(config-subif)# encapsulation dot1q 10
+Router(config-subif)# ip address 192.168.1.254 255.255.255.0
+Router(config-subif)# exit
+
+Router(config)# interface fa0/0.20
+Router(config-subif)# description vlan 20
+Router(config-subif)# encapsulation dot1q 20
+Router(config-subif)# ip address 192.168.2.254 255.255.255.0
+Router(config-subif)# exit
+--------------------------------------------
+enable
+configure terminal
+interface fa 0/0 
+no shutdown
+
+interface fa0/0.10
+description vlan 10
+encapsulation dot1q 10
+ip address 192.168.1.254 255.255.255.0
+exit
+
+interface fa0/0.20
+description vlan 20
+encapsulation dot1q 20
+ip address 192.168.2.254 255.255.255.0
+exit

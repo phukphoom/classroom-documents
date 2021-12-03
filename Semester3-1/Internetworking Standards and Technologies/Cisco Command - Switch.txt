@@ -1,0 +1,95 @@
+### Cisco Switch - Command ###
+
+>> USER MODE <<
+    show version                                                                                        -> show IOS version
+    show flash                                                                                          -> show flash filesystem
+
+    show interface --[type] --[port]                                                                    -> show interface's status
+    show interface [type] [port] switchport                                                             -> show interface's switchport status
+    show interface vlan [vlan-number]                                                                   -> show all interface's status in vlan with specific vlan
+    
+    show mac-address-table                                                                              -> show mac address table
+    show vlan brief                                                                                     -> show brief vlan's status
+    show vlan name [vlan-name]                                                                          -> show vlan's status with specific name
+    show vlan summary                                                                                   -> show vlan summary information
+    show ip interface brief                                                                             -> show brief interface's status
+
+    show spanning-tree                                                                                  -> show BPDU data
+
+    enable                                                                                              -> enable admin mode
+    >> ADMIN MODE <<
+        show ip ssh                                                                                     -> show ssh's information
+        show ssh                                                                                        -> show ssh current status
+
+        show port-security interface [port]                                                             -> show interface's port-security status
+        show port-security address                                                                      -> show port-security mac table
+ 
+        show startup-config                                                                             -> show startup configuration
+        show running-config                                                                             -> show running configuration
+        
+        copy running-config startup-config                                                              -> copy running configuration into startup configuration
+
+        erase startup-config                                                                            -> clear startup configuration in memory
+        delete flash                                                                                    -> delete all data in flash
+        delete flash:--[file]                                                                           -> delete specific file in flash
+
+        configure terminal                                                                              -> access global configuration
+        >> GLOBAL CONFIGURATION <<
+            hostname [name]                                                                             -> set switch's hostname
+            enable password [password]                                                                  -> set enable password 
+            enable secret [secret]                                                                      -> set enable secret (use instead enable password)
+            service password-encryption                                                                 -> prevent password from showing up as plain text (one applied, can't revert!)
+            
+            username [username] secret [secret]                                                         -> set username & secret to this device for authentication (telnet/ssh needed)
+            ip domain-name [domain]                                                                     -> set domain name for this device (ssh needed)
+            crypto key generate [key-gen-algo]                                                          -> generate key (ssh needed)
+            ip default-gateway [ip-address]                                                             -> set default-gateway for the switch
+
+            ip ssh version 2                                                                            -> enable ssh version 2
+            
+            spanning-tree VLAN [vlan-id] root ["primary"|"secondary"]                                   -> enable STP to this device as primary/secondary root bridge
+            spanning-tree VLAN [vlan-id] priority [number]                                              -> enable STP to this device with specific priority
+
+            line [type] [port]
+            >> LINE CONNECTION CONFIGURATION <<    
+                password [password]                                                                     -> set line connection password
+                login --["local"]                                                                       -> set enable login mode
+                transport input ssh                                                                     -> enable ssh for this line connection
+                exit                                                                                    -> exit line connection configuration
+
+            interface [type] [port]                                                                     -> access interface configuration
+            interface range [type] [start_port]-[last_port]                                             -> access all interfaces in range configuration
+            >> INTERFACE CONFIGURATION <<
+                ip address [ip] [subnet]                                                                -> set interface's ip
+
+                switchport mode ["access"|"trunk"]                                                      -> set interface port mode
+                
+                switchport access vlan [vlan-id]                                                        -> apply vlan to this interface
+                no switchport access vlan                                                               -> change vlan to vlan 1 (default)
+
+                switchport trunk native vlan [vlan-id]                                                  -> set native vlan for this trunk port
+                switchport trunk allowed vlan [vlan-id-list]                                            -> set allow specific vlan-id for this trunk
+
+                switchport port-security                                                                -> enable port-security
+                switchport port-security maximum [number]                                               -> set max number of mac for port-security 
+                switchport port-security mac-address [mac|"sticky"]                                     -> set mac for port-security
+                switchport port-security violation ["protect"|"restrict"|"shutdown"]                    -> set port-security violation behavior
+
+                spanning-tree portfast                                                                  -> set interface as portfast of STP (fast awake not block) 
+
+                duplex full                                                                             -> config the interface duplex
+                speed 100                                                                               -> config the interface speed
+                mdix auto                                                                               -> enable auto-MDIX on the interface
+                no shutdown                                                                             -> set interface status from adminstratively down to up
+                exit                                                                                    -> exit interface configuration
+
+            vlan [vlan-id]                                                                              -> create & access vlan configuration
+            >> VLAN CONFIGURATION <<
+                name [name]                                                                             -> set vlan's name
+                exit                                                                                    -> exit switch configuration
+            no vlan [vlan-id]                                                                           -> remove vlan with vlan-id (important! interface in vlan not auto change to default)
+            
+            exit                                                                                        -> exit global configuration
+
+        reload                                                                                          -> reboot switch
+        disable                                                                                         -> disable admin mode

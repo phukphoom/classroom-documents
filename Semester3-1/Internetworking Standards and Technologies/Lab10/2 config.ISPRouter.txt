@@ -1,0 +1,51 @@
+============================================
+Router> enable
+Router# configure terminal
+Router(config)# hostname ISPRouter
+
+Router(config)# enable secret cisco
+
+ISPRouter(config)# line vty 0
+ISPRouter(config-line)# password cisco
+ISPRouter(config-line)# login
+ISPRouter(config-line)# exit
+
+ISPRouter(config)# interface s0/0 
+ISPRouter(config-if)# ip address 161.246.1.254 255.255.255.0
+ISPRouter(config-if)# no shutdown
+ISPRouter(config-if)# exit
+
+ISPRouter(config)# interface fa0/0 
+ISPRouter(config-if)# ip address 161.246.5.254 255.255.255.0
+ISPRouter(config-if)# no shutdown
+ISPRouter(config-if)# exit
+
+ISPRouter(config)# interface fa0/1 
+ISPRouter(config-if)# ip address 161.246.6.254 255.255.255.0
+ISPRouter(config-if)# no shutdown
+ISPRouter(config-if)# exit
+--------------------------------------------
+enable
+configure terminal
+hostname ISPRouter
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface s0/0 
+ip address 161.246.1.254 255.255.255.0
+no shutdown
+
+interface fa0/0 
+ip address 161.246.5.254 255.255.255.0
+no shutdown
+exit
+
+interface fa0/1 
+ip address 161.246.6.254 255.255.255.0
+no shutdown
+exit

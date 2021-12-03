@@ -1,0 +1,79 @@
+============================================
+Router> enable
+Router# configure terminal
+Router(config)# hostname Bangkok
+
+Router(config)# enable secret cisco
+
+Bangkok(config)# line vty 0
+Bangkok(config-line)# password cisco
+Bangkok(config-line)# login
+Bangkok(config-line)# exit
+
+Bangkok(config)# interface s0/0/1
+Bangkok(config-if)# ip address 172.1.2.130 255.255.255.252
+Bangkok(config-if)# clock rate 56000
+Bangkok(config-if)# no shutdown
+Bangkok(config-if)# exit
+
+Bangkok(config)# interface gi0/0
+Bangkok(config-if)# ip address 172.1.2.1 255.255.255.128
+Bangkok(config-if)# no shutdown
+Bangkok(config-if)# exit
+
+Bangkok(config)# interface s0/0/0
+Bangkok(config-if)# ip address 192.168.2.5 255.255.255.252
+Bangkok(config-if)# clock rate 56000
+Bangkok(config-if)# no shutdown
+Bangkok(config-if)# exit
+
+Bangkok(config)# router eigrp 123
+Bangkok(config-router)# eigrp router-id 2.2.2.2
+Bangkok(config-router)# network 172.1.2.128 0.0.0.3
+Bangkok(config-router)# network 172.1.2.0 0.0.0.127
+Bangkok(config-router)# exit
+
+Bangkok(config)# ip route 0.0.0.0 0.0.0.0 s0/0/0
+Bangkok(config)# router eigrp 123
+Bangkok(config-router)# redistribute static
+Bangkok(config-router)# exit
+
+--------------------------------------------
+enable
+configure terminal
+hostname Bangkok
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface s0/0/1
+ip address 172.1.2.130 255.255.255.252
+clock rate 56000
+no shutdown
+exit
+
+interface gi0/0
+ip address 172.1.2.1 255.255.255.128
+no shutdown
+exit
+
+interface s0/0/0
+ip address 192.168.2.5 255.255.255.252
+clock rate 56000
+no shutdown
+exit
+
+router eigrp 123
+eigrp router-id 2.2.2.2
+network 172.1.2.128 0.0.0.3
+network 172.1.2.0 0.0.0.127
+exit
+
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+router eigrp 123
+redistribute static
+exit

@@ -1,0 +1,31 @@
+============================================
+Udon> enable
+Udon# config t
+Udon(config)# line vty 0
+Udon(config-line)# password cisco
+Udon(config-if)# login
+Udon(config-if)# exit
+--------------------------------------------
+enable
+config t
+line vty 0
+password cisco
+login
+exit
+
+============================================
+
+Udon(config)# access-list 100 deny tcp 172.1.0.0 0.0.1.255 192.168.3.0 0.0.0.255 eq 20 
+Udon(config)# access-list 100 deny tcp 172.1.0.0 0.0.1.255 192.168.3.0 0.0.0.255 eq 21 
+Udon(config)# access-list 100 permit ip any any
+Udon(config)# interface fa0/0
+Udon(config-if)# ip access-group 100 in
+Udon(config-if)# exit
+
+--------------------------------------------
+access-list 100 deny tcp 172.1.0.0 0.0.1.255 192.168.3.0 0.0.0.255 eq 20 
+access-list 100 deny tcp 172.1.0.0 0.0.1.255 192.168.3.0 0.0.0.255 eq 21
+access-list 100 permit ip any any
+interface fa0/0
+ip access-group 100 in
+exit

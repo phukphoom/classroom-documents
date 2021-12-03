@@ -1,0 +1,58 @@
+============================================
+Router> enable
+Router# configure terminal
+Router(config)# hostname Udon
+
+Router(config)# enable secret cisco
+
+Udon(config)# line vty 0
+Udon(config-line)# password cisco
+Udon(config-line)# login
+Udon(config-line)# exit
+
+Udon(config)# interface gi0/0
+Udon(config-if)# ip address 172.1.0.1 255.255.254.0
+Udon(config-if)# no shutdown
+Udon(config-if)# exit
+
+Udon(config)# interface s0/0/0
+Udon(config-if)# ip address 172.1.2.129 255.255.255.252
+Udon(config-if)# no shutdown
+Udon(config-if)# exit
+
+Udon(config)# router eigrp 123
+Udon(config-router)# eigrp router-id 1.1.1.1
+Udon(config-router)# network 172.1.0.0 0.0.1.255
+Udon(config-router)# network 172.1.2.128 0.0.0.3
+Udon(config-router)# exit
+
+--------------------------------------------
+enable
+configure terminal
+hostname Udon
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface gi0/0
+ip address 172.1.0.1 255.255.254.0
+no shutdown
+exit
+
+interface s0/0/0
+ip address 172.1.2.129 255.255.255.252
+no shutdown
+exit
+
+router eigrp 123
+eigrp router-id 1.1.1.1
+network 172.1.0.0 0.0.1.255
+network 172.1.2.128 0.0.0.3
+exit
+
+
+

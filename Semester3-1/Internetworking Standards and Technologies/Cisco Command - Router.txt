@@ -1,0 +1,152 @@
+### Cisco Router - Command ###
+
+>> USER MODE <<
+    show version                                                                                        -> show IOS version
+
+    show interface --[type] --[port]                                                                    -> show interface's status
+
+    show ip interface --[type] --[port]                                                                 -> show interface's config         
+    show ip interface brief                                                                             -> show brief interface's status
+    show ip route                                                                                       -> show routing table
+    show ip controllers [type] [port]                                                                   -> show interface's physical information
+
+    show ip ospf                                                                                        -> show OSPF information
+    show ip ospf interface --[type] --[port]                                                            -> show interface's logical information with OSPF information
+    show ip ospf interface brief                                                                        -> show brief interface status with OSPF information
+    show ip ospf neighbor                                                                               -> show OSPF neighbor
+
+    show ip dhcp binding                                                                                -> show DHCP binding
+    show ip dhcp server statistics                                                                      -> show DHCP statistics
+    
+    enable                                                                                              -> enable admin mode
+    >> ADMIN MODE <<
+        show ip protocols                                                                               -> show protocol's information
+        show access-list --[number]                                                                     -> show definded access-list
+        show startup-config                                                                             -> show startup configuration
+        show running-config                                                                             -> show running configuration
+        
+        copy running-config startup-config                                                              -> copy running configuration into startup configuration
+
+        erase startup-config                                                                            -> clear startup configuration in memory
+
+        delete flash                                                                                    -> delete flash
+        delete flash:[filename]                                                                         -> delete file from flash
+
+        clear ip route *                                                                                -> clear all dynamic routes in routing table
+        clear ip ospf process                                                                           -> clear all OSPF process
+
+        configure terminal                                                                              -> access global configuration
+        >> GLOBAL CONFIGURATION <<
+            hostname [name]                                                                             -> set router's hostname
+            
+            banner motd # [message] #                                                                   -> set banner message for the router
+            security passwords min-length [length]                                                      -> set min length for all password
+
+            enable password [password]                                                                  -> set enable password 
+            enable secret [secret]                                                                      -> set enable secret (use instead enable password)
+            service password-encryption                                                                 -> prevent password from showing up as plain text (one applied, can't revert!)
+        
+            username [username] secret [secret]                                                         -> set username & secret to this device for authentication (telnet/ssh needed)
+            ip domain-name [domain]                                                                     -> set domain name for this device (ssh needed)
+            crypto key generate [key-gen-algo]                                                          -> generate key (ssh needed)
+            ip default-gateway [ip-address]                                                             -> set default-gateway for the router
+
+            ip ssh version 2                                                                            -> enable ssh version 2
+            no ip domain-lookup                                                                         -> disable domain lookup for the router
+
+            ip nat inside source static [inside-ip] [outside-ip]                                        -> create static NAT
+            ip nat pool [outside-pool-name] [first-ip] [last-ip] netmask [subnet-mask]                  -> create outside-ip-pool for NAT|PAT
+            ip nat inside source list [access-list-number] pool [outside-pool-name]                     -> create dynamic NAT with access-list and outside-ip-pool
+            ip nat inside source list [access-list-number] pool [outside-pool-name] overload            -> create PAT with access-list and outside-ip-pool
+	
+            access-list [number(1-99|1300-1999)] ["permit"|"deny"|"remark"] [ip-src] [wildcard-src]     -> create standard access-list with number
+            access-list [number(100-199|2000-2699)] ["permit"|"deny"|"remark"] [protocol] ...           -> create extended access-list with number
+                ... [ip-src] [wildcard-des] [ip-des] [wildcard-des] [operator] [port]    
+	
+	    ip access-list ["standard"|"extended"] [name] 						-> create and access access-list with name
+            >> ACLs CONFIGURATION <<
+		["permit"|"deny"|"remark"] [ip-src] [wildcard-src]					-> create standard access-list policy (standard only)
+		["permit"|"deny"|"remark"] [protocol] ...           					-> create extended access-list policy (extended only)
+                	... [ip-src] [wildcard-des] [ip-des] [wildcard-des] [operator] [port]    
+		
+		exit											-> exit acl configuration
+
+            line [type] [port]
+            >> LINE CONNECTION CONFIGURATION <<    
+                password [password]                                                                     -> set line connection password
+                login --["local"]                                                                       -> set enable login mode
+                transport input ssh                                                                     -> enable ssh for this line connection
+                ip access-class [number|name] ["in"|"out"]                                              -> apply access-list to line connection
+                exit                                                                                    -> exit line connection configuration
+
+            interface [type] [port]                                                                     -> access interface configuration
+            interface [type] [port].[sub-interface-id]                                                  -> access sub interface configuration with specific sub-interface-id
+            >> INTERFACE CONFIGURATION / SUB INTERFACE CONFIGURATION <<
+                ip address [ip] [subnet-mask]                                                           -> set interface's ip
+                ip address dhcp                                                                         -> set interface's ip as dhcp client
+                ip access-group [number|name] ["in"|"out"]                                              -> apply access-list to interface
+                clock rate [clkrate]                                                                    -> set clock rate for DCE interface
+                no shutdown                                                                             -> set interface status from adminstratively down to up
+                                                   
+                ip helper-address [ip-nexthop]                                                          -> enable router to forward DHCPv4 boardcasts to the DHCPv4 Server (acting as a relay)
+                
+                bandwidth [bandwidth_kbps]                                                              -> set fixed bandwidth for OSPF|EIGRP protocol
+                ip ospf cost [cost]                                                                     -> set fixed cost for OSPF protocol
+                ip ospf hello-interval [time_sec]                                                       -> set time for OSPF hello-interval     
+
+                ip nat ["inside"|"outside"]                                                             -> set inetrface type for nat
+
+                encapsulation dot1q [vlan-id]                                                           -> set vlan with specific vlan-id (config in sub interface)[before assign ip to sub interface]
+                exit                                                                                    -> exit interface configuration
+            
+            router rip                                                                                  -> access router configuration with RIP Protocol
+            >> ROUTER CONFIGURATION - RIP PROTOCOL <<
+                network [network-ip]                                                                    -> set neighbor network's ip
+                version 2                                                                               -> enable RIPv2
+                passive-interface [type] [port]                                                         -> set prevent RIP update from going out an interface
+                default-information originate                                                           -> RIP propogate default route
+                redistribute [routing-protocol]                                                         -> RIP redistribute other protocol route
+                no auto-summary                                                                         -> disable auto sumarization (only support RIPv2)
+                exit                                                                                    -> exit router configuration
+            no router rip                                                                               -> disable RIP protocol
+
+            router ospf [process-id]                                                                    -> access router configuration with OSPF protocol
+            >> ROUTER CONFIGURATION - OSPF PROTOCOL <<
+                router-id [router-id]                                                                   -> set router's id
+                network [network-ip] [wildcard-mask] area [area-id]                                     -> set neighbor network's ip
+                passive-interface [type] [port]                                                         -> set prevent OSPF update from going out an interface
+                default-information originate                                                           -> OSPF propogate default route
+                redistribute [routing-protocol]                                                         -> OSPF redistribute other protocol route
+                auto-cost reference-bandwidth [bandwidth_mbps]                                          -> set new reference bandwidth for process
+            no router ospf [process-id]                                                                 -> disable OSPF protocol
+
+            router eigrp [process-id]                                                                    -> access router configuration with EIGRP protocol
+            >> ROUTER CONFIGURATION - OSPF PROTOCOL <<
+                eigrp router-id [router-id]                                                             -> set router's id
+                network [network-ip] [wildcard-mask]                                                    -> set neighbor network's ip
+                passive-interface [type] [port]                                                         -> set prevent OSPF update from going out an interface
+                default-information originate                                                           -> OSPF propogate default route
+                redistribute [routing-protocol]                                                         -> OSPF redistribute other protocol route
+            no router eigrp [process-id]                                                                -> disable EIGRP protocol
+
+            service dhcp                                                                                -> enable DHCP Server
+            ip dhcp excluded-address [first-ip] --[last-ip]                                             -> exclude first-ip or range(first-ip,last-ip) from pool     
+            ip dhcp pool [pool-name]                                                                    -> access DHCP configuration & set pool's name
+            >> DHCP CONFIGURATION <<
+                network [network-ip] [subnet-mask]                                                      -> set pool's network
+                dns-server [ip]                                                                         -> set dns server that DHCP client will recieve
+                default-router [ip]                                                                     -> set default route that DHCP client will recieve
+            no service dhcp                                                                             -> disable DHCP Server
+
+            debug ip [protocol]                                                                         -> show debugging some Protocol
+            debug ip dhcp server events                                                                 -> show debugging dhcp event
+            undebug all                                                                                 -> disable all debuging
+
+            ip route [ip-network] [subnet-mask] [ip-nexthop | exit-interface]                        -> set static route
+            ip route 0.0.0.0 0.0.0.0 [ip-nexthop| exit-interface]                                       -> set default route
+            ip route 0.0.0.0 0.0.0.0 [ip-nexthop| exit-interface] [AD]                                  -> set floating route
+
+            exit                                                                                        -> exit global configuration
+
+        reload                                                                                          -> reboot router
+        disable                                                                                         -> disable admin mode

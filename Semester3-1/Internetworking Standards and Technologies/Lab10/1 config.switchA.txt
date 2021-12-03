@@ -1,0 +1,92 @@
+============================================
+Switch> enable
+Switch# configure terminal
+Switch(config)# hostname SwitchA
+
+SwitchA(config)# enable secret cisco
+
+SwitchA(config)# line vty 0
+SwitchA(config-line)# password cisco
+SwitchA(config-line)# login
+SwitchA(config-line)# exit
+
+SwitchA(config)# interface vlan 1
+SwitchA(config-if)# ip address 192.168.1.11 255.255.255.0
+SwitchA(config-if)# no shutdown
+SwitchA(config-if)# exit
+
+SwitchA(config)# ip default-gateway 192.168.1.254
+
+SwitchA(config)# interface range fa0/23-24
+SwitchA(config-if-range)# switchport mode trunk
+SwitchA(config-if-range)# switchport trunk native vlan 1
+SwitchA(config-if-range)# exit
+
+SwitchA(config)# vtp version 2
+SwitchA(config)# vtp domain ce
+SwitchA(config)# vtp password cisco
+SwitchA(config)# vtp mode server
+
+SwitchA(config)# vlan 10
+SwitchA(config-vlan)# name NwLab
+SwitchA(config-vlan)# exit
+
+SwitchA(config)# vlan 20
+SwitchA(config-vlan)# name IotLab
+SwitchA(config-vlan)# exit
+
+SwitchA(config)# interface range fa0/1-10
+SwitchA(config-if-range)# switchport mode access
+SwitchA(config-if-range)# switchport access vlan 10
+SwitchA(config-if-range)# exit
+
+SwitchA(config)# interface range fa0/11-20
+SwitchA(config-if-range)# switchport mode access
+SwitchA(config-if-range)# switchport access vlan 20
+SwitchA(config-if-range)# exit
+--------------------------------------------
+enable
+configure terminal
+hostname SwitchA
+
+enable secret cisco
+
+line vty 0
+password cisco
+login
+exit
+
+interface vlan 1
+ip address 192.168.1.11 255.255.255.0
+no shutdown
+exit
+
+ip default-gateway 192.168.1.254
+
+interface range fa0/23-24
+switchport mode trunk
+switchport trunk native vlan 1
+exit
+
+vtp version 2
+vtp domain ce
+vtp password cisco
+vtp mode server
+
+vlan 10
+name NwLab
+exit
+
+vlan 20
+name IotLab
+exit
+
+interface range fa0/1-10
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range fa0/11-20
+switchport mode access
+switchport access vlan 20
+exit

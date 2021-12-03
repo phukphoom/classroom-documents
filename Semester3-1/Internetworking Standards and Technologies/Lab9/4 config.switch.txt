@@ -1,0 +1,63 @@
+============================================
+Switch> enable
+Switch# configure terminal
+Switch(config)# hostname Switch_A
+
+Switch_A(config)# interface vlan 1
+Switch_A(config-if)# ip address 192.168.12.1 255.255.255.0
+Switch_A(config-if)# no shutdown
+Switch_A(config-if)# exit
+
+Switch_A(config)# vlan 10
+Switch_A(config-vlan)# name NetworkLab
+Switch_A(config-vlan)# exit
+
+Switch_A(config)# vlan 20
+Switch_A(config-vlan)# name IsagLab
+Switch_A(config-vlan)# exit
+
+Switch_A(config)# interface range fa0/1-2
+Switch_A(config-if-range)# switchport mode access
+Switch_A(config-if-range)# switchport access vlan 10
+Switch_A(config-if-range)# exit
+
+Switch_A(config)# interface range fa0/3-4
+Switch_A(config-if-range)# switchport mode access
+Switch_A(config-if-range)# switchport access vlan 20
+Switch_A(config-if-range)# exit
+
+Switch_A(config)# interface fa0/15
+Switch_A(config-if)# switchport mode trunk
+Switch_A(config-if)# exit
+--------------------------------------------
+enable
+configure terminal
+hostname Switch_A
+
+interface vlan 1
+ip address 192.168.12.1 255.255.255.0
+no shutdown
+exit
+
+vlan 10
+name NetworkLab
+exit
+
+vlan 20
+name IsagLab
+exit
+
+interface range fa0/1-2
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range fa0/3-4
+switchport mode access
+switchport access vlan 20
+exit
+
+interface fa0/15
+switchport mode trunk
+exit
+

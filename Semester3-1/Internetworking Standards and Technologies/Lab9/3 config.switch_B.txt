@@ -1,0 +1,108 @@
+============================================
+Switch> enable
+Switch# configure terminal
+Switch(config)# hostname Switch_B
+
+Switch_B(config)# enable secret class
+
+Switch_B(config)# line vty 0
+Switch_B(config-line)# password Cisco
+Switch_B(config-line)# login
+Switch_B(config-line)# exit
+
+Switch_B(config)# interface vlan 1
+Switch_B(config-if)# ip address 192.168.12.2 255.255.255.0
+Switch_B(config-if)# no shutdown
+Switch_B(config-if)# exit
+--------------------------------------------
+enable
+configure terminal
+hostname Switch_B
+
+enable secret class
+
+line vty 0
+password Cisco
+login
+exit
+
+interface vlan 1
+ip address 192.168.12.2 255.255.255.0
+no shutdown
+exit
+
+============================================
+Switch_B(config)# vlan 10
+Switch_B(config-vlan)# name NetworkLab
+Switch_B(config-vlan)# exit
+
+Switch_B(config)# vlan 20
+Switch_B(config-vlan)# name IsagLab
+Switch_B(config-vlan)# exit
+
+Switch_B(config)# vlan 30
+Switch_B(config-vlan)# name HwLab
+Switch_B(config-vlan)# exit
+
+Switch_B(config)# interface range fa0/2-3
+Switch_B(config-if-range)# switchport mode access
+Switch_B(config-if-range)# switchport access vlan 1
+Switch_B(config-if-range)# exit
+
+Switch_B(config)# interface range fa0/4-6
+Switch_B(config-if-range)# switchport mode access
+Switch_B(config-if-range)# switchport access vlan 10
+Switch_B(config-if-range)# exit
+
+Switch_B(config)# interface range fa0/7-9
+Switch_B(config-if-range)# switchport mode access
+Switch_B(config-if-range)# switchport access vlan 20
+Switch_B(config-if-range)# exit
+
+Switch_B(config)# interface range fa0/10-12
+Switch_B(config-if-range)# switchport mode access
+Switch_B(config-if-range)# switchport access vlan 30
+Switch_B(config-if-range)# exit
+--------------------------------------------
+vlan 10
+name NetworkLab
+exit
+
+vlan 20
+name IsagLab
+exit
+
+vlan 30
+name HwLab
+exit
+
+interface range fa0/2-3
+switchport mode access
+switchport access vlan 1
+exit
+
+interface range fa0/4-6
+switchport mode access
+switchport access vlan 10
+exit
+
+interface range fa0/7-9
+switchport mode access
+switchport access vlan 20
+exit
+
+interface range fa0/10-12
+switchport mode access
+switchport access vlan 30
+exit
+
+============================================
+Switch_B(config)# interface fa0/1
+Switch_B(config-if)# switchport mode trunk
+Switch_B(config-if)# exit
+--------------------------------------------
+interface fa0/1
+switchport mode trunk
+exit
+
+

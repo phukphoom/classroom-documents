@@ -1,0 +1,89 @@
+============================================
+Router> enable
+Router# config t
+Router(config)# hostname Bangkok
+
+Bangkok(config)# interface s0/0
+Bangkok(config-if)# ip add 192.168.2.5 255.255.255.252
+Bangkok(config-if)# clock rate 56000
+Bangkok(config-if)# no shutdown
+Bangkok(config-if)# exit
+
+Bangkok(config)# interface s0/1
+Bangkok(config-if)# ip add 172.1.2.130 255.255.255.252
+Bangkok(config-if)# clock rate 56000
+Bangkok(config-if)# no shutdown
+Bangkok(config-if)# exit
+
+Bangkok(config)# interface fa0/0
+Bangkok(config-if)# ip add 172.1.2.126 255.255.255.128
+Bangkok(config-if)# no shutdown
+Bangkok(config-if)# exit
+
+--------------------------------------------
+enable
+config t
+hostname Bangkok
+
+interface s0/0
+ip add 192.168.2.5 255.255.255.252
+clock rate 56000
+no shutdown
+exit
+
+interface s0/1
+ip add 172.1.2.130 255.255.255.252
+clock rate 56000
+no shutdown
+exit
+
+interface fa0/0
+ip add 172.1.2.126 255.255.255.128
+no shutdown
+exit
+
+============================================
+Bangkok(config)# ip dhcp excluded-address 172.1.2.1 172.1.2.10
+Bangkok(config)# ip dhcp excluded-address 172.1.2.126
+Bangkok(config)# ip dhcp pool LAN-POOL-Y
+Bangkok(dhcp-config)# network 172.1.2.0 255.255.255.128
+Bangkok(dhcp-config)# default-router 172.1.2.126
+Bangkok(dhcp-config)# exit
+--------------------------------------------
+ip dhcp excluded-address 172.1.2.1 172.1.2.10
+ip dhcp excluded-address 172.1.2.126
+ip dhcp pool LAN-POOL-Y
+network 172.1.2.0 255.255.255.128
+default-router 172.1.2.126
+exit
+
+============================================
+Bangkok(config)# router ospf 2
+Bangkok(config-router)# router-id 2.2.2.2
+Bangkok(config-router)# network 192.168.2.4 0.0.0.3 area 0
+Bangkok(config-router)# network 172.1.2.128 0.0.0.3 area 0
+Bangkok(config-router)# network 172.1.2.0 0.0.0.127 area 0
+Bangkok(config-router)# exit
+--------------------------------------------
+router ospf 2
+router-id 2.2.2.2
+network 192.168.2.4 0.0.0.3 area 0
+network 172.1.2.128 0.0.0.3 area 0
+network 172.1.2.0 0.0.0.127 area 0
+exit
+
+============================================
+Bangkok(config)# interface s0/0
+Bangkok(config-if)# ip ospf cost 48
+Bangkok(config-if)# exit
+Bangkok(config)# interface s0/1
+Bangkok(config-if)# bandwidth 3088
+Bangkok(config-if)# exit
+--------------------------------------------
+interface s0/0
+ip ospf cost 48
+exit
+interface s0/1
+bandwidth 3088
+exit
+

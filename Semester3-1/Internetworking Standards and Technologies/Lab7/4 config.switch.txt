@@ -1,0 +1,17 @@
+============================================
+Switch> enable
+Switch# configure terminal
+Switch(config)# interface fa 0/4 
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport port-security
+Switch(config-if)# switchport port-security mac-address sticky
+Switch(config-if)# switchport port-security violation protect
+
+--------------------------------------------
+enable
+configure terminal
+interface fa 0/4
+switchport mode access
+switchport port-security
+switchport port-security mac-address sticky
+switchport port-security violation protect
