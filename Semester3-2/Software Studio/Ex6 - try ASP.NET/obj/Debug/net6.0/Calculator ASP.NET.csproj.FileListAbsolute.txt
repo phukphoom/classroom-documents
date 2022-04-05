@@ -1,0 +1,52 @@
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\appsettings.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.staticwebassets.runtime.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.exe
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.deps.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.runtimeconfig.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.pdb
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.AssemblyInfo.cs
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.RazorAssemblyInfo.cache
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.RazorAssemblyInfo.cs
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\scopedcss\bundle\Calculator ASP.NET.styles.css
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\scopedcss\projectbundle\Calculator ASP.NET.bundle.scp.css
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\refint\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.pdb
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.genruntimeconfig.cache
+C:\Users\Admin\Desktop\Software Studio\Calculator ASP.NET\obj\Debug\net6.0\ref\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\appsettings.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.staticwebassets.runtime.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.exe
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.deps.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.runtimeconfig.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\bin\Debug\net6.0\Calculator ASP.NET.pdb
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.csproj.AssemblyReference.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.AssemblyInfoInputs.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.AssemblyInfo.cs
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.csproj.CoreCompileInputs.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.RazorAssemblyInfo.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.RazorAssemblyInfo.cs
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\scopedcss\bundle\Calculator ASP.NET.styles.css
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\scopedcss\projectbundle\Calculator ASP.NET.bundle.scp.css
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\refint\Calculator ASP.NET.dll
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.pdb
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\Calculator ASP.NET.genruntimeconfig.cache
+C:\Users\Admin\Desktop\CodeHub\ClassDocs\Semester3-2\Software Studio\Ex6 - try ASP.NET\obj\Debug\net6.0\ref\Calculator ASP.NET.dll

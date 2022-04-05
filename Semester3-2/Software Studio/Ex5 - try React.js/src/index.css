@@ -1,0 +1,64 @@
+body {
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    background-color: dimgrey;
+}
+
+.flex {
+    display: flex;
+}
+.flex-col {
+    flex-direction: column;
+}
+.flex-row {
+    flex-direction: row;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.space-x > * + * {
+    margin-left: 0.5rem;
+}
+
+.space-y > * + * {
+    margin-top: 0.5rem;
+}
+
+.border {
+    border-color: black;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.rounded-sm {
+    border-radius: 0.5rem;
+}
+
+.rounded-md {
+    border-radius: 1rem;
+}
+
+.rounded-full {
+    border-radius: 100%;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}

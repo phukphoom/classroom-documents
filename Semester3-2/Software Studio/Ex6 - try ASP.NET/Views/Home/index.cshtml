@@ -1,0 +1,38 @@
+﻿@{
+  ViewData["Title"] = "Home Page";
+}
+
+<div clas="text-center">
+  <div class="flex flex-col items-center space-y">
+    <h1>Basic Calculator</h1>
+    <div class='flex flex-col space-y'>
+      <div class="form-control" style="height:2rem;padding:0.2rem" id='result-div'></div>
+      <div class="flex flex-row space-x">
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('1')">1</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('2')">2</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('3')">3</button>
+        <button class="btn btn-primary" style="width:4rem" onclick="handleInputButtonOnClick('+')">+</button>
+      </div>
+      <div class="flex flex-row space-x">
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('4')">4</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('5')">5</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('6')">6</button>
+        <button class="btn btn-primary" style="width:4rem" onclick="handleInputButtonOnClick('-')">-</button>
+      </div>
+      <div class="flex flex-row space-x">
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('7')">7</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('8')">8</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('9')">9</button>
+        <button class="btn btn-primary" style="width:4rem" onclick="handleInputButtonOnClick('*')">*</button>
+      </div>
+      <div class="flex flex-row space-x">
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('.')">.</button>
+        <button class="btn btn-secondary" style="width:4rem" onclick="handleInputButtonOnClick('0')">0</button>
+        <button class="btn btn-success" style="width:4rem" onclick="handleSubmitButtonOnClick()">=</button>
+        <button class="btn btn-primary" style="width:4rem" onclick="handleInputButtonOnClick('/')">/</button>
+      </div>
+      <button type="button" class="btn btn-danger" style="width:100%"
+        onclick="handleClearButtonOnClick()">Clear</button>
+    </div>
+  </div>
+</div>

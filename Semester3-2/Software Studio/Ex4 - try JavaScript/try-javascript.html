@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <style>
+            a {
+                color: fuchsia;
+                cursor: pointer;
+            }
+        </style>
+        <script>
+            // date-button
+            var dataButtonColorIndex = 0;
+            function handleChangeDateButtonContent() {
+                const dataButtonElement = document.getElementById('date-button');
+
+                dataButtonElement.innerText = Date();
+
+                const colorLists = ['aqua', 'red', 'green', 'yellow', 'chartreuse', 'darkorchid', 'lightBlue'];
+                dataButtonElement.style.backgroundColor = colorLists[dataButtonColorIndex];
+                dataButtonColorIndex += 1;
+                dataButtonColorIndex %= colorLists.length;
+            }
+
+            // members-a
+            function handleToggleMembersA() {
+                const memberListElement = document.getElementById('members-list');
+                if (memberListElement.hasChildNodes()) {
+                    memberListElement.innerHTML = '';
+                } else {
+                    const memberDatas = [
+                        'Nattapon Sukthaworn, ID: 62010278',
+                        'Tanatat Juon, ID: 62010346',
+                        'Nawapat Sriboonrueng, ID: 62010472',
+                        'Nawapol Krudpun, ID: 62010474',
+                        'Phukphoom Taphrae, ID: 62010609',
+                    ];
+                    memberDatas.forEach((memberData) => {
+                        const memberElement = document.createElement('li');
+                        memberElement.innerText = memberData;
+                        memberListElement.appendChild(memberElement);
+                    });
+                }
+            }
+
+            // showing-image
+            function handleChangeShowingImageSrc(newImageSrc) {
+                const showingImageElement = document.getElementById('showing-image');
+                showingImageElement.src = newImageSrc;
+            }
+
+            // utils
+            function handleMouseEnterA(textElement) {
+                textElement.style.backgroundColor = 'yellow';
+                textElement.style.color = 'red';
+            }
+            function handleMouseLeaveA(textElement) {
+                textElement.style.backgroundColor = 'transparent';
+                textElement.style.color = 'fuchsia';
+            }
+        </script>
+        <title>Software Studio JavaScript</title>
+    </head>
+    <body>
+        <h2>My First JavaScript</h2>
+        <button id="date-button" onclick="handleChangeDateButtonContent()">Click me to display Date and Time.</button>
+        <div style="margin-top: 1.5rem">
+            <a id="members-a" onclick="handleToggleMembersA()" onmouseenter="handleMouseEnterA(this)" onmouseleave="handleMouseLeaveA(this)">Members</a>
+            <ul id="members-list"></ul>
+        </div>
+
+        <h1>Snapshots</h1>
+        <ul>
+            <li><a onclick="handleChangeShowingImageSrc('https://milelimit.com/wp-content/uploads/2021/02/MASERATI-MC20.jpg')">Supercar</a></li>
+            <li><a onclick="handleChangeShowingImageSrc('https://upload.wikimedia.org/wikipedia/commons/4/4e/Eniac.jpg')">Eniac</a></li>
+            <li><a onclick="handleChangeShowingImageSrc('https://www.matichon.co.th/wp-content/uploads/2020/10/eiffel-tower-3349075_1920.jpg')">Eiffle Tower</a></li>
+            <li><a onclick="handleChangeShowingImageSrc('https://cdn.britannica.com/69/155469-131-14083F59/airplane-flight.jpg')">Air Plane</a></li>
+        </ul>
+        <img
+            id="showing-image"
+            style="width: 720px"
+            src="https://images.ctfassets.net/hrltx12pl8hq/4plHDVeTkWuFMihxQnzBSb/aea2f06d675c3d710d095306e377382f/shutterstock_554314555_copy.jpg"
+        />
+    </body>
+</html>
