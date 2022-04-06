@@ -31,3 +31,9 @@
 - **Operating Systems**
 - **Database Systems**
 - **Internetworking Standard and Technologies**
+
+### **วิชาที่เรียนในชั้นปี [3-2]**
+- **Software Studio**
+- **Theory of Computation**
+- **Information and Computer Security**
+- **System Platform Administration**
