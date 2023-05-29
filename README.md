@@ -37,3 +37,10 @@
 - **Theory of Computation**
 - **Information and Computer Security**
 - **System Platform Administration**
+
+### **วิชาที่เรียนในชั้นปี [4-1]**
+- **Cooperative Education as a Software Engineer @ KBTG**
+
+### **วิชาที่เรียนในชั้นปี [4-2]**
+- **Introduction to Data Analytics**
+- **Information Storage and Web Search**
